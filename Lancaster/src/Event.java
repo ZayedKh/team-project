@@ -10,7 +10,6 @@ public class Event {
     // days to indicate length of bookings
     private int days;
 
-
     // status - confirmed, pending, canceled etc.
     private String status;
 
@@ -19,6 +18,7 @@ public class Event {
 
     // cost
     private double cost;
+
 
 
     // constructor to initialize new event object
