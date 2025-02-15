@@ -1,3 +1,5 @@
+package com.lancaster.app.model;
+
 public class Review {
     private int rating;
     private int reviewId;

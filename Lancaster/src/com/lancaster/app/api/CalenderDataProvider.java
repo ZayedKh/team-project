@@ -1,3 +1,5 @@
+package com.lancaster.app.api;
+
 import java.util.List;
 public interface CalenderDataProvider {
     List<Event> getAllEvents();
