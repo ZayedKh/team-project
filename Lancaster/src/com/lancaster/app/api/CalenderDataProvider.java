@@ -1,6 +1,8 @@
 package com.lancaster.app.api;
 
 import java.util.List;
+import com.lancaster.app.model.*;
+
 public interface CalenderDataProvider {
     List<Event> getAllEvents();
     List<Event> getAvailableSlots();
