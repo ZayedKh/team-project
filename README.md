@@ -3,6 +3,23 @@
 
 This repository is used to store the code for Group 44's team project.
 
+# Resources
+
+JavaFX setup:
+https://youtu.be/Ope4icw6bVk?si=Rm3p0eRjfUqKYfWd
+
+VPN Download:
+https://cityuni.service-now.com/sp?id=kb_article_view&sysparm_article=KB0012085
+
+JDBC Download:
+https://dev.mysql.com/downloads/connector/j/
+
+JDBC Tutorial:
+https://docs.oracle.com/javase/tutorial/jdbc/  
+
+Interfaces:
+https://www.geeksforgeeks.org/interfaces-in-java/
+
 # Project Overview
 
 We are using javaFX to develop the interface, we are also following MVC format (Model, View, Controller).
