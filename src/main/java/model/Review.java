@@ -1,57 +1,62 @@
 package model;
 
 public abstract class Review {
-    private String reviewId;
-    private String reviewText;
+    // Review class - has 5 attributes currently.
     private int rating;
-    private String reviewerName;
-    private String reviewerEmail;
+    private int reviewId;
+    private String author;
+    private String title;
+    private String description;
 
-    Review(String reviewId, String reviewText, int rating, String reviewerName, String reviewerEmail) {
+
+    // constructor to initialize new review object
+    Review(int rating, int reviewId, String author, String title, String description) {
         this.reviewId = reviewId;
-        this.reviewText = reviewText;
         this.rating = rating;
-        this.reviewerName = reviewerName;
-        this.reviewerEmail = reviewerEmail;
+        this.author = author;
+        this.title = title;
+        this.description = description;
     }
 
-    public String getReviewId() {
+
+    // Getters and Setters.
+    public int getRating() {
+        return rating;
+    }
+
+    public int getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(String reviewId) {
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setReviewId(int reviewId) {
         this.reviewId = reviewId;
-    }
-
-    public String getReviewText() {
-        return reviewText;
-    }
-
-    public void setReviewText(String reviewText) {
-        this.reviewText = reviewText;
-    }
-
-    public int getRating() {
-        return rating;
     }
 
     public void setRating(int rating) {
         this.rating = rating;
     }
 
-    public String getReviewerName() {
-        return reviewerName;
-    }
-
-    public void setReviewerName(String reviewerName) {
-        this.reviewerName = reviewerName;
-    }
-
-    public String getReviewerEmail() {
-        return reviewerEmail;
-    }
-
-    public void setReviewerEmail(String reviewerEmail) {
-        this.reviewerEmail = reviewerEmail;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
