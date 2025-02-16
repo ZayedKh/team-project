@@ -1,7 +1,6 @@
-package com.lancaster.lancasterfx;
+package view;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -15,7 +14,7 @@ import javafx.scene.paint.*;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Main extends Application {
 
     int width = 1400;
     int height = 800;
