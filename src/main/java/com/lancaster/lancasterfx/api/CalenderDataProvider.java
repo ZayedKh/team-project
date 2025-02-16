@@ -1,5 +1,5 @@
-package api;
-import model.Event;
+package com.lancaster.lancasterfx.api;
+import com.lancaster.lancasterfx.model.Event;
 
 import java.util.List;
 

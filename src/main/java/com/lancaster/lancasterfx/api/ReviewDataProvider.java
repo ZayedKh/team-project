@@ -1,5 +1,5 @@
-package api;
-import model.Review;
+package com.lancaster.lancasterfx.api;
+import com.lancaster.lancasterfx.model.Review;
 import java.util.List;
 
 public interface ReviewDataProvider {

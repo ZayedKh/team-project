@@ -1,8 +1,8 @@
-package model;
+package com.lancaster.lancasterfx.model;
 
 public abstract class Event {
     /*
-    com.lancaster.app.api.model.Event class - has 5 attributes currently.
+    com.lancaster.app.com.lancaster.lancasterfx.api.com.lancaster.lancasterfx.model.Event class - has 5 attributes currently.
     Undecided whether it should be abstract, and more specific events can inherit...
      */
 

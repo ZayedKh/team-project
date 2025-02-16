@@ -1,4 +1,4 @@
-package controller;
+package com.lancaster.lancasterfx.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

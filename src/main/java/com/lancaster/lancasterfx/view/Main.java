@@ -1,4 +1,4 @@
-package view;
+package com.lancaster.lancasterfx.view;
 
 import javafx.application.Application;
 import javafx.geometry.VPos;
@@ -43,20 +43,20 @@ public class Main extends Application {
         Text passwordBanner = new Text("Enter your password:");
         passwordBanner.setFont(new Font("Cambria", 24));
         passwordBanner.setFill(Color.BLACK);
-        passwordBanner.setX((width - passwordBanner.getLayoutBounds().getWidth())/2);
+        passwordBanner.setX((width - passwordBanner.getLayoutBounds().getWidth()) / 2);
         passwordBanner.setY(height - 320);
 
 
         TextField textField = new TextField();
         textField.setPrefWidth(textFieldWidth);
-        textField.setLayoutX((width - textFieldWidth)/2);
+        textField.setLayoutX((width - textFieldWidth) / 2);
         textField.setLayoutY(height - 300);
 
-        System.out.println("Text Field Width: " + textField.getWidth());
 
-
-        System.out.println("Width of window: " + width + "\nWidth of text: " + welcomeBanner.getLayoutBounds().getWidth());
-        System.out.println("Text x-position: " + welcomeBanner.getX() + "\nText y-position: " + welcomeBanner.getY());
+        // Debugging - comment out when not needed
+        // System.out.println("Text Field Width: " + textField.getWidth());
+        // System.out.println("Width of window: " + width + "\nWidth of text: " + welcomeBanner.getLayoutBounds().getWidth());
+        // System.out.println("Text x-position: " + welcomeBanner.getX() + "\nText y-position: " + welcomeBanner.getY());
 
 
         root.getChildren().add(rectangle);

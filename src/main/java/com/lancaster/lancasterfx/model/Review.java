@@ -1,4 +1,4 @@
-package model;
+package com.lancaster.lancasterfx.model;
 
 public abstract class Review {
     // Review class - has 5 attributes currently.
