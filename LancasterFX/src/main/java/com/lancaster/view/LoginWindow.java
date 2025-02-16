@@ -14,7 +14,7 @@ import javafx.scene.paint.*;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class LoginWindow extends Application {
 
     final int width = 1400;
     final int height = 800;
