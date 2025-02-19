@@ -29,7 +29,6 @@ public class LoginWindow extends Application {
         Group root = new Group();
         Scene scene = new Scene(root, width, height);
 
-
         extracted(root);
 
         stage.setResizable(false);
