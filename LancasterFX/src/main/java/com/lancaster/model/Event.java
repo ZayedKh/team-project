@@ -1,75 +1,115 @@
 package com.lancaster.model;
 
+import java.time.LocalDateTime;
+
+/**
+ * Abstract class representing event details.
+ * This class defines the essential attributes and behaviors related to an event.
+ */
 public abstract class Event {
-    /*
-    com.lancaster.app.com.lancaster.lancasterfx.api.com.lancaster.lancasterfx.model.Event class - has 5 attributes currently.
-    Undecided whether it should be abstract, and more specific events can inherit...
+    protected String eventId;
+    protected String eventName;
+    protected LocalDateTime eventDateTime;
+    protected String eventType;
+    protected EventStatus status;
+    protected LocalDateTime lastUpdated;
+
+    /**
+     * Constructs an Event object with the given details.
+     *
+     * @param eventId       Unique identifier for the event.
+     * @param eventName     Name of the event.
+     * @param eventDateTime Date and time of the event.
+     * @param eventType     Type or category of the event.
+     * @param status        Current status of the event.
+     * @param lastUpdated   Timestamp of the last update to the event details.
      */
-
-    // event id for efficient database retrieval and organisation
-    private String eventId;
-
-    // days to indicate length of bookings
-    private int days;
-
-    // status - confirmed, pending, canceled etc.
-    private String status;
-
-    // type of event - rehearsal, meeting etc.
-    private String eventType;
-
-    // cost
-    private double cost;
-
-
-    // constructor to initialize new event object
-    Event(String eventId, int days, String status, String eventType, double cost) {
+    public Event(String eventId, String eventName, LocalDateTime eventDateTime, String eventType,
+                 EventStatus status, LocalDateTime lastUpdated) {
         this.eventId = eventId;
-        this.days = days;
-        this.status = status;
+        this.eventName = eventName;
+        this.eventDateTime = eventDateTime;
         this.eventType = eventType;
-        this.cost = cost;
+        this.status = status;
+        this.lastUpdated = lastUpdated;
     }
 
-
-    // getters and setters for attributes
+    /**
+     * Retrieves the unique event ID.
+     *
+     * @return The event ID.
+     */
     public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
+    /**
+     * Retrieves the name of the event.
+     *
+     * @return The event name.
+     */
+    public String getEventName() {
+        return eventName;
     }
 
-    public int getDays() {
-        return days;
+    /**
+     * Retrieves the date and time when the event is scheduled.
+     *
+     * @return The event date and time.
+     */
+    public LocalDateTime getEventDateTime() {
+        return eventDateTime;
     }
 
-    public void setDays(int days) {
-        this.days = days;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+    /**
+     * Retrieves the type or category of the event.
+     *
+     * @return The event type.
+     */
     public String getEventType() {
         return eventType;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
+    /**
+     * Retrieves the current status of the event.
+     *
+     * @return The event status.
+     */
+    public EventStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * Retrieves the timestamp of the last update made to the event details.
+     *
+     * @return The last updated timestamp.
+     */
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
+    /**
+     * Abstract method to determine if the event is still active.
+     * Implementing classes should provide the logic for checking event activity.
+     *
+     * @return true if the event is active, false otherwise.
+     */
+    public abstract boolean isEventActive();
+
+    /**
+     * Returns a string representation of the event details.
+     *
+     * @return A formatted string with event details.
+     */
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId='" + eventId + '\'' +
+                ", eventName='" + eventName + '\'' +
+                ", eventDateTime=" + eventDateTime +
+                ", eventType='" + eventType + '\'' +
+                ", status=" + status +
+                ", lastUpdated=" + lastUpdated +
+                '}';
     }
 }
