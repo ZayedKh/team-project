@@ -1,4 +1,6 @@
-package MarketingInterface;
+package com.lancaster.model;
+
+import com.lancaster.api.marketing.EventDetails;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

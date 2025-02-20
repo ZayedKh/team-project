@@ -1,4 +1,4 @@
-package MarketingInterface;
+package com.lancaster.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

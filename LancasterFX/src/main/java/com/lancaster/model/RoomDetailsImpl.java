@@ -1,4 +1,4 @@
-package MarketingInterface;
+package com.lancaster.model;
 
 import java.util.ArrayList;
 import java.util.List;
