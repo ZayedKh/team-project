@@ -1,5 +1,7 @@
 package com.lancaster.api.marketing;
 
+import com.lancaster.model.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
