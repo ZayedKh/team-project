@@ -38,7 +38,7 @@ public class EventDetailsImpl extends Event implements EventDetails {
      */
     @Override
     public boolean isEventActive() {
-        return this.status == EventStatus.SCHEDULED && eventDateTime.isAfter(LocalDateTime.now());
+        return this.getStatus() == EventStatus.SCHEDULED && getEventDateTime().isAfter(LocalDateTime.now());
     }
 
     /**

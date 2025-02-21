@@ -1,18 +1,19 @@
 package MarketingInterface;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Abstract class representing event details.
  * This class defines the essential attributes and behaviors related to an event.
  */
 public abstract class Event {
-    protected String eventId;
-    protected String eventName;
-    protected LocalDateTime eventDateTime;
-    protected String eventType;
-    protected EventStatus status;
-    protected LocalDateTime lastUpdated;
+    private final String eventId;
+    private String eventName;
+    private LocalDateTime eventDateTime;
+    private String eventType;
+    private EventStatus status;
+    private LocalDateTime lastUpdated;
 
     /**
      * Constructs an Event object with the given details.
@@ -26,13 +27,14 @@ public abstract class Event {
      */
     public Event(String eventId, String eventName, LocalDateTime eventDateTime, String eventType,
                  EventStatus status, LocalDateTime lastUpdated) {
-        this.eventId = eventId;
-        this.eventName = eventName;
-        this.eventDateTime = eventDateTime;
-        this.eventType = eventType;
-        this.status = status;
-        this.lastUpdated = lastUpdated;
+        this.eventId = Objects.requireNonNull(eventId, "Event ID cannot be null");
+        this.eventName = Objects.requireNonNull(eventName, "Event name cannot be null");
+        this.eventDateTime = Objects.requireNonNull(eventDateTime, "Event date and time cannot be null");
+        this.eventType = Objects.requireNonNull(eventType, "Event type cannot be null");
+        this.status = Objects.requireNonNull(status, "Event status cannot be null");
+        this.lastUpdated = Objects.requireNonNull(lastUpdated, "Last updated timestamp cannot be null");
     }
+
 
     /**
      * Retrieves the unique event ID.
