@@ -21,9 +21,9 @@ public abstract class Venue {
     /**
      * Constructs a Venue object with specified details.
      *
-     * @param venueId             Unique identifier for the venue.
+     * @param venueId             Unique identifier for the venue. Final after construction.
      * @param venueName           Name of the venue.
-     * @param capacity            Maximum capacity of the venue.
+     * @param capacity            Maximum capacity of the venue. Must be greater than 0. Final after construction.
      * @param availabilityStatus  Current availability status of the venue.
      * @param availableTimeSlots  List of available time slots for booking.
      * @param reservationDeadline Deadline for making reservations.
