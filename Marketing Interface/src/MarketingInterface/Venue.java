@@ -3,6 +3,7 @@ package MarketingInterface;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Abstract class representing the availability of a venue.
@@ -10,12 +11,12 @@ import java.util.List;
  * related to venue scheduling and reservation.
  */
 public abstract class Venue {
-    protected String venueId;
-    protected String venueName;
-    protected int capacity;
-    protected VenueStatus availabilityStatus;
-    protected List<String> availableTimeSlots;
-    protected LocalDateTime reservationDeadline;
+    private final String venueId;
+    private String venueName;
+    private final int capacity;
+    private VenueStatus availabilityStatus;
+    private List<String> availableTimeSlots;
+    private LocalDateTime reservationDeadline;
 
     /**
      * Constructs a Venue object with specified details.
@@ -29,14 +30,14 @@ public abstract class Venue {
      */
     public Venue(String venueId, String venueName, int capacity, VenueStatus availabilityStatus,
                  List<String> availableTimeSlots, LocalDateTime reservationDeadline) {
-        this.venueId = venueId;
-        this.venueName = venueName;
+        this.venueId = Objects.requireNonNull(venueId, "venueId cannot be null");
+        this.venueName = Objects.requireNonNull(venueName, "venueName cannot be null");
         this.capacity = capacity;
-        this.availabilityStatus = availabilityStatus;
-        // Ensure the availableTimeSlots list is immutable to maintain data integrity
+        this.availabilityStatus = Objects.requireNonNull(availabilityStatus, "availabilityStatus cannot be null");
+// Ensure the availableTimeSlots list is immutable to maintain data integrity
         this.availableTimeSlots = availableTimeSlots != null ?
                 Collections.unmodifiableList(availableTimeSlots) : Collections.emptyList();
-        this.reservationDeadline = reservationDeadline;
+        this.reservationDeadline = Objects.requireNonNull(reservationDeadline, "reservationDeadline cannot be null");
     }
 
     /**
