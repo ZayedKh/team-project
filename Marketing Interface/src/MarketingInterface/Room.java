@@ -2,18 +2,19 @@ package MarketingInterface;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Abstract class representing details of a room.
  * This class provides a base structure for managing room properties and availability.
  */
 public abstract class Room {
-    protected String roomId;
-    protected String roomName;
-    protected int capacity;
-    protected List<String> facilities;
-    protected RoomBookingPriority bookingPriority;
-    protected String usageRestrictions;
+    private final String roomId;
+    private String roomName;
+    private final int capacity;
+    private List<String> facilities;
+    private RoomBookingPriority bookingPriority;
+    private String usageRestrictions;
 
     /**
      * Constructs a new Room object with the given details.
@@ -27,11 +28,11 @@ public abstract class Room {
      */
     public Room(String roomId, String roomName, int capacity, List<String> facilities,
                 RoomBookingPriority bookingPriority, String usageRestrictions) {
-        this.roomId = roomId;
-        this.roomName = roomName;
+        this.roomId = Objects.requireNonNull(roomId, "roomId cannot be null");
+        this.roomName = Objects.requireNonNull(roomName, "roomName cannot be null");
         this.capacity = capacity;
         this.facilities = facilities != null ? Collections.unmodifiableList(facilities) : Collections.emptyList();
-        this.bookingPriority = bookingPriority;
+        this.bookingPriority = Objects.requireNonNull(bookingPriority, "bookingPriority cannot be null");
         this.usageRestrictions = usageRestrictions;
     }
 
