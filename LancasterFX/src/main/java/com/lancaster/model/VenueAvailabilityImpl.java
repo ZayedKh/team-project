@@ -1,5 +1,7 @@
 package com.lancaster.model;
 
+import com.lancaster.api.marketing.VenueAvailability;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;

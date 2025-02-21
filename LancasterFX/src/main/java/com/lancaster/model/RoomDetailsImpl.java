@@ -1,5 +1,7 @@
 package com.lancaster.model;
 
+import com.lancaster.api.marketing.RoomDetails;
+
 import java.util.ArrayList;
 import java.util.List;
 
