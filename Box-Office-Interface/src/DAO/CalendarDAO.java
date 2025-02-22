@@ -1,6 +1,6 @@
 package DAO;
 
-import classes.ConcreteEvent;
+import models.ConcreteEvent;
 import interfaces.CalendarInterface;
 import interfaces.DBConnect;
 

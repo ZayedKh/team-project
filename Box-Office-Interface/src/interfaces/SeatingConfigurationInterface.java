@@ -1,6 +1,6 @@
 package interfaces;
 
-import classes.SeatingConfiguration;
+import models.SeatingConfiguration;
 
 import java.sql.Connection;
 import java.sql.SQLException;

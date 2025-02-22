@@ -1,4 +1,4 @@
-package classes;
+package models;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +17,8 @@ public class ConcreteEvent extends Event {
      * @param eventStatus   This is the status of the event i.e. confirmed, pending etc.
      * @param eventVenue    This is the venue where the event is taking place
      */
-    public ConcreteEvent(String eventID, String eventName, LocalDateTime startTime, LocalDateTime endTime, String eventType, String eventStatus, String eventVenue) {
+    public ConcreteEvent(String eventID, String eventName, LocalDateTime startTime,
+                         LocalDateTime endTime, String eventType, String eventStatus, String eventVenue) {
         super(eventID, eventName, startTime, endTime, eventType, eventStatus, eventVenue);
     }
 }

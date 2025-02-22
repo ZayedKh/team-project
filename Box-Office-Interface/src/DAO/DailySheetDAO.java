@@ -1,8 +1,8 @@
 package DAO;
 
-import classes.ConcreteEvent;
-import classes.DailySheet;
-import classes.Event;
+import models.ConcreteEvent;
+import models.DailySheet;
+import models.Event;
 import interfaces.DBConnect;
 import interfaces.SheetInterface;
 

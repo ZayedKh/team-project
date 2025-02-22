@@ -1,6 +1,6 @@
 package DAO;
 
-import classes.SeatingConfiguration;
+import models.SeatingConfiguration;
 import interfaces.DBConnect;
 import interfaces.SeatingConfigurationInterface;
 

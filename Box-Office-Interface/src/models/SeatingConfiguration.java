@@ -1,8 +1,7 @@
-package classes;
+package models;
 
 /**
  * Abstract class for tracking seating configurations.
- *
  * Author: Mohib Ishrat
  * Version: 1.0
  * Date: 20/02/2025
