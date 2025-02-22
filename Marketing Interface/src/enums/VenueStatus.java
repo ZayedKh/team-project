@@ -1,4 +1,4 @@
-package MarketingInterface;
+package enums;
 
 /**
  * Enum representing the status of a venue.

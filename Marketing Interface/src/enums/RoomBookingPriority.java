@@ -1,4 +1,4 @@
-package MarketingInterface;
+package enums;
 
 /**
  * Enum representing room booking priority levels.
