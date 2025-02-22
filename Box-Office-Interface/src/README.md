@@ -36,7 +36,7 @@ public static void main(String[] args) {
         ArrayList<Event> recentEvents = calendarDAO.getMostRecentEvents(connection);
         
         // Print recent events
-        for(Event eveent : recentEvents){
+        for(Event event : recentEvents){
             event ? System.out.println("Retrieved Event: " + event) : System.out.println("Event not found");
         }
     } catch (SQLException e){
