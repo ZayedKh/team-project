@@ -1,4 +1,4 @@
-package MarketingInterface;
+package enums;
 
 /**
  * Enum representing different statuses an event can have.

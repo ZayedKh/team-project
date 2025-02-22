@@ -1,4 +1,8 @@
-package MarketingInterface;
+package implementations;
+
+import classes.Room;
+import enums.RoomBookingPriority;
+import interfaces.RoomDetails;
 
 import java.util.ArrayList;
 import java.util.List;

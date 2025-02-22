@@ -1,4 +1,8 @@
-package MarketingInterface;
+package implementations;
+
+import classes.Venue;
+import enums.VenueStatus;
+import interfaces.VenueAvailability;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

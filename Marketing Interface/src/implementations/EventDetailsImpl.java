@@ -1,4 +1,8 @@
-package MarketingInterface;
+package implementations;
+
+import classes.Event;
+import enums.EventStatus;
+import interfaces.EventDetails;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
