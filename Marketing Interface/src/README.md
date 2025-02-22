@@ -19,7 +19,7 @@ Example usage of the DAOs:
 ```java
 public static void main(String[] args) {
         // Database connection setup
-        String url = "jdbc:mysql://localhost:3306/your_database";
+        String url = "database_url";
         String user = "your_username";
         String password = "your_password";
 
