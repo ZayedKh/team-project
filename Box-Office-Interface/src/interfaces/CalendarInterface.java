@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
-import classes.*;
+
+import models.ConcreteEvent;
 
 public interface CalendarInterface {
 
@@ -14,7 +15,7 @@ public interface CalendarInterface {
      * @param date The date being searched for
      * @return A list of events for that date
      */
-    ArrayList<ConcreteEvent> getEventForDate(Connection connection, LocalDateTime date);
+    ArrayList<models.ConcreteEvent> getEventForDate(Connection connection, LocalDateTime date);
 
     /**
      * This will return all events that are in the current database no matter the
@@ -22,7 +23,7 @@ public interface CalendarInterface {
      * @param connection The connection to the database
      * @return All the events currently listed
      */
-    ArrayList<ConcreteEvent> getAllEvents(Connection connection);
+    ArrayList<models.ConcreteEvent> getAllEvents(Connection connection);
 
     /**
      * This will return all events in the database by ordering by the closest events
@@ -30,7 +31,7 @@ public interface CalendarInterface {
      * @param connection The connection to the database
      * @return All events in the order of dates
      */
-    ArrayList<ConcreteEvent> getMostRecentEvents(Connection connection);
+    ArrayList<models.ConcreteEvent> getMostRecentEvents(Connection connection);
 
     /**
      * Gets all the events in a certain month
