@@ -4,22 +4,22 @@ import models.ConcreteEvent;
 import models.DailySheet;
 import models.Event;
 import interfaces.DBConnect;
-import interfaces.SheetInterface;
+import interfaces.SheetInterfaces;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class DailySheetDAO implements SheetInterface, DBConnect {
+public class DailySheetDAO implements SheetInterfaces, DBConnect {
 
     /**
      * This will generate a daily report based of the current date
+     *
      * @param connection The connection to the database
-     * @return The daily sheet of current date
      */
     @Override
-    public DailySheet generateTodaySheet(Connection connection) {
+    public void generateTodaySheet(Connection connection) {
         LocalDate today = LocalDate.now();
         return generateDateSheet(today, connection);
     }

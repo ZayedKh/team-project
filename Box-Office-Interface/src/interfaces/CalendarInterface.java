@@ -1,18 +1,19 @@
 package interfaces;
 
+import models.ConcreteEvent;
+
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 
-import models.ConcreteEvent;
-
 public interface CalendarInterface {
 
     /**
      * This will get the event for all the events in a single day
+     *
      * @param connection The connection to the database
-     * @param date The date being searched for
+     * @param date       The date being searched for
      * @return A list of events for that date
      */
     ArrayList<models.ConcreteEvent> getEventForDate(Connection connection, LocalDateTime date);
@@ -20,6 +21,7 @@ public interface CalendarInterface {
     /**
      * This will return all events that are in the current database no matter the
      * conditions that they are in
+     *
      * @param connection The connection to the database
      * @return All the events currently listed
      */
@@ -28,6 +30,7 @@ public interface CalendarInterface {
     /**
      * This will return all events in the database by ordering by the closest events
      * coming up by date
+     *
      * @param connection The connection to the database
      * @return All events in the order of dates
      */
@@ -35,8 +38,9 @@ public interface CalendarInterface {
 
     /**
      * Gets all the events in a certain month
+     *
      * @param connection The connection to the database
-     * @param month A time. Month variable such as APRIL
+     * @param month      A time. Month variable such as APRIL
      * @return All events in that month
      */
     ArrayList<ConcreteEvent> getEventByMonth(Connection connection, Month month);
