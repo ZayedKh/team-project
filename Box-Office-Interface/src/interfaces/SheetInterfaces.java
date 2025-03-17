@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import models.DailySheet;
 
-public interface SheetInterface {
+public interface SheetInterfaces {
     /**
      * This will generate a daily sheet of the current date
+     *
      * @param connection The connection to the database
-     * @return The daily sheet of the current date
      */
-    DailySheet generateTodaySheet(Connection connection);
+    void generateTodaySheet(Connection connection);
 
     /**
      * This will generate a daily sheet of a specific date
