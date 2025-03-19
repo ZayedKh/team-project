@@ -97,6 +97,7 @@ public class EventDAO {
         }
     }
 
+
     /**
      * Deletes an event from the database by its unique identifier.
      *
