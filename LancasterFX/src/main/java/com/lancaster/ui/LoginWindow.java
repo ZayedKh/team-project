@@ -29,6 +29,7 @@ public class LoginWindow extends Application {
         this.primaryStage = stage;
 
         StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: #122023;");
         Scene scene = new Scene(root, width, height);
 
         root.getChildren().add(createLoginUI());
@@ -77,7 +78,7 @@ public class LoginWindow extends Application {
 
     private Rectangle createRectangle() {
         Rectangle rectangle = new Rectangle(width, 50);
-        rectangle.setFill(Color.BLUE);
+        rectangle.setFill(Color.web("#2ECC40"));
         return rectangle;
     }
 
