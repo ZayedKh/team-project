@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -49,6 +51,12 @@ public class LoginWindow extends Application {
         Text welcomeBanner = createWelcomeBannerText();
         headerStack.getChildren().addAll(header, welcomeBanner);
 
+        // Ensure the image path is correct
+        Image logo = new Image("file:E:\\team-project\\Code\\LancasterFX\\src\\main\\resources\\com\\lancaster\\LancasterLogo.png");
+        ImageView logoView = new ImageView(logo);
+        logoView.setFitWidth(200);
+        logoView.setFitHeight(200);
+
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter your password");
         passwordField.setPrefWidth(textFieldWidth);
@@ -58,7 +66,7 @@ public class LoginWindow extends Application {
         loginButton.setPrefWidth(buttonWidth);
         loginButton.setOnAction(e -> handleLogin(passwordField.getText()));
 
-        layout.getChildren().addAll(headerStack, passwordField, loginButton);
+        layout.getChildren().addAll(logoView, headerStack, passwordField, loginButton);
         return layout;
     }
 
