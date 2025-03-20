@@ -54,8 +54,8 @@ public class LoginWindow extends Application {
         // Ensure the image path is correct
         Image logo = new Image("file:E:\\team-project\\Code\\LancasterFX\\src\\main\\resources\\com\\lancaster\\LancasterLogo.png");
         ImageView logoView = new ImageView(logo);
-        logoView.setFitWidth(200);
-        logoView.setFitHeight(200);
+        logoView.setFitWidth(400);
+        logoView.setFitHeight(300);
 
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter your password");
