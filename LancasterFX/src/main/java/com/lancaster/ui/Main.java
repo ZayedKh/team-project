@@ -1,4 +1,4 @@
-package lancaster.ui;
+package com.lancaster.ui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

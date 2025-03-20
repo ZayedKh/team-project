@@ -1,4 +1,4 @@
-package lancaster.ui;
+package com.lancaster.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -17,9 +17,10 @@ import java.time.YearMonth;
 
 public class LoginWindow extends Application {
 
-    final int width = 600;
-    final int height = 400;
-    final int textFieldWidth = 250;
+    final int width = 1000;
+    final int height = 800;
+    final int textFieldWidth = 200;
+    final int buttonWidth = 100;
 
     private Stage primaryStage;
 
@@ -42,16 +43,21 @@ public class LoginWindow extends Application {
         VBox layout = new VBox(20);
         layout.setAlignment(Pos.CENTER);
 
+        StackPane headerStack = new StackPane();
         Rectangle header = createRectangle();
         Text welcomeBanner = createWelcomeBannerText();
+        headerStack.getChildren().addAll(header, welcomeBanner);
+
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter your password");
         passwordField.setPrefWidth(textFieldWidth);
+        passwordField.setMaxWidth(textFieldWidth);
 
         Button loginButton = new Button("Login");
+        loginButton.setPrefWidth(buttonWidth);
         loginButton.setOnAction(e -> handleLogin(passwordField.getText()));
 
-        layout.getChildren().addAll(header, welcomeBanner, passwordField, loginButton);
+        layout.getChildren().addAll(headerStack, passwordField, loginButton);
         return layout;
     }
 
@@ -71,7 +77,7 @@ public class LoginWindow extends Application {
 
     private Rectangle createRectangle() {
         Rectangle rectangle = new Rectangle(width, 50);
-        rectangle.setFill(Color.GREY);
+        rectangle.setFill(Color.BLUE);
         return rectangle;
     }
 

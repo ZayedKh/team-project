@@ -1,4 +1,4 @@
-package lancaster.ui;
+package com.lancaster.ui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
