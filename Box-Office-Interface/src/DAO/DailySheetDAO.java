@@ -17,11 +17,12 @@ public class DailySheetDAO implements SheetInterfaces, DBConnect {
      * This will generate a daily report based of the current date
      *
      * @param connection The connection to the database
+     * @return
      */
     @Override
-    public void generateTodaySheet(Connection connection) {
+    public DailySheet generateTodaySheet(Connection connection) {
         LocalDate today = LocalDate.now();
-        return generateDateSheet(today, connection);
+         return generateDateSheet(today, connection);
     }
 
     /**

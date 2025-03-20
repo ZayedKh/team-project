@@ -6,7 +6,8 @@ import java.sql.Connection;
 import java.time.LocalDate;
 
 class SheetImpl implements SheetInterfaces {
-    public void generateTodaySheet(Connection connection) {
+    public DailySheet generateTodaySheet(Connection connection) {
+        return null;
     }
 
     @Override

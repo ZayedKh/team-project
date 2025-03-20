@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Booking {
-    private static Map<Integer, Booking> bookings = new HashMap<>();
+    private final static Map<Integer, Booking> bookings = new HashMap<>();
 
-    private int bookingID;
-    private String eventID;
-    private String clientName;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private final int bookingID;
+    private final String eventID;
+    private final String clientName;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
     private String status;
 
     public Booking(int bookingID, String eventID, String clientName, LocalDate startDate, LocalDate endDate,
@@ -28,17 +28,20 @@ public class Booking {
         this.status = status;
     }
 
-    // Create a booking and store it in a map
-    public void createBooking() {
-        if (!bookings.containsKey(bookingID)) {
-            bookings.put(bookingID, this);
-            System.out.println("Booking created successfully: " + bookingID);
-        } else {
+
+    public static Booking createBooking(int bookingID, String eventID, String clientName, LocalDate startDate,
+                                        LocalDate endDate, LocalDateTime startTime, LocalDateTime endTime) {
+        if (bookings.containsKey(bookingID)) {
             System.out.println("Booking ID already exists. Choose a different ID.");
+            return null; // Prevents duplicate bookings
         }
+
+        Booking newBooking = new Booking(bookingID, eventID, clientName, startDate, endDate, startTime, endTime, "Pending");
+        bookings.put(bookingID, newBooking);
+        System.out.println("Booking created successfully: " + bookingID);
+        return newBooking;
     }
 
-    // Update booking details
     public void updateBooking(String newStatus) {
         if (bookings.containsKey(bookingID)) {
             this.status = newStatus;
@@ -49,7 +52,6 @@ public class Booking {
         }
     }
 
-    // Process a booking (e.g., mark it as confirmed)
     public void processBooking() {
         if (bookings.containsKey(bookingID)) {
             this.status = "Confirmed";
@@ -60,7 +62,6 @@ public class Booking {
         }
     }
 
-    // Cancel a booking
     public void cancelBooking() {
         if (bookings.containsKey(bookingID)) {
             bookings.remove(bookingID);
@@ -87,4 +88,3 @@ public class Booking {
         return status;
     }
 }
-

@@ -6,11 +6,11 @@ import java.util.List;
  * SeatingPlan class representing the seating configuration for an event.
  */
 public class SeatingPlan {
-    private int venueID;
-    private int bookingID;
+    private final int venueID;
+    private final int bookingID;
     private String configuration;
-    private List<Integer> restrictedSeats;
-    private int wheelchairSpaces;
+    private final List<Integer> restrictedSeats;
+    private final int wheelchairSpaces;
 
     public SeatingPlan(int venueID, int bookingID, String configuration, List<Integer> restrictedSeats, int wheelchairSpaces) {
         this.venueID = venueID;
