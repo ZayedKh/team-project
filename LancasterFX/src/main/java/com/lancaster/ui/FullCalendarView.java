@@ -1,4 +1,4 @@
-package lancaster.ui;
+package com.lancaster.ui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;

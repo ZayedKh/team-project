@@ -1,7 +1,7 @@
 /*
-    * This file is part of the Lancaster University FX project.
-    * This file defines the module for the Lancaster University FX project.
-    * This file specifies the dependencies of the Lancaster University FX project.
+ * This file is part of the Lancaster University FX project.
+ * This file defines the module for the Lancaster University FX project.
+ * This file specifies the dependencies of the Lancaster University FX project.
  */
 
 
@@ -18,4 +18,5 @@ module com.lancaster.lancasterfx {
     opens com.lancaster.controller to javafx.fxml;
     exports com.lancaster.view;
     opens com.lancaster.view to javafx.fxml;
+    exports com.lancaster.ui to javafx.graphics;
 }
