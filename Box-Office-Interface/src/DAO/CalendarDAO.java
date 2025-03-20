@@ -20,7 +20,7 @@ public class CalendarDAO implements CalendarInterface, DBConnect {
      * implementation is used in the sheet generation
      *
      * @param connection The connection to the database
-     * @param date       The date being searched for
+     * @param date The date being searched for
      * @return The list of events for the given date
      */
     @Override

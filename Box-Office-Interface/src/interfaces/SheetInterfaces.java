@@ -9,8 +9,9 @@ public interface SheetInterfaces {
      * This will generate a daily sheet of the current date
      *
      * @param connection The connection to the database
+     * @return
      */
-    void generateTodaySheet(Connection connection);
+    DailySheet generateTodaySheet(Connection connection);
 
     /**
      * This will generate a daily sheet of a specific date
