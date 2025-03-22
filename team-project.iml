@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Lancaster/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Marketing Interface/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Box-Office-Interface/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/LancasterFX/src/main/java" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
