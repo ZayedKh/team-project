@@ -52,7 +52,7 @@ public class LoginWindow extends Application {
         headerStack.getChildren().addAll(header, welcomeBanner);
 
         // Ensure the image path is correct
-        Image logo = new Image("file:E:\\team-project\\Code\\LancasterFX\\src\\main\\resources\\com\\lancaster\\LancasterLogo.png");
+        Image logo = new Image("file:src/main/resources/com/lancaster/LancasterLogo.png");
         ImageView logoView = new ImageView(logo);
         logoView.setFitWidth(400);
         logoView.setFitHeight(300);
