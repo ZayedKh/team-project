@@ -16,7 +16,5 @@ module com.lancaster.lancasterfx {
     opens com.lancaster.model to javafx.fxml;
     exports com.lancaster.controller;
     opens com.lancaster.controller to javafx.fxml;
-    exports com.lancaster.view;
-    opens com.lancaster.view to javafx.fxml;
     exports com.lancaster.ui to javafx.graphics;
 }
