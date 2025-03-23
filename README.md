@@ -8,6 +8,9 @@ This repository is used to store the code for Group 44's team project.
 JavaFX setup:
 https://youtu.be/Ope4icw6bVk?si=Rm3p0eRjfUqKYfWd
 
+Scene Builder install:
+https://youtu.be/-Obxf6NjnbQ?si=xw4CgPyH-8Bddz9N
+
 VPN Download:
 https://cityuni.service-now.com/sp?id=kb_article_view&sysparm_article=KB0012085
 
@@ -24,7 +27,7 @@ https://www.geeksforgeeks.org/interfaces-in-java/
 
 We are using javaFX to develop the interface, we are also following MVC format (Model, View, Controller).
 
-Currently the project is set up as such:
+Currently, the project is set up as such:
 
 /src  
 📦 main.java.com.lancaster  
@@ -53,7 +56,7 @@ git add .
 // Commit changes
 git commit -m "YOUR MESSAGE GOES HERE"
 ```
-When commiting, be descriptive of your changes, explain why you did it, what it changed, etc.
+When committing, be descriptive of your changes, explain why you did it, what it changed, etc.
 
 Push these commits onto the remote repository branch:
 ```
@@ -62,4 +65,7 @@ git push origin YOUR BRANCH NAME GOES HERE
 
 Create a pull request from your branch to the main branch through the pull requests tab. It will then be reviewed by another member and if approved, can be merged into the main branch.
 
-You can then delete the feature branch if necessary.
+You can then delete the feature branch if necessary:
+```
+git branch -D YOUR BRANCH NAME GOES HERE
+```
