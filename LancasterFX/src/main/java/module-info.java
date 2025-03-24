@@ -9,6 +9,7 @@
 module com.lancaster.lancasterfx {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
 
     opens com.lancaster to javafx.fxml;
@@ -16,5 +17,6 @@ module com.lancaster.lancasterfx {
     opens com.lancaster.model to javafx.fxml;
     exports com.lancaster.controller;
     opens com.lancaster.controller to javafx.fxml;
-    exports com.lancaster.ui to javafx.graphics;
+    opens com.lancaster.ui to javafx.fxml;
+    exports com.lancaster.ui;
 }
