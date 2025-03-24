@@ -12,9 +12,9 @@ import java.time.YearMonth;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/lancaster/ui/log-in.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/lancaster/ui/logged-in.fxml"));
         primaryStage.setTitle("Lancaster FX");
-        primaryStage.setScene(new Scene(root, 536, 400));
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
