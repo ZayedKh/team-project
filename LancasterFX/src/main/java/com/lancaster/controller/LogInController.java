@@ -1,16 +1,18 @@
 package com.lancaster.controller;
 
-import com.lancaster.ui.FullCalendarView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.YearMonth;
 import java.util.ResourceBundle;
+
+import com.lancaster.ui.FullCalendarView;
 
 public class LogInController implements Initializable {
     @FXML
@@ -26,13 +28,14 @@ public class LogInController implements Initializable {
                 try {
                     FullCalendarView calendarView = new FullCalendarView(YearMonth.now());
                     if (!tf_password.getText().isEmpty()) {
-                        btn_login.getScene().setRoot(calendarView.getView());
+                        Stage primaryStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                        primaryStage.getScene().setRoot(calendarView.getView());
+                        primaryStage.show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-
     }
 }

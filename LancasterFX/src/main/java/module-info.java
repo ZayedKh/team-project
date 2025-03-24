@@ -11,7 +11,6 @@ module com.lancaster.lancasterfx {
     requires javafx.fxml;
     requires java.desktop;
 
-
     opens com.lancaster to javafx.fxml;
     exports com.lancaster.model;
     opens com.lancaster.model to javafx.fxml;
