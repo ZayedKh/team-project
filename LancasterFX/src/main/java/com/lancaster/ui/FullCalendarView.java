@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class FullCalendarView {
 
     /**
      * Create a styled calendar view for a given year and month.
+     *
      * @param yearMonth the year and month to display
      */
     public FullCalendarView(YearMonth yearMonth) {
@@ -31,7 +33,7 @@ public class FullCalendarView {
 
         // Create a VBox to hold the calendar UI with a subtle background gradient.
         VBox calendarViewVBox = new VBox();
-        calendarViewVBox.setStyle("-fx-background-color: linear-gradient(#E0E0E0, #F8F8F8); -fx-padding: 15px;");
+        calendarViewVBox.setStyle("-fx-background-color: #122023; -fx-padding: 15px;");
         calendarView = calendarViewVBox;
 
         // Create the calendar grid pane.
@@ -52,9 +54,9 @@ public class FullCalendarView {
         }
 
         // Create days of the week labels with bold styling.
-        Text[] dayNames = { new Text("Sunday"), new Text("Monday"), new Text("Tuesday"),
+        Text[] dayNames = {new Text("Sunday"), new Text("Monday"), new Text("Tuesday"),
                 new Text("Wednesday"), new Text("Thursday"), new Text("Friday"),
-                new Text("Saturday") };
+                new Text("Saturday")};
         GridPane dayLabels = new GridPane();
         dayLabels.setPrefWidth(600);
         int col = 0;
@@ -91,6 +93,7 @@ public class FullCalendarView {
     /**
      * Populate the calendar cells with day numbers.
      * Dates not in the current month are styled in a lighter color.
+     *
      * @param yearMonth the year and month to render
      */
     public void populateCalendar(YearMonth yearMonth) {
@@ -118,6 +121,7 @@ public class FullCalendarView {
             calendarDate = calendarDate.plusDays(1);
         }
         calendarTitle.setText(yearMonth.getMonth().toString() + " " + yearMonth.getYear());
+        calendarTitle.setStyle("-fx-fill: #FFFFFF; -fx-font-size: 16px;");
     }
 
     private void previousMonth() {
