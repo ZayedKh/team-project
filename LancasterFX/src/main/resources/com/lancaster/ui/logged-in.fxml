@@ -7,44 +7,39 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" style="-fx-background-color: #122023;" xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lancaster.controller.LogInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #122023;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lancaster.controller.LogInController">
     <children>
-        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="6.0" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../LancasterLogo.png"/>
+                <Image url="@../LancasterLogo.png" />
             </image>
         </ImageView>
-        <VBox alignment="CENTER" layoutY="137.0" prefHeight="80.0" prefWidth="410.0"
-              style="-fx-background-color: #2ECC40; -fx-padding: 0 10;">
+        <VBox alignment="CENTER" layoutY="137.0" prefHeight="80.0" prefWidth="410.0" style="-fx-background-color: #2ECC40; -fx-padding: 0 10;">
             <children>
-                <Label text="Welcome to Lancaster's Employee Interface" textFill="WHITE" wrapText="true">
+                <Label fx:id="label_welcome" text="Welcome to Lancaster's Employee Interface" textFill="WHITE" wrapText="true">
                     <font>
-                        <Font name="Cambria" size="24.0"/>
+                        <Font name="Cambria" size="24.0" />
                     </font>
                 </Label>
             </children>
             <opaqueInsets>
-                <Insets/>
+                <Insets />
             </opaqueInsets>
         </VBox>
         <VBox alignment="CENTER" layoutX="105.0" layoutY="224.0" prefHeight="150.0" prefWidth="390.0" spacing="20.0">
             <children>
-                <PasswordField fx:id="tf_password" promptText="Enter Password"/>
-                <Button fx:id="btn_login" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0"
-                        style="-fx-background-color: #ffffff;" text="Login">
+                <PasswordField fx:id="tf_password" promptText="Enter Password" />
+                <Button fx:id="btn_login" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: #ffffff;" text="Login">
                     <font>
-                        <Font name="Cambria" size="12.0"/>
+                        <Font name="Cambria" size="12.0" />
                     </font>
                 </Button>
             </children>
             <padding>
-                <Insets left="15.0" right="15.0"/>
+                <Insets left="15.0" right="15.0" />
             </padding>
             <effect>
-                <Blend/>
+                <Blend />
             </effect>
         </VBox>
     </children>
