@@ -32,7 +32,7 @@
         </VBox>
         <VBox alignment="CENTER" layoutX="105.0" layoutY="224.0" prefHeight="150.0" prefWidth="390.0" spacing="20.0">
             <children>
-                <TextField fx:id="tf_password" promptText="Enter Password"/>
+                <PasswordField fx:id="tf_password" promptText="Enter Password"/>
                 <Button fx:id="btn_login" mnemonicParsing="false" prefHeight="25.0" prefWidth="68.0"
                         style="-fx-background-color: #ffffff;" text="Login">
                     <font>
