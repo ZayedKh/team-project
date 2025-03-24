@@ -6,20 +6,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="400.0" prefWidth="482.0" style="-fx-background-color: #122023;"
-      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
->
+      xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
-                    minWidth="-Infinity" prefHeight="400.0" prefWidth="536.0" style="-fx-background-color: #122023;">
+                    minWidth="-Infinity" prefHeight="400.0" prefWidth="435.0" style="-fx-background-color: #122023;">
             <children>
                 <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="52.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../LancasterLogo.png"/>
                     </image>
                 </ImageView>
-                <VBox alignment="CENTER" layoutY="131.0" prefHeight="74.0" prefWidth="482.0"
+                <VBox alignment="CENTER" layoutX="52.0" layoutY="131.0" prefHeight="74.0" prefWidth="430.0"
                       style="-fx-background-color: #2ECC40;">
                     <children>
                         <Label prefHeight="74.0" prefWidth="357.0" text="Welcome to Lancaster's Employee Interface"
@@ -31,9 +30,8 @@
                     </children>
                 </VBox>
                 <VBox alignment="TOP_CENTER" layoutX="99.0" layoutY="229.0" prefHeight="150.0" prefWidth="383.0"
-                      spacing="10.0">
+                      spacing="25.0">
                     <children>
-                        <TextField fx:id="tf_username" layoutX="20.0" layoutY="63.0" promptText="Enter Username"/>
                         <TextField fx:id="tf_password" promptText="Enter Password"/>
                         <Button fx:id="btn_login" mnemonicParsing="false" prefHeight="24.0" prefWidth="84.0"
                                 style="-fx-background-color: #ffffff; -fx-border-radius: 0;" text="Login"
