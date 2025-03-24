@@ -46,8 +46,7 @@ public class FullCalendarView {
             for (int j = 0; j < 7; j++) {
                 AnchorPaneNode ap = new AnchorPaneNode(mainView, calendarViewVBox);
                 ap.setPrefSize(200, 200);
-                ap.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #DDDDDD; -fx-border-width: 1px; " +
-                        "-fx-background-radius: 5; -fx-border-radius: 5;");
+                ap.setStyle("-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;" + "-fx-background-radius: 5px; -fx-border-radius: 3px;");
                 calendar.add(ap, j, i);
                 allCalendarDays.add(ap);
             }
@@ -63,11 +62,11 @@ public class FullCalendarView {
         for (Text txt : dayNames) {
             AnchorPane ap = new AnchorPane();
             ap.setPrefSize(200, 30);
-            txt.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+            txt.setStyle("-fx-font-weight: bold; -fx-font-size: 12.5px;");
             AnchorPane.setBottomAnchor(txt, 5.0);
             AnchorPane.setLeftAnchor(txt, 5.0);
             ap.getChildren().add(txt);
-            ap.setStyle("-fx-background-color: #F0F0F0;");
+            ap.setStyle("-fx-background-color: #2ECC40; -fx-border-color: #122023; -fx-border-width: 1px;" + "-fx-background-radius: 5px; -fx-border-radius: 3px;");
             dayLabels.add(ap, col++, 0);
         }
 
