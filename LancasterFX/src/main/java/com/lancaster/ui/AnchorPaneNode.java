@@ -20,31 +20,34 @@ public class AnchorPaneNode extends AnchorPane {
         this.mainView = mainView;
         this.calendarView = calendarView;
 
-        this.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #DDDDDD; -fx-border-width: 1px; " +
-                "-fx-background-radius: 5; -fx-border-radius: 5;");
+        String originalStyle = "-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;" + "-fx-background-radius: 5px; -fx-border-radius: 3px;";
 
-        this.setOnMouseEntered(e -> this.setStyle("-fx-background-color: #F5F5F5;"));
-        this.setOnMouseExited(e -> this.setStyle("-fx-background-color: #FFFFFF;"));
+        this.setOnMouseEntered(e -> this.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #122023; -fx-border-width: 1px;"+ "-fx-background-radius: 5px; -fx-border-radius: 3px;"));
+        this.setOnMouseExited(e -> this.setStyle(originalStyle));
 
         this.setOnMouseClicked(e -> showBookingScreen());
     }
 
     private void showBookingScreen() {
-        // Use a BorderPane for a consistent layout.
         BorderPane bookingScreen = new BorderPane();
         bookingScreen.setPadding(new Insets(20));
-        bookingScreen.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CCCCCC; " +
-                "-fx-border-width: 2px; -fx-background-radius: 5;");
+        bookingScreen.setStyle("-fx-background-color: #122023;");
 
-        // Top header with back button and title.
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
         header.setPadding(new Insets(10));
+
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> mainView.getChildren().setAll(calendarView));
         Label titleLabel = new Label("Select a Room");
+
+        StackPane titleWrapper = new StackPane();
+        titleWrapper.setStyle("-fx-background-color: #2ECC40; -fx-padding: 5px 15px; -fx-background-radius: 5px;");
+        titleWrapper.setPadding(new Insets(5));
+        titleWrapper.getChildren().add(titleLabel);
+
         titleLabel.setStyle("-fx-font-size: 16px;");
-        header.getChildren().addAll(backButton, titleLabel);
+        header.getChildren().addAll(backButton, titleWrapper);
         bookingScreen.setTop(header);
 
         // Center: VBox listing the rooms/halls.
@@ -57,7 +60,7 @@ public class AnchorPaneNode extends AnchorPane {
             HBox roomCell = new HBox();
             roomCell.setAlignment(Pos.CENTER_LEFT);
             roomCell.setPrefHeight(40);
-            roomCell.setStyle("-fx-background-color: #F9F9F9; -fx-border-color: #DDDDDD; -fx-border-width: 1px;");
+            roomCell.setStyle("-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;" + "-fx-padding: 5px 15px; -fx-background-radius: 5px;");
             roomCell.setMaxWidth(Double.MAX_VALUE);
             roomCell.setPadding(new Insets(0, 10, 0, 10));
 
@@ -65,6 +68,11 @@ public class AnchorPaneNode extends AnchorPane {
             roomLabel.setStyle("-fx-font-size: 14px;");
             roomCell.getChildren().add(roomLabel);
 
+            roomCell.setOnMouseEntered(e -> roomCell.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #122023; -fx-border-width: 1px;"
+                    + "-fx-padding: 5px 15px; -fx-background-radius: 5px;"));
+
+            roomCell.setOnMouseExited(e -> roomCell.setStyle("-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;"
+                    + "-fx-padding: 5px 15px; -fx-background-radius: 5px;"));
             // Clicking the room cell navigates to the client booking page.
             roomCell.setOnMouseClicked(e -> showClientNamePage(room));
             roomList.getChildren().add(roomCell);
@@ -78,8 +86,7 @@ public class AnchorPaneNode extends AnchorPane {
         // Use a BorderPane for a consistent layout.
         BorderPane clientPage = new BorderPane();
         clientPage.setPadding(new Insets(20));
-        clientPage.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #CCCCCC; " +
-                "-fx-border-width: 2px; -fx-background-radius: 5;");
+        clientPage.setStyle("-fx-background-color: #122023;");
 
         // Top header with back button and title.
         HBox header = new HBox(10);
@@ -89,7 +96,13 @@ public class AnchorPaneNode extends AnchorPane {
         backButton.setOnAction(e -> showBookingScreen());
         Label title = new Label("Booking for " + room);
         title.setStyle("-fx-font-size: 16px;");
-        header.getChildren().addAll(backButton, title);
+
+        StackPane titleWrapper = new StackPane();
+        titleWrapper.setStyle("-fx-background-color: #2ECC40; -fx-padding: 5px 15px; -fx-background-radius: 5px;");
+        titleWrapper.getChildren().add(title);
+        titleWrapper.setPadding(new Insets(5));
+
+        header.getChildren().addAll(backButton, titleWrapper);
         clientPage.setTop(header);
 
         // Center: Form and All Day option in a VBox.
@@ -133,10 +146,15 @@ public class AnchorPaneNode extends AnchorPane {
             endTimeBox.setDisable(isSelected);
         });
 
-        VBox centerContent = new VBox(20);
-        centerContent.setAlignment(Pos.CENTER);
-        centerContent.getChildren().addAll(form, allDayCheckBox);
-        clientPage.setCenter(centerContent);
+        VBox formContainer = new VBox(20);
+        formContainer.setAlignment(Pos.CENTER);
+        formContainer.getChildren().addAll(form, allDayCheckBox);
+
+        StackPane formWrapper = new StackPane();
+        formWrapper.setStyle("-fx-background-color: #e0ffe4; -fx-padding: 5px 5px; -fx-background-radius: 5px;  -fx-max-width: 300px;");
+        formWrapper.getChildren().add(formContainer);
+
+        clientPage.setCenter(formWrapper);
 
         // Bottom: Submit button.
         Button submitButton = new Button("Submit");
