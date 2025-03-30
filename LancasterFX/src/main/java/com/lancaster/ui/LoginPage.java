@@ -19,11 +19,6 @@ public class LoginPage extends Application {
     }
 
     public static void main(String[] args) {
-//        try {
-//            DBUtils.loginUser("jdbc:mysql://sst-stuproj00:3306/in2033t44", "Admin", "Admin");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
         launch(args);
     }
 }
