@@ -12,11 +12,11 @@ module com.lancaster.lancasterfx {
     requires java.desktop;
     requires java.sql;
 
-    opens com.lancaster to javafx.fxml;
-    exports com.lancaster.model;
-    opens com.lancaster.model to javafx.fxml;
-    exports com.lancaster.controller;
-    opens com.lancaster.controller to javafx.fxml;
-    opens com.lancaster.ui to javafx.fxml;
-    exports com.lancaster.ui;
+    opens lancaster to javafx.fxml;
+    exports lancaster.model;
+    opens lancaster.model to javafx.fxml;
+    exports lancaster.controller;
+    opens lancaster.controller to javafx.fxml;
+    opens lancaster.ui to javafx.fxml;
+    exports lancaster.ui;
 }
