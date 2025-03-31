@@ -1,9 +1,4 @@
-<<<<<<< HEAD:LancasterFX/src/main/java/com/lancaster/ui/LoginPage.java
-// File: com/lancaster/ui/LoginPage.java
-package com.lancaster.ui;
-=======
 package lancaster.ui;
->>>>>>> main:src/main/java/lancaster/ui/LoginPage.java
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

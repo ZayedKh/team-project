@@ -7,7 +7,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.lancaster.controller.SelectionPaneController"
+            fx:controller="lancaster.controller.SelectionPaneController"
             prefHeight="768.0" prefWidth="1024.0"
             style="-fx-background-color: #122023;">
     <children>

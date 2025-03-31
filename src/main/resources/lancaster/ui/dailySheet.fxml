@@ -9,7 +9,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.lancaster.controller.DailySheetController"
+            fx:controller="lancaster.controller.DailySheetController"
             style="-fx-background-color: #122023;">
     <top>
         <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 20;">
@@ -28,7 +28,7 @@
                 <TableColumn fx:id="colConfig" text="Configuration" prefWidth="200"/>
             </columns>
             <BorderPane.margin>
-                <Insets left="20" right="20" bottom="20" />
+                <Insets left="20" right="20" bottom="20"/>
             </BorderPane.margin>
         </TableView>
     </center>

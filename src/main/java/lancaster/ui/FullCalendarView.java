@@ -1,6 +1,6 @@
 package lancaster.ui;
 
-import com.lancaster.controller.DailySheetController;
+import lancaster.controller.DailySheetController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -105,8 +105,8 @@ public class FullCalendarView {
         }
 
         // Create a header row showing the day names.
-        Text[] dayNames = { new Text("Sunday"), new Text("Monday"), new Text("Tuesday"),
-                new Text("Wednesday"), new Text("Thursday"), new Text("Friday"), new Text("Saturday") };
+        Text[] dayNames = {new Text("Sunday"), new Text("Monday"), new Text("Tuesday"),
+                new Text("Wednesday"), new Text("Thursday"), new Text("Friday"), new Text("Saturday")};
         GridPane dayLabels = new GridPane();
 
         // Set column constraints for day labels to match main calendar grid
@@ -158,7 +158,7 @@ public class FullCalendarView {
         populateCalendar(yearMonth);
 
         // If in report mode, override the default cell click events.
-        if(reportMode) {
+        if (reportMode) {
             enableReportMode();
         }
 
@@ -382,8 +382,8 @@ public class FullCalendarView {
         titleBar.setPadding(new Insets(10));
 
         // Create a header row showing abbreviated day names
-        Text[] dayNames = { new Text("Su"), new Text("Mo"), new Text("Tu"),
-                new Text("We"), new Text("Th"), new Text("Fr"), new Text("Sa") };
+        Text[] dayNames = {new Text("Su"), new Text("Mo"), new Text("Tu"),
+                new Text("We"), new Text("Th"), new Text("Fr"), new Text("Sa")};
         GridPane dayLabels = new GridPane();
 
         // Set column constraints for day labels to match main calendar grid
