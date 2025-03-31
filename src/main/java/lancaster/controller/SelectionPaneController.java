@@ -1,6 +1,6 @@
-package com.lancaster.controller;
+package lancaster.controller;
 
-import com.lancaster.ui.FullCalendarView;
+import lancaster.ui.FullCalendarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;

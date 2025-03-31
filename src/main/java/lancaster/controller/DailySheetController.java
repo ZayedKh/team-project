@@ -1,4 +1,4 @@
-package com.lancaster.controller;
+package lancaster.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
