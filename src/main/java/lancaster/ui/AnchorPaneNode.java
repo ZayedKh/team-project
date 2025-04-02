@@ -22,13 +22,13 @@ public class AnchorPaneNode extends AnchorPane {
 
         String originalStyle = "-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;" + "-fx-background-radius: 5px; -fx-border-radius: 3px;";
 
-        this.setOnMouseEntered(e -> this.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #122023; -fx-border-width: 1px;"+ "-fx-background-radius: 5px; -fx-border-radius: 3px;"));
+        this.setOnMouseEntered(e -> this.setStyle("-fx-background-color: #FFFFFF; -fx-border-color: #122023; -fx-border-width: 1px;" + "-fx-background-radius: 5px; -fx-border-radius: 3px;"));
         this.setOnMouseExited(e -> this.setStyle(originalStyle));
 
         this.setOnMouseClicked(e -> showBookingScreen());
     }
 
-    private void showBookingScreen() {
+    public void showBookingScreen() {
         BorderPane bookingScreen = new BorderPane();
         bookingScreen.setPadding(new Insets(20));
         bookingScreen.setStyle("-fx-background-color: #122023;");
