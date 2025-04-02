@@ -1,4 +1,3 @@
-
 # Lancaster Employee GUI
 
 This repository is used to store the code for Group 44's team project.
@@ -18,7 +17,7 @@ JDBC Download:
 https://dev.mysql.com/downloads/connector/j/
 
 JDBC Tutorial:
-https://docs.oracle.com/javase/tutorial/jdbc/  
+https://docs.oracle.com/javase/tutorial/jdbc/
 
 Interfaces:
 https://www.geeksforgeeks.org/interfaces-in-java/
@@ -29,43 +28,54 @@ We are using javaFX to develop the interface, we are also following MVC format (
 
 Currently, the project is set up as such:
 
-/src  
-📦 main.java.com.lancaster  
- ┣ 📂 model          → Data models (Review, Event)  
- ┣ 📂 view           → GUI components (LoginScreen, BookingScreen)   
- ┣ 📂 controller     → Logic to control views  
- ┣ 📂 api            → Interfaces for other departments (CalendarDataProvider, ReviewDataProvider)  
+📁src  
+┣📦 main.java.com.lancaster  
+┣ ┣ 📂 model → Data models (Review, Event)  
+┣ ┣ 📂 ui → GUI components (LoginScreen, BookingScreen)   
+┣ ┣ 📂 controller → Logic to control views  
+┣ ┣ 📂 api → Interfaces for other departments (CalendarDataProvider, ReviewDataProvider)
+
+The entry point is the login page inside the ui package.
 
 # Making Changes
 
 Before starting any new feature/addition, make sure your local repo is up to date using:
- ```
+
+ ```shell
 git pull
 ```
+
 It is good practice to develop new features in a separate branch off of main, you can do so with:
-```
+
+```shell
 // Ensure you are on the main branch
 git checkout main
 // Create a new branch and switch to it
 git checkout -b YOUR BRANCH NAME GOES HERE
 ```
+
 You can then develop your changes on this branch. When you are done, stage and commit your changes:
-```
+
+```shell
 // Stage changes
 git add .
 // Commit changes
 git commit -m "YOUR MESSAGE GOES HERE"
 ```
+
 When committing, be descriptive of your changes, explain why you did it, what it changed, etc.
 
 Push these commits onto the remote repository branch:
-```
+
+```shell
 git push origin YOUR BRANCH NAME GOES HERE
 ```
 
-Create a pull request from your branch to the main branch through the pull requests tab. It will then be reviewed by another member and if approved, can be merged into the main branch.
+Create a pull request from your branch to the main branch through the pull requests tab. It will then be reviewed by
+another member and if approved, can be merged into the main branch.
 
 You can then delete the feature branch if necessary:
-```
+
+```shell
 git branch -D YOUR BRANCH NAME GOES HERE
 ```
