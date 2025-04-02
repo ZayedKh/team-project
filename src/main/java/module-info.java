@@ -6,7 +6,7 @@
 
 
 
-module com.lancaster.lancasterfx {
+module lancaster.lancasterfx {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
