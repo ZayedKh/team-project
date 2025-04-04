@@ -1,6 +1,5 @@
 package lancaster.controller;
 
-import lancaster.utils.DBUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +31,7 @@ public class LogInController implements Initializable {
                 if (!tf_password.getText().isEmpty()) {
                     Stage primaryStage = (Stage) btn_login.getScene().getWindow();
                     // Adjust the resource path if needed:
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/selectionPane.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/SelectionPane.fxml"));
                     Parent selectionPane = loader.load();
                     primaryStage.getScene().setRoot(selectionPane);
                     primaryStage.show();
