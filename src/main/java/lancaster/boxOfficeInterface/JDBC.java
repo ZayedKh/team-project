@@ -12,8 +12,8 @@ import java.util.List;
 
 public class JDBC {
     private final Connection connection;
-    private SeatDAOImpl seatingConfigDAO;
-    private EventDAOImpl eventDAO;
+    private final SeatDAOImpl seatingConfigDAO;
+    private final EventDAOImpl eventDAO;
 
 
     public JDBC() throws SQLException, ClassNotFoundException {
@@ -30,7 +30,7 @@ public class JDBC {
     }
 
 
-    public boolean hasAccessableSeating(int roomId) throws SQLException, ClassNotFoundException {
+    public boolean hasAccessibleSeating(int roomId) throws SQLException {
         return seatingConfigDAO.hasAccessableSeating(connection, roomId);
     }
 
