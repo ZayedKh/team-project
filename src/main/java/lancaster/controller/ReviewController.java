@@ -101,9 +101,6 @@ public class ReviewController implements Initializable {
         centerVBox.getChildren().addAll(reviewsHeader, reviewsGrid);
         populateReviewsGrid();
         updateSummary();
-        centerVBox.heightProperty().addListener((obs, oldHeight, newHeight) -> {
-            System.out.println("Center VBox height: " + newHeight.doubleValue());
-        });
         sortComboBox.setOnAction(event -> {
             String selectedSort = sortComboBox.getValue();
             if (selectedSort.equals("Highest Rated")) {
@@ -255,13 +252,6 @@ public class ReviewController implements Initializable {
         String reviewType = reviewTypeComboBox.getValue();
         String showName = showNameField.getText().trim();
         Integer rating = ratingSpinner.getValue();
-
-        System.out.println("Title: '" + title + "'");
-        System.out.println("Author: '" + author + "'");
-        System.out.println("Room: '" + room + "'");
-        System.out.println("Review Type: '" + reviewType + "'");
-        System.out.println("Show Name: '" + showName + "'");
-        System.out.println("Rating: " + rating);
 
         boolean isTitleEmpty = title == null || title.isEmpty();
         boolean isAuthorEmpty = author == null || author.isEmpty();
