@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class DailySheetController implements Initializable {
@@ -69,9 +70,9 @@ public class DailySheetController implements Initializable {
      */
     private void loadDailyData() {
         ObservableList<Booking> bookings = FXCollections.observableArrayList(
-                new Booking("The Green Room", "10:00", "11:00", "Alice", "Standard"),
-                new Booking("Brontë Boardroom", "11:30", "12:30", "Bob", "Video Conferencing"),
-                new Booking("Dickens Den", "13:00", "14:00", "Charlie", "Projector")
+                new Booking("The Green Room", date, LocalTime.parse("10:00"), LocalTime.parse("11:00"), "Alice", "Standard"),
+                new Booking("Brontë Boardroom", date, LocalTime.parse("11:30"), LocalTime.parse("12:30"), "Bob", "Video Conferencing"),
+                new Booking("Dickens Den", date, LocalTime.parse("13:00"), LocalTime.parse("14:00"), "Charlie", "Projector")
         );
         tableDaily.setItems(bookings);
     }
