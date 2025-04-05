@@ -17,7 +17,6 @@ public class AnchorPaneNode extends AnchorPane {
     private BookingManager bookingManager;
 
 
-
     public AnchorPaneNode(StackPane mainView, Node calendarView, Node... children) {
         super(children);
         this.mainView = mainView;
