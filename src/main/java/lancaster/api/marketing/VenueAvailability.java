@@ -1,9 +1,5 @@
 package lancaster.api.marketing;
 
-import lancaster.model.*;
-import lancaster.model.Venue;
-import lancaster.model.VenueStatus;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

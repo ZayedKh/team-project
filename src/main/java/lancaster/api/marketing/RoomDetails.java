@@ -1,7 +1,6 @@
 package lancaster.api.marketing;
 
 import lancaster.model.Room;
-import lancaster.model.RoomBookingPriority;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@ public enum EventStatus {
     /**
      * Event is scheduled to occur as planned.
      */
-    SCHEDULED("Event is scheduled"),
+    SCHEDULED("Event is scheduled as normal"),
 
     /**
      * Event has been canceled and will not take place.

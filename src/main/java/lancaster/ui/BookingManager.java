@@ -1,8 +1,5 @@
 package lancaster.ui;
 
-import lancaster.model.BookingDetails;
-import lancaster.model.BookingGroup;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;

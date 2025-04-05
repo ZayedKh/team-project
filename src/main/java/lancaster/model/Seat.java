@@ -2,20 +2,26 @@ package lancaster.model;
 
 public class Seat {
     private int seatId;
-    private int roomId;
+    private Room room;
     private int rowNumber;
     private int seatNumber;
     private boolean isAccessible;
     private boolean isWheelchairFriendly;
 
-    public Seat() {
-        // default constructor
-    }
 
-    public Seat(int seatId, int roomId, int rowNumber, int seatNumber,
+    /**
+     * Constructor for seat
+     * @param seatId                ID of seat
+     * @param room                Room the seat is in
+     * @param rowNumber             Row number of seat
+     * @param seatNumber            Seat number in row
+     * @param isAccessible          Is the seat accessible?
+     * @param isWheelchairFriendly  Is the seat wheelchair friendly?
+     */
+    public Seat(int seatId, Room room, int rowNumber, int seatNumber,
                 boolean isAccessible, boolean isWheelchairFriendly) {
         this.seatId = seatId;
-        this.roomId = roomId;
+        this.room = room;
         this.rowNumber = rowNumber;
         this.seatNumber = seatNumber;
         this.isAccessible = isAccessible;
@@ -27,8 +33,8 @@ public class Seat {
         return seatId;
     }
 
-    public int getRoomId() {
-        return roomId;
+    public Room getRoom() {
+        return room;
     }
 
     public int getRowNumber() {
@@ -52,8 +58,8 @@ public class Seat {
         this.seatId = seatId;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public void setRowNumber(int rowNumber) {
@@ -76,7 +82,7 @@ public class Seat {
     public String toString() {
         return "Seat{" +
                 "seatId=" + seatId +
-                ", roomId=" + roomId +
+                ", room=" + room.getName() +
                 ", row=" + rowNumber +
                 ", seat=" + seatNumber +
                 ", accessible=" + isAccessible +

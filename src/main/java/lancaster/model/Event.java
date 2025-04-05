@@ -1,115 +1,74 @@
 package lancaster.model;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
-/**
- * Abstract class representing event details.
- * This class defines the essential attributes and behaviors related to an event.
- */
-public abstract class Event {
-    protected String eventId;
-    protected String eventName;
-    protected LocalDateTime eventDateTime;
-    protected String eventType;
-    protected EventStatus status;
-    protected LocalDateTime lastUpdated;
+public class Event {
+    private int eventID;
+    private Booking booking;
+    private Room room;
+    private String description;
+    private EventStatus status;
+    private Timestamp startTime;
+    private Timestamp endTime;
+    private Date date;
+
 
     /**
-     * Constructs an Event object with the given details.
-     *
-     * @param eventId       Unique identifier for the event.
-     * @param eventName     Name of the event.
-     * @param eventDateTime Date and time of the event.
-     * @param eventType     Type or category of the event.
-     * @param status        Current status of the event.
-     * @param lastUpdated   Timestamp of the last update to the event details.
+     * Constructor for an event
+     * @param eventID       ID for the event
+     * @param booking       Booking that the event is part of
+     * @param room          The room the event is taking place in
+     * @param description   Description of the event
+     * @param status        Status of the event
+     * @param startTime     Start time of the event
+     * @param endTime       End time of the event
+     * @param date          Date the event is taking place
      */
-    public Event(String eventId, String eventName, LocalDateTime eventDateTime, String eventType,
-                 EventStatus status, LocalDateTime lastUpdated) {
-        this.eventId = eventId;
-        this.eventName = eventName;
-        this.eventDateTime = eventDateTime;
-        this.eventType = eventType;
+    public Event(int eventID, Booking booking, Room room, String description,
+                 EventStatus status, Timestamp startTime, Timestamp endTime,
+                 Date date){
+
+        this.eventID = eventID;
+        this.booking = booking;
+        this.room = room;
+        this.description = description;
         this.status = status;
-        this.lastUpdated = lastUpdated;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.date = date;
     }
 
-    /**
-     * Retrieves the unique event ID.
-     *
-     * @return The event ID.
-     */
-    public String getEventId() {
-        return eventId;
+    public int getEventID() {
+        return eventID;
     }
 
-    /**
-     * Retrieves the name of the event.
-     *
-     * @return The event name.
-     */
-    public String getEventName() {
-        return eventName;
+    public Booking getBooking() {
+        return booking;
     }
 
-    /**
-     * Retrieves the date and time when the event is scheduled.
-     *
-     * @return The event date and time.
-     */
-    public LocalDateTime getEventDateTime() {
-        return eventDateTime;
+    public Room getRoom() {
+        return room;
     }
 
-    /**
-     * Retrieves the type or category of the event.
-     *
-     * @return The event type.
-     */
-    public String getEventType() {
-        return eventType;
+    public String getDescription() {
+        return description;
     }
 
-    /**
-     * Retrieves the current status of the event.
-     *
-     * @return The event status.
-     */
     public EventStatus getStatus() {
         return status;
     }
 
-    /**
-     * Retrieves the timestamp of the last update made to the event details.
-     *
-     * @return The last updated timestamp.
-     */
-    public LocalDateTime getLastUpdated() {
-        return lastUpdated;
+    public Timestamp getStartTime() {
+        return startTime;
     }
 
-    /**
-     * Abstract method to determine if the event is still active.
-     * Implementing classes should provide the logic for checking event activity.
-     *
-     * @return true if the event is active, false otherwise.
-     */
-    public abstract boolean isEventActive();
+    public Timestamp getEndTime() {
+        return endTime;
+    }
 
-    /**
-     * Returns a string representation of the event details.
-     *
-     * @return A formatted string with event details.
-     */
-    @Override
-    public String toString() {
-        return "Event{" +
-                "eventId='" + eventId + '\'' +
-                ", eventName='" + eventName + '\'' +
-                ", eventDateTime=" + eventDateTime +
-                ", eventType='" + eventType + '\'' +
-                ", status=" + status +
-                ", lastUpdated=" + lastUpdated +
-                '}';
+    public Date getDate() {
+        return date;
     }
 }
