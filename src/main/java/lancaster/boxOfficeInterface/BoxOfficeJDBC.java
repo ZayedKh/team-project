@@ -13,13 +13,13 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Properties;
 
-public class JDBC {
+public class BoxOfficeJDBC {
     private final Connection connection;
     private final SeatDAOImpl seatingConfigDAO;
     private final EventDAOImpl eventDAO;
 
 
-    public JDBC() throws SQLException, IOException, ClassNotFoundException {
+    public BoxOfficeJDBC() throws SQLException, IOException, ClassNotFoundException {
 
         Properties props = new Properties();
 
