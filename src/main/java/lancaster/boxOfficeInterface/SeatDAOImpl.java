@@ -19,12 +19,15 @@ class SeatDAOImpl implements SeatDAO {
 
     @Override
     public List<Seat> getAccessibleSeats(Connection conn, int roomId) throws SQLException {
-        return List.of();
+
+        String query = "SELECT * FROM seats WHERE room_id = ? AND is_accessible = TRUE";
+        return executeSeatQuery(conn, query, roomId);
     }
 
     @Override
     public List<Seat> getWheelchairSeats(Connection conn, int roomId) throws SQLException {
-        return List.of();
+        String query = "SELECT * FROM seats WHERE room_id = ? AND is_wheelchair_friendly = TRUE";
+        return executeSeatQuery(conn, query, roomId);
     }
 
     private List<Seat> executeSeatQuery(Connection conn, String query, int roomId) throws SQLException {
