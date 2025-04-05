@@ -36,7 +36,7 @@ public class DBUtils {
         Class.forName("com.mysql.cj.jdbc.Driver");
     }
 
-    public List<Booking> getDailySheet(LocalDate date) throws SQLException, ClassNotFoundException {
+    public List<Booking> generateDailySheets(LocalDate date) throws SQLException {
         String query = """
                     SELECT 
                         r.room_name,
