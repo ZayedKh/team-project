@@ -23,6 +23,10 @@ public class JDBC {
         this.seatingConfigDAO = new SeatDAOImpl();
     }
 
+    public boolean hasAccessableSeating(int roomId) throws SQLException, ClassNotFoundException {
+        return seatingConfigDAO.hasAccessableSeating(connection, roomId);
+    }
+
     public List<Seat> getSeatsByRoomId(int roomId) throws SQLException {
         return seatingConfigDAO.getSeatsByRoomId(connection, roomId);
     }
