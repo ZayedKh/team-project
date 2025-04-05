@@ -39,8 +39,8 @@ public class DBUtils {
             throw new RuntimeException("MySQL JDBC driver not found", e);
         }
 
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
         try {
             preparedStatement = connection.prepareStatement("SELECT username, password FROM Account WHERE password = ? AND username = ?");
             preparedStatement.setString(1, password);
