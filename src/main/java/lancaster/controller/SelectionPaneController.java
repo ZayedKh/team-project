@@ -1,5 +1,8 @@
 package lancaster.controller;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
 import lancaster.ui.FullCalendarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,6 +10,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lancaster.ui.ReviewUI;
+import lancaster.utils.DBUtils;
+
+import java.io.IOException;
 import java.net.URL;
 import java.time.YearMonth;
 import java.util.ResourceBundle;
@@ -60,7 +67,13 @@ public class SelectionPaneController implements Initializable {
     private void setupButtonActions() {
         btnBooking.setOnAction(event -> showBookingCalendar());
         btnCalendar.setOnAction(event -> showRegularCalendar());
-        btnReview.setOnAction(event -> showReviewPane());
+        btnReview.setOnAction(event -> {
+            try {
+                showReviewPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         btnReport.setOnAction(event -> showReportCalendar());
         btnSeating.setOnAction(event -> showSeatingPane());
     }
@@ -127,9 +140,14 @@ public class SelectionPaneController implements Initializable {
         setActiveButton(btnCalendar);
     }
 
-    private void showReviewPane() {
-        mainContainer.getChildren().setAll(reviewPane);
-        setActiveButton(btnReview);
+    private void showReviewPane() throws IOException {
+        try {
+            Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/Review.fxml"));
+            mainContainer.getChildren().setAll(reviewPane);
+            setActiveButton(btnReview);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
