@@ -1,40 +1,33 @@
 package lancaster.boxOfficeInterface;
 
+import lancaster.model.Booking;
 import lancaster.model.Seat;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Properties;
 
 public class BoxOfficeJDBC {
     private final Connection connection;
     private final SeatDAOImpl seatingConfigDAO;
     private final EventDAOImpl eventDAO;
+    private final RoomDAOImpl roomDAO;
+    private final DailySheetDAOImpl dailySheetDAO;
 
 
-    public BoxOfficeJDBC() throws SQLException, IOException, ClassNotFoundException {
-
-        Properties props = new Properties();
-
-        try (FileInputStream fis = new FileInputStream("src/main/resources/config.properties")) {
-            props.load(fis);
-        }
-        String url = props.getProperty("db.url");
-        String username = props.getProperty("db.username");
-        String password = props.getProperty("db.password");
+    public BoxOfficeJDBC() throws SQLException, ClassNotFoundException {
+        String url = "jdbc:mysql://sst-stuproj00:3306/in2033t44";
+        String username = "in2033t44_a";
+        String password = "wcYtgG2jphQ";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         this.connection = DriverManager.getConnection(url, username, password);
         this.seatingConfigDAO = new SeatDAOImpl();
+        this.roomDAO = new RoomDAOImpl();
         this.eventDAO = new EventDAOImpl();
+        this.dailySheetDAO = new DailySheetDAOImpl();
     }
 
 
@@ -76,5 +69,17 @@ public class BoxOfficeJDBC {
 
     public ResultSet getEventData(int eventID) throws SQLException {
         return eventDAO.getData(connection, eventID);
+    }
+
+    public Timestamp getLastBookingTime(int roomId) throws SQLException {
+        return roomDAO.getLastBookingTime(connection, roomId);
+    }
+
+    public int getRoomCapacity(int roomID) throws SQLException {
+        return roomDAO.getRoomCapacity(connection, roomID);
+    }
+
+    public List<Booking> getDailySheet(LocalDate date) throws SQLException {
+        return dailySheetDAO.getDailySheet(connection, date);
     }
 }
