@@ -1,33 +1,44 @@
 package lancaster.utils;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-import javax.swing.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 public class DBUtils {
-    public static void loginUser(ActionEvent event, String password) throws IOException {
+    private static Connection connection;
+
+    public DBUtils() throws SQLException, IOException, ClassNotFoundException {
+        Properties props = new Properties();
+
+        try (FileInputStream fis = new FileInputStream("config.properties")) {
+            props.load(fis);
+        }
+
+        String url = props.getProperty("db.url");
+        String username = props.getProperty("db.username");
+        String password = props.getProperty("db.password");
+
+        connection = DriverManager.getConnection(url, username, password);
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+    }
+
+
+    public static void loginUser(ActionEvent event, String password) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("MySQL JDBC driver not found", e);
         }
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String dbUsername = "in2033t44_a";
-        String dbPassword = "wcYtgG2jphQ";
-        String dbURL = "jdbc:mysql://sst-stuproj00:3306/in2033t44";
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
         try {
-            connection = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
             preparedStatement = connection.prepareStatement("SELECT password FROM Account WHERE password = ?");
             preparedStatement.setString(1, password);
             resultSet = preparedStatement.executeQuery();
