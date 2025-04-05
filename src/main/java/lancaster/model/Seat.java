@@ -47,31 +47,6 @@ public class Seat {
         return isWheelchairFriendly;
     }
 
-    // Setters
-    public void setSeatId(int seatId) {
-        this.seatId = seatId;
-    }
-
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
-    }
-
-    public void setRowNumber(int rowNumber) {
-        this.rowNumber = rowNumber;
-    }
-
-    public void setSeatNumber(int seatNumber) {
-        this.seatNumber = seatNumber;
-    }
-
-    public void setAccessible(boolean accessible) {
-        isAccessible = accessible;
-    }
-
-    public void setWheelchairFriendly(boolean wheelchairFriendly) {
-        isWheelchairFriendly = wheelchairFriendly;
-    }
-
     @Override
     public String toString() {
         return "Seat{" +

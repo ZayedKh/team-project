@@ -23,15 +23,15 @@ public class JDBC {
         this.seatingConfigDAO = new SeatDAOImpl();
     }
 
-    public List<Seat> getSeatsByRoomId(Connection conn, int roomId) throws SQLException {
-        return seatingConfigDAO.getSeatsByRoomId(conn, roomId);
+    public List<Seat> getSeatsByRoomId(int roomId) throws SQLException {
+        return seatingConfigDAO.getSeatsByRoomId(connection, roomId);
     }
 
-    public List<Seat> getAccessibleSeats(Connection conn, int roomId) throws SQLException {
-        return seatingConfigDAO.getAccessibleSeats(conn, roomId);
+    public List<Seat> getAccessibleSeats(int roomId) throws SQLException {
+        return seatingConfigDAO.getAccessibleSeats(connection, roomId);
     }
 
-    public List<Seat> getWheelchairSeats(Connection conn, int roomId) throws SQLException {
-        return seatingConfigDAO.getWheelchairSeats(conn, roomId);
+    public List<Seat> getWheelchairSeats(int roomId) throws SQLException {
+        return seatingConfigDAO.getWheelchairSeats(connection, roomId);
     }
 }
