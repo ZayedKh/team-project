@@ -1,3 +1,4 @@
+// File: lancaster/ui/LoginPage.java
 package lancaster.ui;
 
 import javafx.application.Application;
@@ -13,7 +14,13 @@ public class LoginPage extends Application {
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/lancaster/ui/logged-in.fxml"));
         primaryStage.setTitle("Lancaster FX");
-        primaryStage.setScene(new Scene(root, 600, 400));
+
+        // Increase the window size to better fit desktop screens
+        primaryStage.setScene(new Scene(root, 1024, 768));
+
+        // Make the window start maximized for desktop use
+        primaryStage.setMaximized(true);
+
         primaryStage.show();
     }
 

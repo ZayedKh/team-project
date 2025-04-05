@@ -1,16 +1,14 @@
 package lancaster.controller;
 
-import lancaster.utils.DBUtils;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import lancaster.utils.DBUtils;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +17,8 @@ public class LogInController implements Initializable {
 
     @FXML
     private PasswordField tf_password;
+    @FXML
+    private TextField tf_username;
     @FXML
     private Button btn_login;
     @FXML
@@ -29,15 +29,13 @@ public class LogInController implements Initializable {
         Platform.runLater(() -> label_welcome.requestFocus());
         btn_login.setOnAction((ActionEvent event) -> {
             try {
-                if (!tf_password.getText().isEmpty()) {
-                    Stage primaryStage = (Stage) btn_login.getScene().getWindow();
-                    // Adjust the resource path if needed:
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/selectionPane.fxml"));
-                    Parent selectionPane = loader.load();
-                    primaryStage.getScene().setRoot(selectionPane);
-                    primaryStage.show();
+                if (!tf_password.getText().isEmpty() && !tf_username.getText().isEmpty()) {
+                    DBUtils dbUtils = new DBUtils();
+                    dbUtils.loginUser(event, tf_username.getText(), tf_password.getText());
                 } else {
-                    System.out.println("Password field is empty.");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Username/Password field is empty");
+                    alert.show();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

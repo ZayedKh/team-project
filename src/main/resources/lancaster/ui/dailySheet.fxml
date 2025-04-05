@@ -28,7 +28,7 @@
                 <TableColumn fx:id="colConfig" text="Configuration" prefWidth="200"/>
             </columns>
             <BorderPane.margin>
-                <Insets left="20" right="20" bottom="20"/>
+                <Insets left="20" right="20" bottom="20" />
             </BorderPane.margin>
         </TableView>
     </center>
