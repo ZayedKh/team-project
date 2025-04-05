@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.ReviewController" fx:id="scrollPane" fitToWidth="true" fitToHeight="false" vbarPolicy="AS_NEEDED" style="-fx-background: #FFFFFF; -fx-border-color: transparent;">
+    <BorderPane fx:id="mainBorderPane" style="-fx-background-color: #FFFFFF;" prefWidth="1200">
+        <top>
+            <HBox prefHeight="80" style="-fx-background-color: #1C2526; -fx-padding: 10 10 0 10; -fx-alignment: CENTER_LEFT;">
+                <ImageView fx:id="logo" fitHeight="100" fitWidth="175">
+                    <Image url="@../LancasterLogo1.png" />
+                </ImageView>
+                <Label text="Welcome, Lancaster" style="-fx-text-fill: white; -fx-font-size: 20;" alignment="CENTER" />
+            </HBox>
+        </top>
+
+        <center>
+            <VBox fx:id="centerVBox" maxWidth="1200" spacing="10" style="-fx-padding: 10 20 20 20; -fx-background-color: #FFFFFF;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Reviews" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: black;" />
+                    <Label fx:id="averageRatingLabel" text="5.0" style="-fx-font-size: 18; -fx-text-fill: black;" />
+                    <HBox spacing="2">
+                        <Label text="★★★★★" style="-fx-text-fill: gold; -fx-font-size: 16px;" />
+                    </HBox>
+                    <Label fx:id="totalReviewsLabel" text="34 Total Reviews" style="-fx-text-fill: black;" />
+                    <HBox HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+                        <Label text="Sort by:" style="-fx-text-fill: grey; -fx-font-size: 14px;" />
+                        <ComboBox fx:id="sortComboBox" style="-fx-max-width: 150; -fx-background-color: transparent; -fx-text-fill: black; -fx-border-color: transparent; -fx-font-size: 14px;" />
+                        <Button fx:id="addReviewButton" text="Add new Review" onAction="#toggleAddReviewForm" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 6 12 6 12; -fx-font-size: 12px;">
+                            <graphic>
+                                <Label text="+" style="-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; -fx-background-color: #4CAF50; -fx-background-radius: 50%; -fx-padding: 2 5 2 5;" />
+                            </graphic>
+                        </Button>
+                    </HBox>
+                </HBox>
+
+                <VBox fx:id="addReviewForm" visible="false" spacing="10" style="-fx-background-color: #FFFFFF; -fx-padding: 0 10 10 10; -fx-border-color: #4CAF50; -fx-border-width: 1; -fx-border-radius: 5;">
+                    <Label text="Add a New Review" style="-fx-text-fill: #4CAF50; -fx-font-weight: bold;" />
+                    <TextField fx:id="titleField" promptText="Review Title" style="-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: #555555;" />
+                    <TextField fx:id="authorField" promptText="Author" style="-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: #555555;" />
+                    <TextArea fx:id="descriptionArea" promptText="Description" wrapText="true" style="-fx-control-inner-background: #FFFFFF; -fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: #555;" />
+                    <Label text="Select the room where the event took place:" style="-fx-text-fill: #4CAF50;" />
+                    <ComboBox fx:id="roomComboBox" promptText="Select Room" style="-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: #555;" />
+                    <Label text="Specify if the review is for the show, venue, or both:" style="-fx-text-fill: #4CAF50;" />
+                    <ComboBox fx:id="reviewTypeComboBox" promptText="Review Type" style="-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: #555;" onAction="#handleReviewTypeChange" />
+                    <VBox fx:id="showNameContainer" visible="false" managed="false">
+                        <Label text="Enter the name of the show:" style="-fx-text-fill: #4CAF50;" />
+                        <TextField fx:id="showNameField" promptText="Enter Show Name" style="-fx-background-color: #FFFFFF; -fx-text-fill: black; -fx-border-color: #555555;" />
+                    </VBox>
+                    <HBox spacing="10">
+                        <Label text="Rating:" style="-fx-text-fill: #4CAF50;" />
+                        <Spinner fx:id="ratingSpinner" style="-fx-background-color: #FFFFFF; -fx-border-color: #00FF00; -fx-border-width: 1; -fx-border-radius: 4; -fx-text-fill: black;" />
+                    </HBox>
+                    <Button fx:id="submitReviewButton" text="Add Review" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#handleAddReview" />
+                </VBox>
+
+                <GridPane fx:id="reviewsGrid" hgap="10" vgap="10">
+                </GridPane>
+            </VBox>
+        </center>
+    </BorderPane>
+</ScrollPane>
