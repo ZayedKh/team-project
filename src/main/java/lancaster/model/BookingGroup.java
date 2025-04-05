@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BookingGroup {
 
-    private List<BookingDetails> bookings = new ArrayList<>();
+    private final List<BookingDetails> bookings = new ArrayList<>();
 
     public void addBooking(BookingDetails booking) {
         bookings.add(booking);
