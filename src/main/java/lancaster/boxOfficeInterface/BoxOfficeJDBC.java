@@ -2,10 +2,7 @@ package lancaster.boxOfficeInterface;
 
 import lancaster.model.Seat;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -14,6 +11,7 @@ public class BoxOfficeJDBC {
     private final Connection connection;
     private final SeatDAOImpl seatingConfigDAO;
     private final EventDAOImpl eventDAO;
+    private final RoomDAOImpl roomDAO;
 
 
     public BoxOfficeJDBC() throws SQLException, ClassNotFoundException {
@@ -25,7 +23,7 @@ public class BoxOfficeJDBC {
 
         this.connection = DriverManager.getConnection(url, username, password);
         this.seatingConfigDAO = new SeatDAOImpl();
-
+        this.roomDAO = new RoomDAOImpl();
         this.eventDAO = new EventDAOImpl();
     }
 
@@ -68,5 +66,13 @@ public class BoxOfficeJDBC {
 
     public ResultSet getEventData(int eventID) throws SQLException {
         return eventDAO.getData(connection, eventID);
+    }
+
+    public Timestamp getLastBookingTime(int roomId) throws SQLException {
+        return roomDAO.getLastBookingTime(connection, roomId);
+    }
+
+    public int getRoomCapacity(int roomID) throws SQLException {
+        return roomDAO.getRoomCapacity(connection, roomID);
     }
 }
