@@ -10,6 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 class SeatDAOImpl implements SeatDAO {
+    @Override
+    public boolean hasAccessableSeating(Connection conn, int roomID) throws SQLException {
+
+        String query = "SELECT COUNT(*) FROM Seats WHERE room_id = ? AND is_wheelchair_friendly = TRUE";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, roomID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
 
     @Override
     public List<Seat> getSeatsByRoomId(Connection conn, int roomId) throws SQLException {
