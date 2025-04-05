@@ -23,7 +23,7 @@ public class BoxOfficeJDBC {
 
         Properties props = new Properties();
 
-        try (FileInputStream fis = new FileInputStream("config.properties")) {
+        try (FileInputStream fis = new FileInputStream("src/main/resources/config.properties")) {
             props.load(fis);
         }
         String url = props.getProperty("db.url");
