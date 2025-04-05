@@ -13,7 +13,7 @@ public class JDBC {
 
 
     public JDBC() throws SQLException, ClassNotFoundException {
-        String url = "jdbc:mysql://localhost:3306/";
+        String url = "jdbc:mysql://sst-stuproj00:3306/in2033t44";
         String username = "in2033t44_a";
         String password = "wcYtgG2jphQ";
 
