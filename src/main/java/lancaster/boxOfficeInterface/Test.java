@@ -1,8 +1,10 @@
 package lancaster.boxOfficeInterface;
 
+import lancaster.model.Booking;
 import lancaster.model.Seat;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class Test {
         LocalTime startDate = db.getEventStartTime(1);
         System.out.println("Start date of event ID: 1: " + startDate);
         System.out.println("End date of event ID: 1: " + db.getEventEndTime(1));
-        System.out.println("Duration of event ID 1: " + db.getEventDuration(1));
+        System.out.println("Duration of event ID 1: " + db.getEventDuration(1) + " minutes");
         System.out.println("Date of event ID 1: " + db.getEventDate(1));
         System.out.println();
 
@@ -33,6 +35,16 @@ public class Test {
         System.out.println(db.getRoomCapacity(10));
         System.out.println(db.getLastBookingTime(10));
         System.out.println();
+
+        LocalDate date = LocalDate.of(2025, 4, 10);
+        System.out.println("Get daily sheet for " + date);
+        List<Booking> dailySheets = db.getDailySheet(date);
+
+        for(Booking booking : dailySheets) {
+            System.out.println(booking.getBookedBy());
+            System.out.println(booking.getDate().toString());
+            System.out.println(booking.getConfiguration());
+        }
 
     }
 }
