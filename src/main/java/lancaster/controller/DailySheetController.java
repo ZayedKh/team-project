@@ -1,5 +1,6 @@
 package lancaster.controller;
 
+import lancaster.model.Booking;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,7 +46,7 @@ public class DailySheetController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Set up table columns.
+        // Set up table columns
         colSpace.setCellValueFactory(new PropertyValueFactory<>("space"));
         colStartTime.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         colEndTime.setCellValueFactory(new PropertyValueFactory<>("endTime"));
@@ -54,7 +55,7 @@ public class DailySheetController implements Initializable {
     }
 
     /**
-     * Called by FullCalendarView to set the date for which the daily sheet is shown.
+     * Called by FullCalendarView to set the date for which the daily sheet is shown
      */
     public void setDate(LocalDate date) {
         this.date = date;
@@ -63,8 +64,8 @@ public class DailySheetController implements Initializable {
     }
 
     /**
-     * Loads daily data for the given date.
-     * For now, dummy data is provided. Replace with your actual logic.
+     * Loads daily data for the given date
+     * For now, dummy data is provided.
      */
     private void loadDailyData() {
         ObservableList<Booking> bookings = FXCollections.observableArrayList(
@@ -77,54 +78,15 @@ public class DailySheetController implements Initializable {
 
     @FXML
     private void handleBack(ActionEvent event) {
-        // Return to the report calendar view.
+        // Return to the report calendar view
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/lancaster/ui/SelectionPane.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/SelectionPane.fxml"));
             Parent selectionPane = loader.load();
-            // Retrieve the current stage and replace its scene root.
+            // Retrieve the current stage and replace its scene root
             Stage stage = (Stage) lblDate.getScene().getWindow();
             stage.getScene().setRoot(selectionPane);
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-    }
-
-    /**
-     * Inner class to represent a booking record.
-     */
-    public static class Booking {
-        private String space;
-        private String startTime;
-        private String endTime;
-        private String bookedBy;
-        private String configuration;
-
-        public Booking(String space, String startTime, String endTime, String bookedBy, String configuration) {
-            this.space = space;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.bookedBy = bookedBy;
-            this.configuration = configuration;
-        }
-
-        public String getSpace() {
-            return space;
-        }
-
-        public String getStartTime() {
-            return startTime;
-        }
-
-        public String getEndTime() {
-            return endTime;
-        }
-
-        public String getBookedBy() {
-            return bookedBy;
-        }
-
-        public String getConfiguration() {
-            return configuration;
         }
     }
 }

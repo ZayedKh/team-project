@@ -25,7 +25,7 @@ import java.util.Set;
 
 public class FullCalendarView {
 
-    private ArrayList<lancaster.ui.AnchorPaneNode> allCalendarDays = new ArrayList<>(35);
+    private ArrayList<AnchorPaneNode> allCalendarDays = new ArrayList<>(35);
     private StackPane mainView;    // The main container
     private Text calendarTitle;
     private YearMonth currentYearMonth;
@@ -94,7 +94,7 @@ public class FullCalendarView {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 7; j++) {
                 // Pass mainView and calendarView so the cell can swap to booking screens.
-                lancaster.ui.AnchorPaneNode ap = new lancaster.ui.AnchorPaneNode(mainView, calendarView);
+                AnchorPaneNode ap = new AnchorPaneNode(mainView, calendarView);
                 // Let the cell expand with grid
                 ap.setPrefSize(200, 150);
                 ap.setStyle("-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;"
@@ -131,7 +131,7 @@ public class FullCalendarView {
 
         // Title bar with month navigation buttons and a back button.
         calendarTitle = new Text();
-        calendarTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #FFFFFF;");
+        calendarTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: white;");
 
         Button previousMonth = new Button("<<");
         previousMonth.setPrefSize(80, 40);
@@ -181,7 +181,7 @@ public class FullCalendarView {
         while (!calendarDate.getDayOfWeek().toString().equals("SUNDAY")) {
             calendarDate = calendarDate.minusDays(1);
         }
-        for (lancaster.ui.AnchorPaneNode ap : allCalendarDays) {
+        for (AnchorPaneNode ap : allCalendarDays) {
             // Clear previous content.
             ap.getChildren().clear();
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
@@ -237,7 +237,7 @@ public class FullCalendarView {
      * For report mode, override each day cell's on-click event to open the daily sheet.
      */
     private void enableReportMode() {
-        for (lancaster.ui.AnchorPaneNode ap : allCalendarDays) {
+        for (AnchorPaneNode ap : allCalendarDays) {
             setupReportModeClickEvent(ap);
         }
     }
@@ -245,7 +245,7 @@ public class FullCalendarView {
     /**
      * Setup click event for selection mode
      */
-    private void setupSelectionModeClickEvent(lancaster.ui.AnchorPaneNode ap) {
+    private void setupSelectionModeClickEvent(AnchorPaneNode ap) {
         ap.setOnMouseClicked(e -> {
             LocalDate clickedDate = ap.getDate();
 
@@ -286,18 +286,18 @@ public class FullCalendarView {
     /**
      * Setup click event for report mode
      */
-    private void setupReportModeClickEvent(lancaster.ui.AnchorPaneNode ap) {
+    private void setupReportModeClickEvent(AnchorPaneNode ap) {
         ap.setOnMouseClicked(e -> showDailySheet(ap));
     }
 
     /**
      * Setup click event for booking mode
      */
-    private void setupBookingModeClickEvent(lancaster.ui.AnchorPaneNode ap) {
-        ap.setOnMouseClicked(e -> ap.showBookingScreen());
+    private void setupBookingModeClickEvent(AnchorPaneNode ap) {
+        ap.setOnMouseClicked(e -> ap.showBookingTypeSelection());
     }
 
-    private void showDailySheet(lancaster.ui.AnchorPaneNode dayNode) {
+    private void showDailySheet(AnchorPaneNode dayNode) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/dailySheet.fxml"));
             Parent dailySheet = loader.load();
@@ -365,7 +365,7 @@ public class FullCalendarView {
         embeddedView.setFillWidth(true);
 
         // Title bar with month navigation buttons only
-        calendarTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: #FFFFFF;");
+        calendarTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: black;");
 
         Button previousMonth = new Button("<<");
         previousMonth.setPrefSize(60, 30);
@@ -382,8 +382,8 @@ public class FullCalendarView {
         titleBar.setPadding(new Insets(10));
 
         // Create a header row showing abbreviated day names
-        Text[] dayNames = { new Text("Su"), new Text("Mo"), new Text("Tu"),
-                new Text("We"), new Text("Th"), new Text("Fr"), new Text("Sa") };
+        Text[] dayNames = { new Text("Sun"), new Text("Mon"), new Text("Tue"),
+                new Text("Wed"), new Text("Thu"), new Text("Fri"), new Text("Sat") };
         GridPane dayLabels = new GridPane();
 
         // Set column constraints for day labels to match main calendar grid
@@ -412,7 +412,7 @@ public class FullCalendarView {
     }
 
     public StackPane getView() {
-        return mainView;  // For consistency; controller swaps in calendarView.
+        return mainView;
     }
 
     public Node getCalendarView() {
