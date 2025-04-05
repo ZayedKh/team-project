@@ -1,35 +1,234 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lancaster.controller.SelectionPaneController"
-            prefHeight="768.0" prefWidth="1024.0"
-            style="-fx-background-color: #122023;">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #122023;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.SelectionPaneController">
     <children>
-        <StackPane fx:id="mainContainer" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
-            <!-- Main menu: a VBox with buttons -->
-            <VBox alignment="CENTER" spacing="30"
-                  AnchorPane.topAnchor="100" AnchorPane.leftAnchor="200"
-                  AnchorPane.rightAnchor="200" AnchorPane.bottomAnchor="100">
-                <children>
-                    <Button fx:id="btnBooking" text="Booking" prefWidth="200" prefHeight="50"
-                            style="-fx-font-size: 16px;" onAction="#showBookingCalendar"/>
-                    <Button fx:id="btnCalendar" text="Calendar" prefWidth="200" prefHeight="50"
-                            style="-fx-font-size: 16px;"/>
-                    <Button fx:id="btnReview" text="Review" prefWidth="200" prefHeight="50"
-                            style="-fx-font-size: 16px;"/>
-                    <Button fx:id="btnReport" text="Report" prefWidth="200" prefHeight="50"
-                            style="-fx-font-size: 16px;" onAction="#showReportCalendar"/>
-                    <Button fx:id="btnSeating" text="Seating" prefWidth="200" prefHeight="50"
-                            style="-fx-font-size: 16px;"/>
-                </children>
-            </VBox>
+        <!-- Left side menu panel -->
+        <VBox prefWidth="250.0" spacing="5.0" style="-fx-background-color: #1A2C30;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <!-- Logo container -->
+                <VBox alignment="CENTER" prefHeight="150.0">
+                    <children>
+                        <ImageView fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../LancasterLogo.png" />
+                            </image>
+                            <effect>
+                                <DropShadow color="#2ecc40" radius="10.0" spread="0.2" />
+                            </effect>
+                        </ImageView>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" top="20.0" />
+                    </padding>
+                </VBox>
+
+                <!-- Menu separator -->
+                <Separator style="-fx-background-color: #2ECC40;">
+                    <padding>
+                        <Insets left="20.0" right="20.0" />
+                    </padding>
+                    <effect>
+                        <Glow level="0.3" />
+                    </effect>
+                </Separator>
+
+                <!-- Menu title -->
+                <Label alignment="CENTER" prefWidth="250.0" text="MAIN MENU" textFill="#2ECC40">
+                    <font>
+                        <Font name="Cambria Bold" size="18.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="20.0" top="10.0" />
+                    </padding>
+                    <effect>
+                        <Glow level="0.2" />
+                    </effect>
+                </Label>
+
+                <!-- Menu items -->
+                <VBox spacing="10.0" style="-fx-padding: 5 0 0 0;">
+                    <children>
+                        <Button fx:id="btnBooking" alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2ECC40" height="20.0" width="20.0">
+                                        <effect>
+                                            <Glow level="0.2" />
+                                        </effect>
+                                    </Rectangle>
+                                    <Label text="Booking" textFill="WHITE">
+                                        <font>
+                                            <Font name="Cambria" size="16.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                            </graphic>
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                            <effect>
+                                <DropShadow color="#00000040" radius="3.0" spread="0.1" />
+                            </effect>
+                        </Button>
+
+                        <Button fx:id="btnCalendar" alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2ECC40" height="20.0" width="20.0">
+                                        <effect>
+                                            <Glow level="0.2" />
+                                        </effect>
+                                    </Rectangle>
+                                    <Label text="Calendar" textFill="WHITE">
+                                        <font>
+                                            <Font name="Cambria" size="16.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                            </graphic>
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                            <effect>
+                                <DropShadow color="#00000040" radius="3.0" spread="0.1" />
+                            </effect>
+                        </Button>
+
+                        <Button fx:id="btnReview" alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2ECC40" height="20.0" width="20.0">
+                                        <effect>
+                                            <Glow level="0.2" />
+                                        </effect>
+                                    </Rectangle>
+                                    <Label text="Review" textFill="WHITE">
+                                        <font>
+                                            <Font name="Cambria" size="16.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                            </graphic>
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                            <effect>
+                                <DropShadow color="#00000040" radius="3.0" spread="0.1" />
+                            </effect>
+                        </Button>
+
+                        <Button fx:id="btnReport" alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2ECC40" height="20.0" width="20.0">
+                                        <effect>
+                                            <Glow level="0.2" />
+                                        </effect>
+                                    </Rectangle>
+                                    <Label text="Report" textFill="WHITE">
+                                        <font>
+                                            <Font name="Cambria" size="16.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                            </graphic>
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                            <effect>
+                                <DropShadow color="#00000040" radius="3.0" spread="0.1" />
+                            </effect>
+                        </Button>
+
+                        <Button fx:id="btnSeating" alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;">
+                            <graphic>
+                                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2ECC40" height="20.0" width="20.0">
+                                        <effect>
+                                            <Glow level="0.2" />
+                                        </effect>
+                                    </Rectangle>
+                                    <Label text="Seating" textFill="WHITE">
+                                        <font>
+                                            <Font name="Cambria" size="16.0" />
+                                        </font>
+                                    </Label>
+                                </HBox>
+                            </graphic>
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                            <effect>
+                                <DropShadow color="#00000040" radius="3.0" spread="0.1" />
+                            </effect>
+                        </Button>
+                    </children>
+                </VBox>
+
+                <!-- Footer with version info -->
+                <Region VBox.vgrow="ALWAYS" />
+                <Label alignment="CENTER" prefWidth="250.0" text="Lancaster v1.0" textFill="#aaaaaa">
+                    <font>
+                        <Font name="Cambria" size="12.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="10.0" />
+                    </padding>
+                </Label>
+            </children>
+        </VBox>
+
+        <!-- Main content area -->
+        <StackPane fx:id="mainContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <!-- Welcome message for the main area -->
+                <VBox alignment="CENTER" spacing="30.0">
+                    <children>
+                        <Label text="Welcome to Lancaster" textFill="WHITE">
+                            <font>
+                                <Font name="Cambria" size="36.0" />
+                            </font>
+                            <effect>
+                                <DropShadow color="#000000" radius="5.0" spread="0.1" />
+                            </effect>
+                        </Label>
+                        <Label text="Employee Portal" textFill="#2ECC40">
+                            <font>
+                                <Font name="Cambria" size="28.0" />
+                            </font>
+                            <effect>
+                                <Glow level="0.3" />
+                            </effect>
+                        </Label>
+                        <Label text="Please select an option from the menu" textFill="WHITE">
+                            <font>
+                                <Font name="Cambria" size="18.0" />
+                            </font>
+                        </Label>
+                        <HBox alignment="CENTER" spacing="20.0">
+                            <padding>
+                                <Insets top="40.0" />
+                            </padding>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
         </StackPane>
     </children>
 </AnchorPane>
