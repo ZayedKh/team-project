@@ -11,6 +11,7 @@ module lancaster.lancasterfx {
     requires javafx.fxml;
     requires java.desktop;
     requires java.sql;
+    requires mysql.connector.j;
 
     opens lancaster to javafx.fxml;
     exports lancaster.model;
