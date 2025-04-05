@@ -2,6 +2,8 @@ package lancaster.boxOfficeInterface;
 
 import lancaster.model.Seat;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Properties;
 
 public class JDBC {
     private final Connection connection;
@@ -16,16 +19,21 @@ public class JDBC {
     private final EventDAOImpl eventDAO;
 
 
-    public JDBC() throws SQLException, ClassNotFoundException {
-        String url = "jdbc:mysql://sst-stuproj00:3306/in2033t44";
-        String username = "in2033t44_a";
-        String password = "wcYtgG2jphQ";
+    public JDBC() throws SQLException, IOException, ClassNotFoundException {
+
+        Properties props = new Properties();
+
+        try (FileInputStream fis = new FileInputStream("config.properties")) {
+            props.load(fis);
+        }
+        String url = props.getProperty("db.url");
+        String username = props.getProperty("db.username");
+        String password = props.getProperty("db.password");
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         this.connection = DriverManager.getConnection(url, username, password);
         this.seatingConfigDAO = new SeatDAOImpl();
-
         this.eventDAO = new EventDAOImpl();
     }
 
