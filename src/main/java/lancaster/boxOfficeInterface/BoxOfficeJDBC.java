@@ -10,13 +10,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class JDBC {
+public class BoxOfficeJDBC {
     private final Connection connection;
     private final SeatDAOImpl seatingConfigDAO;
     private final EventDAOImpl eventDAO;
 
 
-    public JDBC() throws SQLException, ClassNotFoundException {
+    public BoxOfficeJDBC() throws SQLException, ClassNotFoundException {
         String url = "jdbc:mysql://sst-stuproj00:3306/in2033t44";
         String username = "in2033t44_a";
         String password = "wcYtgG2jphQ";
