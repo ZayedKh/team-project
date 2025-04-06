@@ -43,13 +43,13 @@ public class RevenueTrackingUI extends BorderPane {
     private BarChart<String, Number> revenueBarChart;
     private BarChart<String, Number> yearComparisonChart;
 
-    private static final Color TEXT_COLOR = Color.WHITE;
+    private static final Color TEXT_COLOR = Color.BLACK;
     private static final String[] PIE_COLORS = {"#2ECC40", "#005355", "#00a561", "#1a2c30", "#4472C4"};
     private static final String[] BAR_COLORS = {"#2ECC40", "#005355"};
 
-    private static final String CHART_TEXT_STYLE = "-fx-text-fill: white; -fx-font-family: 'Cambria';";
-    private static final String AXIS_STYLE = "-fx-tick-label-fill: white; -fx-font-family: 'Cambria';";
-    private static final String LABEL_STYLE = "-fx-text-fill: white; -fx-font-family: 'Cambria';";
+    private static final String CHART_TEXT_STYLE = "-fx-text-fill: black; -fx-font-family: 'Cambria';";
+    private static final String AXIS_STYLE = "-fx-tick-label-fill: black; -fx-font-family: 'Cambria';";
+    private static final String LABEL_STYLE = "-fx-text-fill: black; -fx-font-family: 'Cambria';";
 
     /**
      * Constructs the revenue tracking dashboard, initializing the data manager and UI components.
@@ -68,12 +68,13 @@ public class RevenueTrackingUI extends BorderPane {
      */
     private void setupUI() {
         this.setPadding(new Insets(10));
+        this.setStyle("-fx-background-color: white;");
 
         HBox filterBar = createFilterBar();
         this.setTop(filterBar);
 
         TabPane tabPane = new TabPane();
-        tabPane.setStyle("-fx-text-fill: white;");
+        tabPane.setStyle("-fx-text-fill: black;");
 
         Tab overviewTab = new Tab("Revenue Overview");
         Tab detailedTab = new Tab("Detailed Reports");
@@ -104,19 +105,24 @@ public class RevenueTrackingUI extends BorderPane {
     private HBox createFilterBar() {
         HBox filterBar = new HBox(10);
         filterBar.setPadding(new Insets(10));
+        filterBar.setStyle("-fx-background-color: white;");
 
         GridPane summaryGrid = new GridPane();
         summaryGrid.setHgap(20);
         summaryGrid.setVgap(10);
         summaryGrid.setPadding(new Insets(10));
+        summaryGrid.setStyle("-fx-background-color: white;");
 
         Label fromLabel = new Label("From:");
+        fromLabel.setTextFill(TEXT_COLOR);
         fromDatePicker = new DatePicker(LocalDate.now().minusMonths(1));
 
         Label toLabel = new Label("To:");
+        toLabel.setTextFill(TEXT_COLOR);
         toDatePicker = new DatePicker(LocalDate.now());
 
         Label venueLabel = new Label("Venue:");
+        venueLabel.setTextFill(TEXT_COLOR);
         venueSelector = new ComboBox<>();
         venueSelector.getItems().addAll("All Venues", "Main Hall", "Small Hall", "Rehearsal Space", "Rooms");
         venueSelector.setValue("All Venues");
@@ -145,11 +151,13 @@ public class RevenueTrackingUI extends BorderPane {
     private VBox createOverviewContent() {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
+        content.setStyle("-fx-background-color: white;");
 
         GridPane summaryGrid = new GridPane();
         summaryGrid.setHgap(20);
         summaryGrid.setVgap(10);
         summaryGrid.setPadding(new Insets(10));
+        summaryGrid.setStyle("-fx-background-color: white;");
 
         addStyledLabel(summaryGrid, "Total Revenue:", totalRevenueLabel = new Label("£0.00"), 0);
         addStyledLabel(summaryGrid, "Room Hire Revenue:", roomHireLabel = new Label("£0.00"), 1);
@@ -196,44 +204,44 @@ public class RevenueTrackingUI extends BorderPane {
      * @param chart the chart to style
      */
     private void styleChartText(Chart chart) {
-        chart.setStyle("-fx-text-fill: white;");
-        chart.lookup(".chart-title").setStyle("-fx-text-fill: white; -fx-font-family: 'Cambria';");
+        chart.setStyle("-fx-text-fill: black;");
+        chart.lookup(".chart-title").setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
 
         Node legend = chart.lookup(".chart-legend");
         if (legend != null) {
             legend.setStyle("-fx-background-color: transparent;");
 
             for (Node item : legend.lookupAll(".chart-legend-item")) {
-                item.setStyle("-fx-text-fill: white;");
+                item.setStyle("-fx-text-fill: black;");
             }
 
             for (Node text : legend.lookupAll(".chart-legend-item-text")) {
-                text.setStyle("-fx-fill: white; -fx-font-family: 'Cambria';");
+                text.setStyle("-fx-fill: black; -fx-font-family: 'Cambria';");
             }
         }
 
         if (chart instanceof PieChart) {
             for (Node node : chart.lookupAll(".chart-pie-label")) {
-                node.setStyle("-fx-fill: white; -fx-font-family: 'Cambria';");
+                node.setStyle("-fx-fill: black; -fx-font-family: 'Cambria';");
             }
         }
         if (chart instanceof XYChart) {
             for (Node node : chart.lookupAll(".chart-bar-label")) {
-                node.setStyle("-fx-text-fill: white; -fx-font-family: 'Cambria';");
+                node.setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
             }
 
             for (Node node : chart.lookupAll(".data")) {
-                node.setStyle("-fx-text-fill: white;");
+                node.setStyle("-fx-text-fill: black;");
             }
 
             for (Node node : chart.lookupAll(".text")) {
-                node.setStyle("-fx-fill: white;");
+                node.setStyle("-fx-fill: black;");
             }
         }
     }
 
     /**
-     * Styles an axis for clear visibility with white text.
+     * Styles an axis for clear visibility with black text.
      *
      * @param axis the axis to style
      */
@@ -243,7 +251,7 @@ public class RevenueTrackingUI extends BorderPane {
 
         Node axisLabel = axis.lookup(".axis-label");
         if (axisLabel != null) {
-            axisLabel.setStyle("-fx-text-fill: white; -fx-font-family: 'Cambria';");
+            axisLabel.setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
         }
     }
 
@@ -255,6 +263,7 @@ public class RevenueTrackingUI extends BorderPane {
     private VBox createDetailedContent() {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
+        content.setStyle("-fx-background-color: white;");
 
         revenueTable = new TableView<>();
 
@@ -308,6 +317,7 @@ public class RevenueTrackingUI extends BorderPane {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
         content.setAlignment(Pos.CENTER);
+        content.setStyle("-fx-background-color: white;");
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -331,13 +341,15 @@ public class RevenueTrackingUI extends BorderPane {
     private VBox createCalculationContent() {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
+        content.setStyle("-fx-background-color: white;");
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(10));
+        grid.setStyle("-fx-background-color: white;");
 
-        // Create all labels with white text
+        // Create all labels with black text
         Label venueLabel = new Label("Venue Space:");
         venueLabel.setTextFill(TEXT_COLOR);
         venueLabel.setStyle(LABEL_STYLE);
