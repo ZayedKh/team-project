@@ -1,6 +1,9 @@
 package lancaster.ui;
 
 import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.PopupWindow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
@@ -12,6 +15,7 @@ public class AnchorPaneNode extends AnchorPane {
     private StackPane mainView;
     private Node calendarView;
     private BookingManager bookingManager;
+
 
     public AnchorPaneNode(StackPane mainView, Node calendarView, Node... children) {
         super(children);

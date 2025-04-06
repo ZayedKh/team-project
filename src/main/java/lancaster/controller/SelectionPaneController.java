@@ -1,5 +1,7 @@
 package lancaster.controller;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import lancaster.ui.FullCalendarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,6 +11,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lancaster.ui.RevenueTrackingUI;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.YearMonth;
 import java.util.ResourceBundle;
@@ -74,9 +77,15 @@ public class SelectionPaneController implements Initializable {
      * Sets up button actions to switch between different views when clicked.
      */
     private void setupButtonActions() {
-        btnBooking.setOnAction(event -> showBookingCalendar());
+        btnBooking.setOnAction(event -> showBookingPane());
         btnCalendar.setOnAction(event -> showRegularCalendar());
-        btnReview.setOnAction(event -> showReviewPane());
+        btnReview.setOnAction(event -> {
+            try {
+                showReviewPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         btnRevenue.setOnAction(event -> showRevenueTracking());
         btnSeating.setOnAction(event -> showSeatingPane());
     }
@@ -146,9 +155,14 @@ public class SelectionPaneController implements Initializable {
      * Switches to the booking calendar view for scheduling events.
      */
     @FXML
-    private void showBookingCalendar() {
-        mainContainer.getChildren().setAll(bookingCalendarView.getCalendarView());
-        setActiveButton(btnBooking);
+    private void showBookingPane() {
+        try {
+            Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/booking.fxml"));
+            mainContainer.getChildren().setAll(reviewPane);
+            setActiveButton(btnBooking);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -162,9 +176,14 @@ public class SelectionPaneController implements Initializable {
     /**
      * Switches to the review management placeholder pane.
      */
-    private void showReviewPane() {
-        mainContainer.getChildren().setAll(reviewPane);
-        setActiveButton(btnReview);
+    private void showReviewPane() throws IOException {
+        try {
+            Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/Review.fxml"));
+            mainContainer.getChildren().setAll(reviewPane);
+            setActiveButton(btnReview);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
