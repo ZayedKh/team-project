@@ -14,7 +14,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource("/lancaster/ui/BookingView.fxml"));
+            FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource("/lancaster/ui/selectionPane.fxml"));
             Parent selectionPane = loader.load();
             Scene scene = new Scene(selectionPane);
             primaryStage.setScene(scene);
