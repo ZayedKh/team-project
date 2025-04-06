@@ -2,15 +2,22 @@ package lancaster.boxOfficeInterface;
 
 import lancaster.model.Booking;
 import lancaster.model.Seat;
+import lancaster.utils.DBUtils;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 public class Test {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         BoxOfficeJDBC db = new BoxOfficeJDBC();
+        DBUtils dbUtils = new DBUtils();
+
+        List<String> roomNames = dbUtils.getRoomNames();
+
+        System.out.println("Room Names: " + roomNames);
 
         System.out.println("TESTING SEATING CONFIG");
         List<Seat> wheelchairSeats = db.getWheelchairSeats(1);
@@ -40,7 +47,7 @@ public class Test {
         System.out.println("Get daily sheet for " + date);
         List<Booking> dailySheets = db.getDailySheet(date);
 
-        for(Booking booking : dailySheets) {
+        for (Booking booking : dailySheets) {
             System.out.println(booking.getBookedBy());
             System.out.println(booking.getDate().toString());
             System.out.println(booking.getConfiguration());

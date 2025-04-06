@@ -89,7 +89,30 @@ public class SingleBookingUI {
         form.add(startTimeBox, 1, 2);
         form.add(new Label("End Time:") {{ setStyle("-fx-font-size: 16px;"); }}, 0, 3);
         form.add(endTimeBox, 1, 3);
+        form.add(new Label("Edit Configuration:") {{ setStyle("-fx-font-size: 16px;"); }}, 0, 4);
 
+        HBox roomConfigBox = new HBox(10);
+        roomConfigBox.setAlignment(Pos.CENTER_LEFT);
+
+        // Create the room configuration dropdown
+        ChoiceBox<String> roomTypeDropdown = new ChoiceBox<>();
+        roomTypeDropdown.getItems().addAll("Presentation", "Boardroom", "Classroom");
+        roomTypeDropdown.setStyle("-fx-font-size: 16px;");
+        roomTypeDropdown.setPrefWidth(300);
+
+        // Add the dropdown to the layout if the room is not Main Hall or Small Hall
+        if (room.equals("Main Hall") || room.equals("Small Hall")) {
+            Button roomConfigButton = new Button("Edit Seating Configuration");
+            roomConfigButton.setStyle("-fx-font-size: 16px;");
+            roomConfigButton.setPrefSize(300, 40);
+            roomConfigBox.getChildren().add(roomConfigButton);
+        } else {
+            roomConfigBox.getChildren().add(roomTypeDropdown);
+        }
+
+        form.add(roomConfigBox, 1, 4);
+
+        // Checkbox for all-day events
         CheckBox allDayCheckBox = new CheckBox("All Day");
         allDayCheckBox.setStyle("-fx-font-size: 16px;");
         allDayCheckBox.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
@@ -118,11 +141,21 @@ public class SingleBookingUI {
         submitButton.setPrefSize(150, 40);
         submitButton.setStyle("-fx-font-size: 16px;");
 
+        // Runnable to create bookings
         Runnable createBookings = () -> {
             String clientName = clientField.getText();
             String eventName = eventField.getText();
             String startTime = startTimeBox.getValue();
             String endTime = endTimeBox.getValue();
+
+            // Get the selected room configuration type
+            String selectedRoomType = roomTypeDropdown.getValue();
+
+            // Ensure that a room configuration type is selected
+            if (selectedRoomType == null) {
+                UIUtils.showAlert("Error", "Please select a seating configuration.");
+                return;
+            }
 
             if (allDayCheckBox.isSelected()) {
                 startTime = "10:00";
@@ -139,7 +172,8 @@ public class SingleBookingUI {
                 return;
             }
 
-            bookingManager.createSingleBooking(anchorPaneNode.getDate(), room, startTime, endTime, eventName, clientName);
+            // Create the booking with room configuration
+            bookingManager.createSingleBooking(anchorPaneNode.getDate(), room, startTime, endTime, eventName, clientName, selectedRoomType);
         };
 
         addBookingButton.setOnAction(e -> {

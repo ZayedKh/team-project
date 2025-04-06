@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane fx:id="scrollPane" fitToHeight="false" fitToWidth="true" style="-fx-background: #FFFFFF; -fx-border-color: transparent;" stylesheets="@../../css/bookingStyles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.BookingsController">
+    <BorderPane fx:id="mainBorderPane" prefWidth="1200">
+        <top>
+            <HBox prefHeight="80" style="-fx-background-color: #1C2526; -fx-padding: 10 10 0 10; -fx-alignment: CENTER_LEFT;">
+                <ImageView fx:id="logo" fitHeight="99.0" fitWidth="147.0">
+                    <Image url="@../LancasterLogo1.png" />
+                </ImageView>
+                <Label alignment="CENTER" style="-fx-text-fill: white; -fx-font-size: 20;" text="Welcome, Lancaster" />
+            </HBox>
+        </top>
+        <center>
+            <VBox fx:id="centerVBox" maxWidth="1200" spacing="10">
+                <children>
+                    <VBox prefHeight="53.0" prefWidth="1200.0">
+                        <children>
+                            <Label text="Bookings">
+                                <font>
+                                    <Font name="System Bold" size="32.0" />
+                                </font>
+                            </Label>
+                            <Label text="Book your venue for event" textFill="#0000007f">
+                                <font>
+                                    <Font size="14.0" />
+                                </font>
+                                <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                </VBox.margin>
+                            </Label>
+                        </children>
+                    </VBox>
+                    <VBox prefHeight="892.0" prefWidth="1137.0" spacing="32.0">
+                        <children>
+                            <VBox prefHeight="110.0" prefWidth="600.0">
+                                <children>
+                                    <Label prefHeight="25.0" prefWidth="152.0" text="Event Information:">
+                                        <font>
+                                            <Font name="System Bold" size="16.0" />
+                                        </font>
+                                    </Label>
+                                    <HBox fx:id="eventInfoBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
+                                    <children>
+                                 <TextField fx:id="clientInput" layoutX="120.0" layoutY="25.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Event Name" text="Enter Client Name" />
+                                        <TextField fx:id="eventNameInput" prefHeight="64.0" prefWidth="564.0" promptText="Enter Event Name" />
+
+                                            <ComboBox id=" eventTypeBox" fx:id="eventTypeBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
+                                        <HBox.margin>
+                                            <Insets />
+                                        </HBox.margin>
+                                    </ComboBox>
+                                </children>
+                            </HBox>
+                        </children>
+                    </VBox>
+                    <VBox prefHeight="110.0" prefWidth="600.0">
+                        <children>
+                            <Label prefHeight="25.0" prefWidth="216.0" text="Booking Date &amp; Time:">
+                                <font>
+                                    <Font name="System Bold" size="16.0" />
+                                </font>
+                            </Label>
+                            <HBox fx:id="eventTimeHBox" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
+                                <children>
+                                    <DatePicker fx:id="eventDatePicker" prefHeight="64.0" prefWidth="300.0" promptText="Select a start date" HBox.hgrow="ALWAYS">
+                                        <HBox.margin>
+                                            <Insets />
+                                        </HBox.margin>
+                                    </DatePicker>
+                                    <ComboBox fx:id="startTimeBox" prefHeight="64.0" prefWidth="300.0" promptText="Select a start time" HBox.hgrow="ALWAYS">
+                                        <HBox.margin>
+                                            <Insets />
+                                        </HBox.margin>
+                                    </ComboBox>
+                                 <ComboBox fx:id="selectEndTime" layoutX="472.0" layoutY="20.0" prefHeight="64.0" prefWidth="300.0" promptText="Select an end time" />
+                                    <Button fx:id="addBookingButton" maxWidth="222.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="222.0" style="-fx-border-radius: 32; -fx-background-radius: 32;" text="Add Booking" textFill="#ffffff">
+                                        <font>
+                                            <Font name="System Bold" size="14.0" />
+                                        </font>
+                                    </Button>
+                                </children>
+                                <padding>
+                                    <Insets top="10.0" />
+                                </padding>
+                            </HBox>
+                        </children>
+                    </VBox>
+
+                    <VBox layoutX="10.0" layoutY="120.0" prefHeight="110.0" prefWidth="600.0">
+                        <children>
+                            <HBox fx:id="venueHBox" prefHeight="29.0" prefWidth="1122.0" spacing="700.0">
+                                <children>
+                                    <Label prefHeight="25.0" prefWidth="238.0" text="Venue &amp; Room Selection:">
+                                        <font>
+                                            <Font name="System Bold" size="16.0" />
+                                        </font>
+                                    </Label>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                        <children>
+                                            <Label prefHeight="25.0" prefWidth="78.0" text="Seat Preview" underline="true">
+                                                <font>
+                                                    <Font name="System Bold" size="12.0" />
+                                                </font>
+                                            </Label>
+                                            <CheckBox fx:id="extraRoomCheckBox" mnemonicParsing="false" text="Extra Room">
+                                                <font>
+                                                    <Font name="System Bold" size="12.0" />
+                                                </font>
+                                            </CheckBox>
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </HBox>
+                            <HBox fx:id="eventTimeHBox1" prefHeight="79.0" prefWidth="1122.0" spacing="12.0">
+                                <children>
+                                    <ComboBox fx:id="selectVenue" layoutX="10.0" layoutY="20.0" prefHeight="64.0" prefWidth="564.0" promptText="Select a Venue" />
+                                    <ComboBox fx:id="extraRoom" prefHeight="64.0" prefWidth="564.0" promptText="Extra Room" HBox.hgrow="ALWAYS">
+                                        <HBox.margin>
+                                            <Insets />
+                                        </HBox.margin>
+                                    </ComboBox>
+                                </children>
+                                <padding>
+                                    <Insets top="10.0" />
+                                </padding>
+                            </HBox>
+                        </children>
+                        <VBox.margin>
+                            <Insets right="15.0" />
+                        </VBox.margin>
+                    </VBox>
+                    <VBox layoutX="10.0" layoutY="246.0" prefHeight="110.0" prefWidth="600.0">
+                        <children>
+                            <HBox fx:id="venueHBox1" prefHeight="29.0" prefWidth="1122.0" spacing="700.0">
+                                <children>
+                                    <Label prefHeight="25.0" prefWidth="238.0" text="Seating Configuration:">
+                                        <font>
+                                            <Font name="System Bold" size="16.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </HBox>
+                            <HBox fx:id="eventTimeHBox11" prefHeight="79.0" prefWidth="1122.0" spacing="12.0">
+                                <children>
+                                    <ComboBox fx:id="selectConfiguration" layoutX="10.0" layoutY="20.0" prefHeight="58.0" prefWidth="1126.0" promptText="Select Configuration" />
+                                </children>
+                                <padding>
+                                    <Insets top="10.0" />
+                                </padding>
+                            </HBox>
+                        </children>
+                    </VBox>
+
+                    <VBox prefHeight="284.0" prefWidth="1137.0" spacing="12.0">
+                        <children>
+                            <Label prefHeight="25.0" prefWidth="238.0" text="Pricing Estimate:">
+                                <font>
+                                    <Font name="System Bold" size="16.0" />
+                                </font>
+                            </Label>
+                            <HBox prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                                <children>
+                                    <VBox fx:id="pricingEstimateHBox" prefHeight="224.0" prefWidth="637.0" spacing="12.0">
+                                        <children>
+                                            <HBox prefHeight="23.0" prefWidth="635.0" spacing="282.0">
+                                                <children>
+                                                    <Label prefWidth="264.0" text="Venue Cost:" textFill="#0000007f">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label fx:id="venueCost" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="264.0" text="£322">
+                                                        <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                                <VBox.margin>
+                                                    <Insets />
+                                                </VBox.margin>
+                                            </HBox>
+                                            <HBox prefHeight="23.0" prefWidth="635.0" spacing="282.0">
+                                                <children>
+                                                    <Label prefWidth="264.0" text="Duration:" textFill="#0000007f">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label fx:id="duration" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="264.0" text="£322">
+                                                        <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                                <VBox.margin>
+                                                    <Insets />
+                                                </VBox.margin>
+                                            </HBox>
+                                            <HBox prefHeight="23.0" prefWidth="635.0" spacing="282.0">
+                                                <children>
+                                                    <Label prefWidth="264.0" text="Extra Room:" textFill="#0000007f">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label fx:id="extraRoomCost" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="264.0" text="£322">
+                                                        <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                                <VBox.margin>
+                                                    <Insets />
+                                                </VBox.margin>
+                                            </HBox>
+                                            <HBox prefHeight="23.0" prefWidth="635.0" spacing="282.0">
+                                                <children>
+                                                    <Label prefWidth="264.0" text="Additional Services:" textFill="#0000007f">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label fx:id="additionalServices" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="264.0" text="£322">
+                                                        <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                                <VBox.margin>
+                                                    <Insets />
+                                                </VBox.margin>
+                                            </HBox>
+                                            <HBox prefHeight="23.0" prefWidth="635.0" spacing="282.0">
+                                                <children>
+                                                    <Label prefWidth="264.0" text="Tax:" textFill="#0000007f">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label fx:id="tax" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="264.0" text="£322">
+                                                        <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                                <VBox.margin>
+                                                    <Insets />
+                                                </VBox.margin>
+                                            </HBox>
+                                            <HBox prefHeight="23.0" prefWidth="635.0" spacing="282.0">
+                                                <children>
+                                                    <Label prefWidth="264.0" text="Total:" textFill="#0000007f">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                        <VBox.margin>
+                                                            <Insets bottom="10.0" />
+                                                        </VBox.margin>
+                                                    </Label>
+                                                    <Label fx:id="total" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="264.0" text="£322">
+                                                        <font>
+                                                            <Font name="System Bold" size="12.0" />
+                                                        </font>
+                                                    </Label>
+                                                </children>
+                                                <VBox.margin>
+                                                    <Insets />
+                                                </VBox.margin>
+                                                <padding>
+                                                    <Insets top="10.0" />
+                                                </padding>
+                                            </HBox>
+                                        </children>
+                                        <padding>
+                                            <Insets left="10.0" right="10.0" top="5.0" />
+                                        </padding>
+                                    </VBox>
+
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="312.0">
+                                        <children>
+                                            <Button fx:id="confirmBookingButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="312.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="312.0" style="-fx-border-radius: 32; -fx-background-radius: 32;" text="Confirm Booking" textFill="#ffffff">
+                                                <font>
+                                                    <Font name="System Bold" size="14.0" />
+                                                </font>
+                                            </Button>
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </HBox>
+                            <CheckBox fx:id="policyCheckbox" mnemonicParsing="false" text="I agree with Terms and Services &amp; Privacy Policy">
+                                <font>
+                                    <Font name="System Bold" size="12.0" />
+                                </font>
+                            </CheckBox>
+                        </children>
+                    </VBox>
+                </children>
+            </VBox>
+        </children>
+    </VBox>
+</center>
+        </BorderPane>
+        </ScrollPane>
