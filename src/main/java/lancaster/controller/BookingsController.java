@@ -90,28 +90,23 @@ public class BookingsController implements Initializable {
         );
 
         selectVenue.setOnAction(e -> handleVenueConfiguration());
-        extraRoom.setOnAction(e -> handleRoomConfiguration());
+        //extraRoom.setOnAction(e -> handleRoomConfiguration());
     }
 
     private void handleVenueConfiguration() {
-        String venue = selectVenue.getValue();
+        String selected = selectVenue.getValue();
         selectConfiguration.getItems().clear();
 
-        if (venue == null) return;
+        if (selected == null) return;
 
-        switch (venue) {
-            case "Main Hall":
-                selectConfiguration.getItems().add("Stalls and Balconies");
-                selectConfiguration.setValue("Stalls and Balconies");
-                break;
-            case "Small Hall":
-                selectConfiguration.getItems().add("Stalls");
-                selectConfiguration.setValue("Stalls");
-                break;
-            case "Rehearsal Space":
-                selectConfiguration.getItems().add("No seating configuration required");
-                selectConfiguration.setValue("No seating configuration required");
-                break;
+        String venue = selected.trim();
+
+        if (venue.equalsIgnoreCase("Main Hall")) {
+            selectConfiguration.getItems().addAll("Stalls", "Stalls and Balconies");
+        } else if (venue.equalsIgnoreCase("Small Hall")) {
+            selectConfiguration.getItems().add("Stalls");
+        } else {
+            selectConfiguration.getItems().addAll("Classroom", "Presentation", "Boardroom");
         }
     }
 
