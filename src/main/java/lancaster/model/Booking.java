@@ -1,24 +1,25 @@
 package lancaster.model;
 
 import java.time.LocalDate;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Booking {
     private String space;
-    private LocalDate date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
     private String bookedBy;
     private String configuration;
 
-    public Booking(String space, LocalDate date, LocalTime startTime, LocalTime endTime, String bookedBy, String configuration) {
+    public Booking(String space, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String bookedBy, String configuration) {
         this.space = space;
 
         this.startTime = startTime;
         this.endTime = endTime;
         this.bookedBy = bookedBy;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.configuration = configuration;
     }
 
@@ -27,12 +28,16 @@ public class Booking {
         return space;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
     public LocalTime getStartTime() {
         return startTime;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
     public LocalTime getEndTime() {
@@ -52,8 +57,8 @@ public class Booking {
         this.space = space;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
     public void setStartTime(LocalTime startTime) {
