@@ -5,24 +5,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/bookingStyles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.BookingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1152.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/bookingStyles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.BookingsController">
     <children>
 
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
-            <VBox prefHeight="50.0" prefWidth="1024.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <VBox prefHeight="758.0" prefWidth="1037.0" spacing="32.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                 <children>
-                    <Label text="Bookings">
-                        <font>
-                            <Font name="System Bold" size="32.0" />
-                        </font>
-                    </Label>
-                    <Label text="Book your venue for event" textFill="#0000007f">
-                        <font>
-                            <Font size="14.0" />
-                        </font>
-                    </Label>
+               <VBox prefHeight="78.0" prefWidth="1137.0">
+                  <children>
+                          <Label text="Bookings">
+                              <font>
+                                  <Font name="System Bold" size="32.0" />
+                              </font>
+                          </Label>
+                          <Label text="Book your venue for event" textFill="#0000007f">
+                              <font>
+                                  <Font size="14.0" />
+                              </font>
+                              <VBox.margin>
+                                  <Insets bottom="10.0" />
+                              </VBox.margin>
+                          </Label>
+                  </children>
+               </VBox>
 
-                    <VBox prefHeight="306.0" prefWidth="600.0">
+                    <VBox prefHeight="457.0" prefWidth="1137.0" spacing="32.0">
                         <children>
                             <VBox prefHeight="110.0" prefWidth="600.0">
                                 <children>
@@ -30,31 +37,34 @@
                                         <font>
                                             <Font name="System Bold" size="16.0" />
                                         </font>
-                                        <padding>
-                                            <Insets left="10.0" />
-                                        </padding>
                                     </Label>
-                                    <HBox fx:id="eventInfoBox" prefHeight="100.0" prefWidth="200.0" spacing="166.0">
+                                    <HBox fx:id="eventInfoBox" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
                                         <children>
                                             <ComboBox fx:id="timeEventBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Name" HBox.hgrow="ALWAYS">
                                                 <HBox.margin>
                                                     <Insets />
                                                 </HBox.margin>
                                             </ComboBox>
-                                            <ComboBox id="eventTypeBox" fx:id="eventTypeBox" layoutX="160.0" layoutY="15.0" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
+                                            <ComboBox id="eventTypeBox" fx:id="eventTypeBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
                                                 <HBox.margin>
                                                     <Insets />
                                                 </HBox.margin>
                                             </ComboBox>
                                         </children>
-                              <StackPane.margin>
-                                 <Insets />
-                              </StackPane.margin>
-                              <padding>
-                                 <Insets top="10.0" />
-                              </padding>
+                                        <StackPane.margin>
+                                            <Insets />
+                                        </StackPane.margin>
+                                        <padding>
+                                            <Insets top="10.0" />
+                                        </padding>
+                                        <VBox.margin>
+                                            <Insets />
+                                        </VBox.margin>
                                     </HBox>
                                 </children>
+                                <VBox.margin>
+                                    <Insets right="15.0" />
+                                </VBox.margin>
                             </VBox>
                             <VBox prefHeight="110.0" prefWidth="600.0">
                                 <children>
@@ -62,27 +72,73 @@
                                         <font>
                                             <Font name="System Bold" size="16.0" />
                                         </font>
-                                        <padding>
-                                            <Insets left="10.0" />
-                                        </padding>
                                     </Label>
-                                    <HBox fx:id="eventTimeHBox" prefHeight="100.0" prefWidth="200.0">
+                                    <HBox fx:id="eventTimeHBox" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
                                         <children>
-                                            <DatePicker fx:id="eventDatePicker" prefHeight="36.0" prefWidth="250.0" promptText="Select a date" HBox.hgrow="ALWAYS">
+                                            <DatePicker fx:id="eventDatePicker" prefHeight="64.0" prefWidth="450.0" promptText="Select a date" HBox.hgrow="ALWAYS">
                                                 <HBox.margin>
-                                                    <Insets left="10.0" top="5.0" />
+                                                    <Insets />
                                                 </HBox.margin>
                                             </DatePicker>
-                                            <ComboBox fx:id="eventTimeBox" prefHeight="37.0" prefWidth="250.0" promptText="Select a time" HBox.hgrow="ALWAYS">
+                                            <ComboBox fx:id="eventTimeBox" prefHeight="64.0" prefWidth="476.0" promptText="Select a time" HBox.hgrow="ALWAYS">
                                                 <HBox.margin>
-                                                    <Insets left="50.0" top="5.0" />
+                                                    <Insets />
                                                 </HBox.margin>
                                             </ComboBox>
+                                            <Button fx:id="addBookingButton" maxWidth="174.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="174.0" style="-fx-border-radius: 32; -fx-background-radius: 32;" text="Add Booking" textFill="#ffffff">
+                                    <font>
+                                       <Font name="System Bold" size="14.0" />
+                                    </font></Button>
                                         </children>
+                                        <padding>
+                                            <Insets top="10.0" />
+                                        </padding>
                                     </HBox>
                                 </children>
                             </VBox>
+                     <VBox layoutX="10.0" layoutY="120.0" prefHeight="110.0" prefWidth="600.0">
+                        <children>
+                           <HBox fx:id="venueHBox" prefHeight="29.0" prefWidth="1122.0" spacing="740.0">
+                              <children>
+                                 <Label prefHeight="25.0" prefWidth="238.0" text="Venue &amp; Room Selection:">
+                                    <font>
+                                       <Font name="System Bold" size="16.0" />
+                                    </font>
+                                 </Label>
+                                 <Label prefHeight="25.0" prefWidth="216.0" text="Seat Preview" underline="true">
+                                    <font>
+                                       <Font name="System Bold" size="12.0" />
+                                    </font>
+                                 </Label>
+                              </children>
+                           </HBox>
+                           <HBox fx:id="eventTimeHBox1" prefHeight="79.0" prefWidth="1122.0" spacing="12.0">
+                              <children>
+                                 <ComboBox fx:id="eventTimeBox11" layoutX="10.0" layoutY="20.0" prefHeight="64.0" prefWidth="564.0" promptText="Select a Venue" />
+                                 <ComboBox fx:id="eventTimeBox1" prefHeight="64.0" prefWidth="564.0" promptText="Extra Room" HBox.hgrow="ALWAYS">
+                                    <HBox.margin>
+                                       <Insets />
+                                    </HBox.margin>
+                                 </ComboBox>
+                              </children>
+                              <padding>
+                                 <Insets top="10.0" />
+                              </padding>
+                           </HBox>
                         </children>
+                        <VBox.margin>
+                           <Insets right="15.0" />
+                        </VBox.margin>
+                     </VBox>
+                     <VBox prefHeight="200.0" prefWidth="100.0">
+                        <children>
+                           <Label text="Label" />
+                        </children>
+                     </VBox>
+                        </children>
+                        <VBox.margin>
+                            <Insets />
+                        </VBox.margin>
                     </VBox>
                 </children>
             </VBox>
