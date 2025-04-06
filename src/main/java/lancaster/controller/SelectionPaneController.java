@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lancaster.ui.RevenueTrackingUI;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,7 +31,7 @@ public class SelectionPaneController implements Initializable {
     private Button btnReview;
 
     @FXML
-    private Button btnReport;
+    private Button btnRevenue;
 
     @FXML
     private Button btnSeating;
@@ -39,27 +40,19 @@ public class SelectionPaneController implements Initializable {
 
     private FullCalendarView bookingCalendarView;
     private FullCalendarView regularCalendarView;
-    private FullCalendarView reportCalendarView;
+    private RevenueTrackingUI revenueTrackingUI;
     private Node reviewPane;
     private Node seatingPane;
-    private Node homePane;  // The original welcome pane
+    private Node homePane;
 
-    // Style constants
     private final String BUTTON_DEFAULT_STYLE = "-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;";
     private final String BUTTON_ACTIVE_STYLE = "-fx-background-color: rgba(46, 204, 64, 0.15); -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: #2ECC40;";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Store the original welcome pane
         homePane = mainContainer.getChildren().get(0);
-
-        // Remove onAction attributes from FXML and set them programmatically
         setupButtonActions();
-
-        // Pre-initialize views that we'll need later
         initializeViews();
-
-        // Start with home page selected (no button highlighted)
         resetButtonStyles();
     }
 
@@ -73,7 +66,7 @@ public class SelectionPaneController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
-        btnReport.setOnAction(event -> showReportCalendar());
+        btnRevenue.setOnAction(event -> showRevenueTracking());
         btnSeating.setOnAction(event -> showSeatingPane());
         btnVenue.setOnAction(event -> showVenueCalendar());
     }
@@ -81,14 +74,11 @@ public class SelectionPaneController implements Initializable {
     private void initializeViews() {
         bookingCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane);
         regularCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane);
-        reportCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane, true);
-
-        // Initialize placeholders for review and seating panes
+        revenueTrackingUI = new RevenueTrackingUI();
         createPlaceholderPanes();
     }
 
     private void createPlaceholderPanes() {
-        // Create Review placeholder
         VBox reviewPlaceholder = new VBox();
         reviewPlaceholder.setStyle("-fx-background-color: #122023;");
         reviewPlaceholder.setAlignment(javafx.geometry.Pos.CENTER);
@@ -105,7 +95,6 @@ public class SelectionPaneController implements Initializable {
         reviewPlaceholder.getChildren().addAll(reviewTitle, reviewSubtitle);
         reviewPane = reviewPlaceholder;
 
-        // Create Seating placeholder
         VBox seatingPlaceholder = new VBox();
         seatingPlaceholder.setStyle("-fx-background-color: #122023;");
         seatingPlaceholder.setAlignment(javafx.geometry.Pos.CENTER);
@@ -123,12 +112,14 @@ public class SelectionPaneController implements Initializable {
         seatingPane = seatingPlaceholder;
     }
 
-    // Navigation methods
     public void showHomePage() {
         mainContainer.getChildren().setAll(homePane);
         resetButtonStyles();
     }
 
+    /**
+     * Switches to the booking calendar view for scheduling events.
+     */
     @FXML
     public void showBookingPane() {
         try {
@@ -145,6 +136,10 @@ public class SelectionPaneController implements Initializable {
         setActiveButton(btnCalendar);
     }
 
+
+    /**
+     * Switches to the review management placeholder pane.
+     */
     private void showReviewPane() throws IOException {
         try {
             Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/Review.fxml"));
@@ -155,10 +150,9 @@ public class SelectionPaneController implements Initializable {
         }
     }
 
-    @FXML
-    private void showReportCalendar() {
-        mainContainer.getChildren().setAll(reportCalendarView.getCalendarView());
-        setActiveButton(btnReport);
+    private void showRevenueTracking() {
+        mainContainer.getChildren().setAll(revenueTrackingUI);
+        setActiveButton(btnRevenue);
     }
 
     private void showSeatingPane() {
