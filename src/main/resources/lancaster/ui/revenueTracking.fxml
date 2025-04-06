@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lancaster.controller.RevenueTrackingController"
+            style="-fx-background-color: #122023;">
+
+    <top>
+        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 20;">
+            <Button text="Back" onAction="#handleBack" prefWidth="100" prefHeight="40"
+                    style="-fx-font-size: 14px; -fx-background-color: #1A2C30; -fx-text-fill: white;"/>
+            <Label text="Revenue Tracking" textFill="WHITE">
+                <font>
+                    <Font name="Cambria" size="24.0" />
+                </font>
+            </Label>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" style="-fx-background-color: #1A2C30;">
+            <tabs>
+                <Tab>
+                    <graphic>
+                        <Label text="Overview" textFill="WHITE">
+                            <font>
+                                <Font name="Cambria" size="14.0" />
+                            </font>
+                        </Label>
+                    </graphic>
+                    <content>
+                        <VBox spacing="20" style="-fx-padding: 20;">
+                            <GridPane hgap="20" vgap="10">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="NEVER" />
+                                    <ColumnConstraints hgrow="ALWAYS" />
+                                </columnConstraints>
+                                <children>
+                                    <Label text="Total Revenue:" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                        <font>
+                                            <Font name="Cambria" size="14.0" />
+                                        </font>
+                                    </Label>
+                                    <Label fx:id="totalRevenueLabel" text="£0.00" textFill="#2ECC40" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                        <font>
+                                            <Font name="Cambria Bold" size="14.0" />
+                                        </font>
+                                    </Label>
+                                    <Label text="Room Hire Revenue:" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                        <font>
+                                            <Font name="Cambria" size="14.0" />
+                                        </font>
+                                    </Label>
+                                    <Label fx:id="roomHireLabel" text="£0.00" textFill="#2ECC40" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                        <font>
+                                            <Font name="Cambria Bold" size="14.0" />
+                                        </font>
+                                    </Label>
+                                    <Label text="Ticket Sales Revenue:" textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                        <font>
+                                            <Font name="Cambria" size="14.0" />
+                                        </font>
+                                    </Label>
+                                    <Label fx:id="ticketSalesLabel" text="£0.00" textFill="#2ECC40" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                        <font>
+                                            <Font name="Cambria Bold" size="14.0" />
+                                        </font>
+                                    </Label>
+                                </children>
+                            </GridPane>
+
+                            <HBox spacing="20" alignment="CENTER">
+                                <VBox spacing="10" style="-fx-padding: 10;">
+                                    <Label text="Revenue by Space" textFill="WHITE">
+                                        <font>
+                                            <Font name="Cambria" size="16.0" />
+                                        </font>
+                                    </Label>
+                                    <PieChart fx:id="revenueBySpacePie" style="-fx-background-color: #1A2C30;" />
+                                </VBox>
+                                <VBox spacing="10" style="-fx-padding: 10;">
+                                    <Label text="Monthly Trends" textFill="WHITE">
+                                        <font>
+                                            <Font name="Cambria" size="16.0" />
+                                        </font>
+                                    </Label>
+                                    <BarChart fx:id="monthlyTrendsBar" style="-fx-background-color: #1A2C30;">
+                                        <xAxis>
+                                            <CategoryAxis style="-fx-tick-label-fill: white;" />
+                                        </xAxis>
+                                        <yAxis>
+                                            <NumberAxis style="-fx-tick-label-fill: white;" />
+                                        </yAxis>
+                                    </BarChart>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <Tab>
+                    <graphic>
+                        <Label text="Detailed Reports" textFill="WHITE">
+                            <font>
+                                <Font name="Cambria" size="14.0" />
+                            </font>
+                        </Label>
+                    </graphic>
+                    <content>
+                        <VBox spacing="10" style="-fx-padding: 20;">
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Filter by:" textFill="WHITE">
+                                    <font>
+                                        <Font name="Cambria" size="14.0" />
+                                    </font>
+                                </Label>
+                                <ComboBox fx:id="venueFilterCombo" style="-fx-background-color: #1A2C30; -fx-text-fill: white;"/>
+                                <DatePicker fx:id="startDatePicker" style="-fx-background-color: #1A2C30; -fx-text-fill: white;"/>
+                                <DatePicker fx:id="endDatePicker" style="-fx-background-color: #1A2C30; -fx-text-fill: white;"/>
+                                <Button text="Apply" onAction="#handleApplyFilter" style="-fx-background-color: #2ECC40; -fx-text-fill: white;"/>
+                            </HBox>
+
+                            <TableView fx:id="revenueTable" style="-fx-background-color: #1A2C30; -fx-control-inner-background: #1A2C30;">
+                                <columns>
+                                    <TableColumn fx:id="dateColumn">
+                                        <graphic>
+                                            <Label text="Date" textFill="WHITE">
+                                                <font>
+                                                    <Font name="Cambria" size="12.0" />
+                                                </font>
+                                            </Label>
+                                        </graphic>
+                                    </TableColumn>
+                                    <TableColumn fx:id="eventColumn">
+                                        <graphic>
+                                            <Label text="Event" textFill="WHITE">
+                                                <font>
+                                                    <Font name="Cambria" size="12.0" />
+                                                </font>
+                                            </Label>
+                                        </graphic>
+                                    </TableColumn>
+                                    <TableColumn fx:id="venueColumn">
+                                        <graphic>
+                                            <Label text="Venue" textFill="WHITE">
+                                                <font>
+                                                    <Font name="Cambria" size="12.0" />
+                                                </font>
+                                            </Label>
+                                        </graphic>
+                                    </TableColumn>
+                                    <TableColumn fx:id="durationColumn">
+                                        <graphic>
+                                            <Label text="Duration" textFill="WHITE">
+                                                <font>
+                                                    <Font name="Cambria" size="12.0" />
+                                                </font>
+                                            </Label>
+                                        </graphic>
+                                    </TableColumn>
+                                    <TableColumn fx:id="revenueColumn">
+                                        <graphic>
+                                            <Label text="Revenue" textFill="WHITE">
+                                                <font>
+                                                    <Font name="Cambria" size="12.0" />
+                                                </font>
+                                            </Label>
+                                        </graphic>
+                                    </TableColumn>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
