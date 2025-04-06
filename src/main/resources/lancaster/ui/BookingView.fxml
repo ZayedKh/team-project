@@ -5,50 +5,88 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.BookingsController">
-   <children>
-      <VBox layoutX="10.0" layoutY="10.0" prefHeight="83.0" prefWidth="569.0">
-         <children>
-            <Label prefHeight="36.0" prefWidth="140.0" text="Bookings">
-               <font>
-                  <Font name="System Bold" size="32.0" />
-               </font>
-            </Label>
-            <Label text="Book your venue for event" textFill="#0000007f">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-      <VBox layoutY="95.0" prefHeight="306.0" prefWidth="600.0">
-         <children>
-            <VBox prefHeight="110.0" prefWidth="600.0">
-               <children>
-                  <Label prefHeight="25.0" prefWidth="152.0" text="Event Information:">
-                     <font>
-                        <Font name="System Bold" size="16.0" />
-                     </font>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <DatePicker fx:id="datePicker" prefHeight="36.0" prefWidth="199.0" promptText="Select a date">
-                           <HBox.margin>
-                              <Insets left="10.0" top="5.0" />
-                           </HBox.margin>
-                        </DatePicker>
-                        <ComboBox fx:id="timeComboBox" prefHeight="37.0" prefWidth="199.0" promptText="Select a time">
-                           <HBox.margin>
-                              <Insets left="150.0" top="5.0" />
-                           </HBox.margin>
-                        </ComboBox>
-                     </children>
-                  </HBox>
-               </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: #ffffff;" stylesheets="@../../css/bookingStyles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.BookingsController">
+    <children>
+
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+            <VBox prefHeight="50.0" prefWidth="1024.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <children>
+                    <Label text="Bookings">
+                        <font>
+                            <Font name="System Bold" size="32.0" />
+                        </font>
+                    </Label>
+                    <Label text="Book your venue for event" textFill="#0000007f">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Label>
+
+                    <VBox prefHeight="306.0" prefWidth="600.0">
+                        <children>
+                            <VBox prefHeight="110.0" prefWidth="600.0">
+                                <children>
+                                    <Label prefHeight="25.0" prefWidth="152.0" text="Event Information:">
+                                        <font>
+                                            <Font name="System Bold" size="16.0" />
+                                        </font>
+                                        <padding>
+                                            <Insets left="10.0" />
+                                        </padding>
+                                    </Label>
+                                    <HBox fx:id="eventInfoBox" prefHeight="100.0" prefWidth="200.0" spacing="166.0">
+                                        <children>
+                                            <ComboBox fx:id="timeEventBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Name" HBox.hgrow="ALWAYS">
+                                                <HBox.margin>
+                                                    <Insets />
+                                                </HBox.margin>
+                                            </ComboBox>
+                                            <ComboBox id="eventTypeBox" fx:id="eventTypeBox" layoutX="160.0" layoutY="15.0" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
+                                                <HBox.margin>
+                                                    <Insets />
+                                                </HBox.margin>
+                                            </ComboBox>
+                                        </children>
+                              <StackPane.margin>
+                                 <Insets />
+                              </StackPane.margin>
+                              <padding>
+                                 <Insets top="10.0" />
+                              </padding>
+                                    </HBox>
+                                </children>
+                            </VBox>
+                            <VBox prefHeight="110.0" prefWidth="600.0">
+                                <children>
+                                    <Label prefHeight="25.0" prefWidth="216.0" text="Booking Date &amp; Time:">
+                                        <font>
+                                            <Font name="System Bold" size="16.0" />
+                                        </font>
+                                        <padding>
+                                            <Insets left="10.0" />
+                                        </padding>
+                                    </Label>
+                                    <HBox fx:id="eventTimeHBox" prefHeight="100.0" prefWidth="200.0">
+                                        <children>
+                                            <DatePicker fx:id="eventDatePicker" prefHeight="36.0" prefWidth="250.0" promptText="Select a date" HBox.hgrow="ALWAYS">
+                                                <HBox.margin>
+                                                    <Insets left="10.0" top="5.0" />
+                                                </HBox.margin>
+                                            </DatePicker>
+                                            <ComboBox fx:id="eventTimeBox" prefHeight="37.0" prefWidth="250.0" promptText="Select a time" HBox.hgrow="ALWAYS">
+                                                <HBox.margin>
+                                                    <Insets left="50.0" top="5.0" />
+                                                </HBox.margin>
+                                            </ComboBox>
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+                        </children>
+                    </VBox>
+                </children>
             </VBox>
-         </children></VBox>
-   </children>
+        </StackPane>
+
+    </children>
 </AnchorPane>
