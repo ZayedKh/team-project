@@ -8,6 +8,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lancaster.model.BookingDetails;
+
+import java.util.List;
 
 public class PendingBookingsUI {
     private StackPane mainView;
@@ -37,8 +40,13 @@ public class PendingBookingsUI {
         bookingsList.setAlignment(Pos.CENTER);
 
         for (int i = 0; i < bookingManager.getBookingGroup().getBookings().size(); i++) {
-            var booking = bookingManager.getBookingGroup().getBookings().get(i);
-            HBox bookingCell = UIUtils.createBookingCell(booking, i, bookingManager.getBookingGroup(), () -> show()); // Added bookingManager.getBookingGroup()
+            BookingDetails booking = bookingManager.getBookingGroup().getBookings().get(i);
+            HBox bookingCell = UIUtils.createBookingCell(booking, i, bookingManager.getBookingGroup(), () -> show());
+            if (bookingManager.isBookingConflicting(booking)) {
+                bookingCell.setStyle("-fx-background-color: #e66b7e; -fx-border-color: #122023; -fx-border-width: 1px; " +
+                        "-fx-padding: 10px 20px; -fx-background-radius: 5px;");
+                bookingCell.setAlignment(Pos.CENTER);
+            }
             bookingsList.getChildren().add(bookingCell);
         }
 
@@ -58,10 +66,15 @@ public class PendingBookingsUI {
         Button submitAllButton = new Button("Submit All");
         submitAllButton.setPrefSize(150, 40);
         submitAllButton.setStyle("-fx-font-size: 16px;");
+
         submitAllButton.setOnAction(e -> {
-            bookingManager.getBookingGroup().submitAll();
-            UIUtils.showAlert("Success", "All bookings have been submitted.");
-            mainView.getChildren().setAll(calendarView);
+            if (bookingManager.hasConflicts()) {
+                UIUtils.showAlert("Error", "There are conflicting bookings. Please resolve these conflicts before submitting.");
+            } else {
+                bookingManager.getBookingGroup().submitAll();
+                UIUtils.showAlert("Success", "All bookings have been submitted.");
+                mainView.getChildren().setAll(calendarView);
+            }
         });
 
         Button clearAllButton = new Button("Clear All");
