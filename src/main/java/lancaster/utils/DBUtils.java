@@ -31,7 +31,6 @@ public class DBUtils {
         String username = props.getProperty("db.username");
         String password = props.getProperty("db.password");
 
-        System.out.println("url: " + url);
 
         connection = DriverManager.getConnection(url, username, password);
 
