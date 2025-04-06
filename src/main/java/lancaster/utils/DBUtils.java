@@ -31,6 +31,8 @@ public class DBUtils {
         String username = props.getProperty("db.username");
         String password = props.getProperty("db.password");
 
+        System.out.println("url: " + url);
+
         connection = DriverManager.getConnection(url, username, password);
 
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -69,6 +71,24 @@ public class DBUtils {
             }
 
             return sheet;
+        }
+    }
+
+    public List<String> getRoomNames() {
+        String query = "SELECT room_name FROM rooms;";
+        List<String> roomNames = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String roomName = rs.getString("room_name");
+                roomNames.add(roomName);
+            }
+
+            return roomNames;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving room names", e);
         }
     }
 
