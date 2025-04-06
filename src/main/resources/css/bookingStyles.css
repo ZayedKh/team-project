@@ -1,0 +1,41 @@
+
+.combo-box {
+    -fx-background-color: rgba(248, 248, 248, 1);
+    -fx-border-color: rgba(224, 224, 224, 1);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8 12;
+    -fx-font-weight: bold;
+}
+
+#centerVBox{
+    -fx-padding: 10 20 20 20;
+}
+
+.button {
+    -fx-border-radius: 3px;
+    -fx-background-color: rgba(44, 205, 61, 1);
+
+}
+
+#pricingEstimateHBox {
+    -fx-background-color: rgba(248, 248, 248, 1);
+    -fx-border-color: rgba(224, 224, 224, 1);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+#addBookingButton {
+    -fx-background-color: rgba(44, 205, 61, 1);
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: #000000;
+    -fx-padding: 6 10;
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 6;
+}

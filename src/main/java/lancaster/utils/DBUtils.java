@@ -6,10 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+import lancaster.model.Booking;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class DBUtils {
@@ -26,9 +31,65 @@ public class DBUtils {
         String username = props.getProperty("db.username");
         String password = props.getProperty("db.password");
 
+        System.out.println("url: " + url);
+
         connection = DriverManager.getConnection(url, username, password);
 
         Class.forName("com.mysql.cj.jdbc.Driver");
+    }
+
+    public List<Booking> generateDailySheets(LocalDate date) throws SQLException {
+        String query = """
+                    SELECT 
+                        r.room_name,
+                        e.event_date,
+                        e.start_time,
+                        e.end_time,
+                        b.customer_name,
+                        sc.configuration_name
+                    FROM events e
+                    JOIN rooms r ON e.room_id = r.room_id
+                    JOIN bookings b ON e.booking_id = b.booking_id
+                    JOIN seating_configurations sc ON e.seating_config_id = sc.seating_config_id
+                    WHERE e.event_date = ?
+                    ORDER BY r.room_name, e.start_time;
+                """;
+
+        List<Booking> sheet = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setDate(1, Date.valueOf(date));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String roomName = rs.getString("room_name");
+                LocalTime startTime = rs.getTime("start_time").toLocalTime();
+                LocalTime endTime = rs.getTime("end_time").toLocalTime();
+                String customerName = rs.getString("customer_name");
+                String configName = rs.getString("configuration_name");
+                sheet.add(new Booking(roomName, date, startTime, endTime, customerName, configName));
+            }
+
+            return sheet;
+        }
+    }
+
+    public List<String> getRoomNames() {
+        String query = "SELECT room_name FROM rooms;";
+        List<String> roomNames = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String roomName = rs.getString("room_name");
+                roomNames.add(roomName);
+            }
+
+            return roomNames;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving room names", e);
+        }
     }
 
 

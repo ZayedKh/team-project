@@ -8,6 +8,7 @@ public class BookingDetails {
     private String endTime;
     private String eventName;
     private String clientName;
+    private String roomType;
 
     public LocalDate getDate() {
         return date;
@@ -45,4 +46,10 @@ public class BookingDetails {
     public void setClientName(String clientName) {
         this.clientName = clientName;
 }
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+    public String getRoomType() {
+        return roomType;
+    }
 }

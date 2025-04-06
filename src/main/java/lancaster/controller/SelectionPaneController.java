@@ -57,7 +57,13 @@ public class SelectionPaneController implements Initializable {
     private void setupButtonActions() {
         btnBooking.setOnAction(event -> showBookingPane());
         btnCalendar.setOnAction(event -> showRegularCalendar());
-        btnReview.setOnAction(event -> showReviewPane());
+        btnReview.setOnAction(event -> {
+            try {
+                showReviewPane();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         btnRevenue.setOnAction(event -> showRevenueTracking());
         btnSeating.setOnAction(event -> showSeatingPane());
     }
@@ -108,9 +114,18 @@ public class SelectionPaneController implements Initializable {
         resetButtonStyles();
     }
 
+    /**
+     * Switches to the booking calendar view for scheduling events.
+     */
+    @FXML
     private void showBookingPane() {
-        mainContainer.getChildren().setAll(bookingCalendarView.getCalendarView());
-        setActiveButton(btnBooking);
+        try {
+            Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/booking.fxml"));
+            mainContainer.getChildren().setAll(reviewPane);
+            setActiveButton(btnBooking);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showRegularCalendar() {
@@ -118,9 +133,18 @@ public class SelectionPaneController implements Initializable {
         setActiveButton(btnCalendar);
     }
 
-    private void showReviewPane() {
-        mainContainer.getChildren().setAll(reviewPane);
-        setActiveButton(btnReview);
+
+    /**
+     * Switches to the review management placeholder pane.
+     */
+    private void showReviewPane() throws IOException {
+        try {
+            Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/Review.fxml"));
+            mainContainer.getChildren().setAll(reviewPane);
+            setActiveButton(btnReview);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showRevenueTracking() {
