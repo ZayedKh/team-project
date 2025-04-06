@@ -10,7 +10,7 @@
             style="-fx-background: #FFFFFF; -fx-border-color: transparent;" stylesheets="@../../css/bookingStyles.css"
             vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="lancaster.controller.BookingsController">
-    <BorderPane fx:id="mainBorderPane" prefWidth="1200" style="-fx-background-color: #FFFFFF;">
+    <BorderPane fx:id="mainBorderPane" prefWidth="1200">
         <top>
             <HBox prefHeight="80"
                   style="-fx-background-color: #1C2526; -fx-padding: 10 10 0 10; -fx-alignment: CENTER_LEFT;">
