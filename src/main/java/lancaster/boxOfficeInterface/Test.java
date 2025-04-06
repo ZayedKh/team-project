@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Test {
@@ -18,6 +19,14 @@ public class Test {
         List<String> roomNames = dbUtils.getRoomNames();
 
         System.out.println("Room Names: " + roomNames);
+
+        LocalDate localDate = LocalDate.now();
+
+        List<Booking>  bookings = dbUtils.generateDailySheets(localDate);
+
+        for(Booking booking : bookings){
+            System.out.println(booking.getBookedBy());
+        }
 
         System.out.println("TESTING SEATING CONFIG");
         List<Seat> wheelchairSeats = db.getWheelchairSeats(1);
@@ -49,7 +58,7 @@ public class Test {
 
         for (Booking booking : dailySheets) {
             System.out.println(booking.getBookedBy());
-            System.out.println(booking.getDate().toString());
+            System.out.println(booking.getStartDate().toString());
             System.out.println(booking.getConfiguration());
         }
 
