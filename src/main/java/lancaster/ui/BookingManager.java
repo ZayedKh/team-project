@@ -54,7 +54,34 @@ public class BookingManager {
             }
         }
     }
-
+    public boolean hasConflicts() {
+        List<BookingDetails> bookings = bookingGroup.getBookings();
+        for (int i = 0; i < bookings.size(); i++) {
+            for (int j = i + 1; j < bookings.size(); j++) {
+                BookingDetails b1 = bookings.get(i);
+                BookingDetails b2 = bookings.get(j);
+                if (b1.getDate().equals(b2.getDate()) &&
+                        b1.getRoom().equals(b2.getRoom()) &&
+                        b1.getStartTime().equals(b2.getStartTime()) &&
+                        b1.getEndTime().equals(b2.getEndTime())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isBookingConflicting(BookingDetails booking) {
+        int count = 0;
+        for (BookingDetails b : bookingGroup.getBookings()) {
+            if (booking.getDate().equals(b.getDate()) &&
+                    booking.getRoom().equals(b.getRoom()) &&
+                    booking.getStartTime().equals(b.getStartTime()) &&
+                    booking.getEndTime().equals(b.getEndTime())) {
+                count++;
+            }
+        }
+        return count > 1;
+    }
     public BookingGroup getBookingGroup() {
         return bookingGroup;
     }

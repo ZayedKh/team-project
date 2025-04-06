@@ -82,4 +82,22 @@ public class BoxOfficeJDBC {
     public List<Booking> getDailySheet(LocalDate date) throws SQLException {
         return dailySheetDAO.getDailySheet(connection, date);
     }
+
+    public static void main(String[] args) {
+        try {
+            BoxOfficeJDBC boxOfficeJDBC = new BoxOfficeJDBC();
+            System.out.println("BoxOfficeJDBC initialized successfully.");
+
+            // Example usage
+            int roomId = 1;
+            boolean hasAccessibleSeating = boxOfficeJDBC.hasAccessibleSeating(roomId);
+            System.out.println("Room " + roomId + " has accessible seating: " + hasAccessibleSeating);
+
+            List<Seat> seats = boxOfficeJDBC.getSeatsByRoomId(roomId);
+            System.out.println("Seats in room " + roomId + ": " + seats);
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
