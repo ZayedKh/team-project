@@ -10,6 +10,10 @@
     -fx-font-weight: bold;
 }
 
+#centerVBox{
+    -fx-padding: 10 20 20 20;
+}
+
 .button {
     -fx-border-radius: 3px;
     -fx-background-color: rgba(44, 205, 61, 1);
