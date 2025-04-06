@@ -77,6 +77,29 @@ public class DBUtils {
 
     }
 
+    public boolean isEventScheduled(LocalDate date, LocalTime startTime, LocalTime endTime) throws SQLException {
+        String query = """
+            SELECT COUNT(*) 
+            FROM events 
+            WHERE event_date = ? 
+              AND start_time <= ? 
+              AND end_time >= ?;
+        """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setDate(1, Date.valueOf(date));
+            stmt.setTime(2, Time.valueOf(endTime));
+            stmt.setTime(3, Time.valueOf(startTime));
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+
+        return false;
+    }
+
     public List<String> getRoomNames() {
         String query = "SELECT room_name FROM rooms;";
         List<String> roomNames = new ArrayList<>();
