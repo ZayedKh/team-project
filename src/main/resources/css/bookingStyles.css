@@ -1,4 +1,6 @@
-
+*{
+    -fx-font-family: "Calibri";
+}
 .combo-box {
     -fx-background-color: rgba(248, 248, 248, 1);
     -fx-border-color: rgba(224, 224, 224, 1);
@@ -10,7 +12,15 @@
 
 .button {
     -fx-border-radius: 3px;
+    -fx-background-color: rgba(44, 205, 61, 1);
 
+}
+
+#pricingEstimateHBox {
+    -fx-background-color: rgba(248, 248, 248, 1);
+    -fx-border-color: rgba(224, 224, 224, 1);
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
 }
 
 #addBookingButton {
