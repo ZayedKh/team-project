@@ -172,6 +172,29 @@
                         </Button>
                     </children>
                 </VBox>
+                <Button fx:id="btnVenue" alignment="BASELINE_LEFT" prefHeight="50.0" prefWidth="250.0"
+                        style="-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2ECC40" height="20.0" width="20.0">
+                                <effect>
+                                    <Glow level="0.2" />
+                                </effect>
+                            </Rectangle>
+                            <Label text="Venue Availability" textFill="WHITE">
+                                <font>
+                                    <Font name="Cambria" size="16.0" />
+                                </font>
+                            </Label>
+                        </HBox>
+                    </graphic>
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <effect>
+                        <DropShadow color="#00000040" radius="3.0" spread="0.1" />
+                    </effect>
+                </Button>
 
                 <!-- Footer with version info -->
                 <Region VBox.vgrow="ALWAYS" />
