@@ -47,7 +47,7 @@
                                     </Label>
                                     <HBox fx:id="eventInfoBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
                                     <children>
-                                 <TextField fx:id="clientInput" layoutX="120.0" layoutY="25.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Event Name" text="Enter Client Name" />
+                                 <TextField fx:id="clientInput" layoutX="120.0" layoutY="25.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Name" />
                                         <TextField fx:id="eventNameInput" prefHeight="64.0" prefWidth="564.0" promptText="Enter Event Name" />
 
                                             <ComboBox id=" eventTypeBox" fx:id="eventTypeBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
