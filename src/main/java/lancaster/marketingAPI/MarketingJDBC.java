@@ -1,7 +1,9 @@
 package lancaster.marketingAPI;
 
+import lancaster.boxOfficeInterface.BoxOfficeJDBC;
 import lancaster.model.Event;
 import lancaster.model.Room;
+import lancaster.model.Seat;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,5 +42,15 @@ public class MarketingJDBC {
 
     public List<Event> getUpcomingEvents() throws SQLException {
         return eventDAO.getUpcomingEvents(connection);
+    }
+
+    public static void main(String[] args) {
+        try {
+            MarketingJDBC marketingJDBC = new MarketingJDBC();
+            System.out.println("MarketingJDBC initialized successfully.");
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
