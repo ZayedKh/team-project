@@ -1,15 +1,19 @@
 package lancaster.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Abstract class representing event details.
  * This class defines the essential attributes and behaviors related to an event.
  */
-public abstract class Event {
+public class Event {
     protected String eventId;
     protected String eventName;
-    protected LocalDateTime eventDateTime;
+    protected LocalDate eventDate;
+    protected LocalTime startTime;
+    protected LocalTime endTime;
     protected String eventType;
     protected EventStatus status;
     protected LocalDateTime lastUpdated;
@@ -24,11 +28,13 @@ public abstract class Event {
      * @param status        Current status of the event.
      * @param lastUpdated   Timestamp of the last update to the event details.
      */
-    public Event(String eventId, String eventName, LocalDateTime eventDateTime, String eventType,
+    public Event(String eventId, String eventName, LocalDate eventDateTime, LocalTime startTime, LocalTime endTime, String eventType,
                  EventStatus status, LocalDateTime lastUpdated) {
         this.eventId = eventId;
         this.eventName = eventName;
-        this.eventDateTime = eventDateTime;
+        this.eventDate = eventDateTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.eventType = eventType;
         this.status = status;
         this.lastUpdated = lastUpdated;
@@ -57,8 +63,8 @@ public abstract class Event {
      *
      * @return The event date and time.
      */
-    public LocalDateTime getEventDateTime() {
-        return eventDateTime;
+    public LocalDate getEventDate() {
+        return eventDate;
     }
 
     /**
@@ -88,13 +94,6 @@ public abstract class Event {
         return lastUpdated;
     }
 
-    /**
-     * Abstract method to determine if the event is still active.
-     * Implementing classes should provide the logic for checking event activity.
-     *
-     * @return true if the event is active, false otherwise.
-     */
-    public abstract boolean isEventActive();
 
     /**
      * Returns a string representation of the event details.
@@ -106,7 +105,7 @@ public abstract class Event {
         return "Event{" +
                 "eventId='" + eventId + '\'' +
                 ", eventName='" + eventName + '\'' +
-                ", eventDateTime=" + eventDateTime +
+                ", eventDateTime=" + eventDate +
                 ", eventType='" + eventType + '\'' +
                 ", status=" + status +
                 ", lastUpdated=" + lastUpdated +
