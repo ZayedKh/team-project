@@ -34,6 +34,8 @@ public class SelectionPaneController implements Initializable {
 
     @FXML
     private Button btnSeating;
+    @FXML
+    private Button btnVenue;
 
     private FullCalendarView bookingCalendarView;
     private FullCalendarView regularCalendarView;
@@ -73,6 +75,7 @@ public class SelectionPaneController implements Initializable {
         });
         btnReport.setOnAction(event -> showReportCalendar());
         btnSeating.setOnAction(event -> showSeatingPane());
+        btnVenue.setOnAction(event -> showVenueCalendar());
     }
 
     private void initializeViews() {
@@ -127,7 +130,7 @@ public class SelectionPaneController implements Initializable {
     }
 
     @FXML
-    private void showBookingPane() {
+    public void showBookingPane() {
         try {
             Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/booking.fxml"));
             mainContainer.getChildren().setAll(reviewPane);
@@ -137,7 +140,7 @@ public class SelectionPaneController implements Initializable {
         }
     }
 
-    private void showRegularCalendar() {
+    public void showRegularCalendar() {
         mainContainer.getChildren().setAll(regularCalendarView.getCalendarView());
         setActiveButton(btnCalendar);
     }
@@ -162,7 +165,18 @@ public class SelectionPaneController implements Initializable {
         mainContainer.getChildren().setAll(seatingPane);
         setActiveButton(btnSeating);
     }
-
+    private void showVenueCalendar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/VenueCalendar.fxml"));
+            Node venueCalendarView = loader.load();
+            VenueCalendarController venueController = loader.getController();
+            venueController.setSelectionPaneController(this);
+            mainContainer.getChildren().setAll(venueCalendarView);
+            setActiveButton(btnVenue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     // Button styling helpers
     private void setActiveButton(Button button) {
         resetButtonStyles();
@@ -170,7 +184,7 @@ public class SelectionPaneController implements Initializable {
     }
 
     private void resetButtonStyles() {
-        Button[] buttons = {btnBooking, btnCalendar, btnReview, btnReport, btnSeating};
+        Button[] buttons = {btnBooking, btnCalendar, btnReview, btnReport, btnSeating, btnVenue};
         for (Button btn : buttons) {
             btn.setStyle(BUTTON_DEFAULT_STYLE);
         }
