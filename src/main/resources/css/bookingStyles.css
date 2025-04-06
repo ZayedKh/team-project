@@ -39,3 +39,14 @@
     -fx-background-color: transparent;
     -fx-padding: 0 6;
 }
+.calendar-cell {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-border-color: transparent;
+}
+
+.calendar-cell:hover {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-border-color: transparent;
+}
