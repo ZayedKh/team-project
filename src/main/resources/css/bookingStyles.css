@@ -1,6 +1,4 @@
-*{
-    -fx-font-family: "Calibri";
-}
+
 .combo-box {
     -fx-background-color: rgba(248, 248, 248, 1);
     -fx-border-color: rgba(224, 224, 224, 1);
