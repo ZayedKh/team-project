@@ -129,7 +129,7 @@ public class SelectionPaneController implements Initializable {
     @FXML
     private void showBookingPane() {
         try {
-            Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/BookingView.fxml"));
+            Parent reviewPane = FXMLLoader.load(getClass().getResource("/lancaster/ui/booking.fxml"));
             mainContainer.getChildren().setAll(reviewPane);
             setActiveButton(btnBooking);
         } catch (IOException e) {
