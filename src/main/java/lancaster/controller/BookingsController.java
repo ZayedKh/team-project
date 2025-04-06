@@ -3,8 +3,12 @@ package lancaster.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import lancaster.utils.DBUtils;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class BookingsController implements Initializable {
@@ -33,10 +37,13 @@ public class BookingsController implements Initializable {
     private ComboBox<String> selectVenue;
 
     @FXML
+    private ComboBox<String> selectConfiguration;
+
+    @FXML
     private ComboBox<String> extraRoom;
 
     @FXML
-    private ComboBox<String> selectConfiguration;
+    private ComboBox<String> roomConfiguration;  //name of the choicebox to select room configuration
 
     @FXML
     private Button confirmBookingButton;
@@ -64,6 +71,51 @@ public class BookingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        DBUtils dbUtils;
+        try {
+            dbUtils = new DBUtils();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        List<String> roomNames = dbUtils.getRoomNames();
+        selectVenue.getItems().addAll(roomNames);
 
+        extraRoom.getItems().addAll(
+                "The Green Room", "Brontë Boardroom", "Dickens Den",
+                "Poe Parlor", "Globe Room", "Chekhov Chamber"
+        );
+
+        selectVenue.setOnAction(e -> handleVenueConfiguration());
+        //extraRoom.setOnAction(e -> handleRoomConfiguration());
+    }
+
+    private void handleVenueConfiguration() {
+        String selected = selectVenue.getValue();
+        selectConfiguration.getItems().clear();
+
+        if (selected == null) return;
+
+        String venue = selected.trim();
+
+        if (venue.equalsIgnoreCase("Main Hall")) {
+            selectConfiguration.getItems().addAll("Stalls", "Stalls and Balconies");
+        } else if (venue.equalsIgnoreCase("Small Hall")) {
+            selectConfiguration.getItems().add("Stalls");
+        } else {
+            selectConfiguration.getItems().addAll("Classroom", "Presentation", "Boardroom");
+        }
+    }
+
+    private void handleRoomConfiguration() {
+        String room = extraRoom.getValue();
+        roomConfiguration.getItems().clear();
+
+        if (room != null) {
+            roomConfiguration.getItems().addAll("Classroom", "Boardroom", "Presentation");
+        }
     }
 }
