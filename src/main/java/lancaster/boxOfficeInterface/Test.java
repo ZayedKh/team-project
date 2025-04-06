@@ -22,9 +22,9 @@ public class Test {
 
         LocalDate localDate = LocalDate.now();
 
-        List<Booking>  bookings = dbUtils.generateDailySheets(localDate);
+        List<Booking> bookings = dbUtils.generateDailySheets(localDate);
 
-        for(Booking booking : bookings){
+        for (Booking booking : bookings) {
             System.out.println(booking.getBookedBy());
         }
 
@@ -61,6 +61,12 @@ public class Test {
             System.out.println(booking.getStartDate().toString());
             System.out.println(booking.getConfiguration());
         }
+
+        LocalTime startTime = LocalTime.of(17, 59, 59);
+        LocalTime endTime = LocalTime.of(19, 59, 59);
+        LocalDate date21 = LocalDate.of(2025, 04, 10);
+
+        System.out.println(dbUtils.isEventScheduled(date21, startTime, endTime));
 
     }
 }
