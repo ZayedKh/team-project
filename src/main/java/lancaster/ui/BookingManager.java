@@ -26,7 +26,7 @@ public class BookingManager {
         }
     }
 
-    public void createSingleBooking(LocalDate date, String room, String startTime, String endTime, String eventName, String clientName) {
+    public void createSingleBooking(LocalDate date, String room, String startTime, String endTime, String eventName, String clientName, String roomType) {
         BookingDetails booking = new BookingDetails();
         booking.setDate(date);
         booking.setRoom(room);
@@ -34,6 +34,7 @@ public class BookingManager {
         booking.setEndTime(endTime);
         booking.setEventName(eventName);
         booking.setClientName(clientName);
+        booking.setRoomType(roomType);
         bookingGroup.addBooking(booking);
     }
 
