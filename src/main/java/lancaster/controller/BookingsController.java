@@ -3,8 +3,12 @@ package lancaster.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import lancaster.utils.DBUtils;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class BookingsController implements Initializable {
@@ -67,7 +71,18 @@ public class BookingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        selectVenue.getItems().addAll("Main Hall", "Small Hall", "Rehearsal Space");
+        DBUtils dbUtils;
+        try {
+            dbUtils = new DBUtils();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        List<String> roomNames = dbUtils.getRoomNames();
+        selectVenue.getItems().addAll(roomNames);
 
         extraRoom.getItems().addAll(
                 "The Green Room", "Brontë Boardroom", "Dickens Den",
