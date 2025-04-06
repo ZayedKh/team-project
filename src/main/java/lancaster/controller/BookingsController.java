@@ -33,10 +33,13 @@ public class BookingsController implements Initializable {
     private ComboBox<String> selectVenue;
 
     @FXML
+    private ComboBox<String> selectConfiguration;
+
+    @FXML
     private ComboBox<String> extraRoom;
 
     @FXML
-    private ComboBox<String> selectConfiguration;
+    private ComboBox<String> roomConfiguration;  //name of the choicebox to select room configuration
 
     @FXML
     private Button confirmBookingButton;
@@ -64,6 +67,45 @@ public class BookingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        selectVenue.getItems().addAll("Main Hall", "Small Hall", "Rehearsal Space");
 
+        extraRoom.getItems().addAll(
+                "The Green Room", "Brontë Boardroom", "Dickens Den",
+                "Poe Parlor", "Globe Room", "Chekhov Chamber"
+        );
+
+        selectVenue.setOnAction(e -> handleVenueConfiguration());
+        extraRoom.setOnAction(e -> handleRoomConfiguration());
+    }
+
+    private void handleVenueConfiguration() {
+        String venue = selectVenue.getValue();
+        selectConfiguration.getItems().clear();
+
+        if (venue == null) return;
+
+        switch (venue) {
+            case "Main Hall":
+                selectConfiguration.getItems().add("Stalls and Balconies");
+                selectConfiguration.setValue("Stalls and Balconies");
+                break;
+            case "Small Hall":
+                selectConfiguration.getItems().add("Stalls");
+                selectConfiguration.setValue("Stalls");
+                break;
+            case "Rehearsal Space":
+                selectConfiguration.getItems().add("No seating configuration required");
+                selectConfiguration.setValue("No seating configuration required");
+                break;
+        }
+    }
+
+    private void handleRoomConfiguration() {
+        String room = extraRoom.getValue();
+        roomConfiguration.getItems().clear();
+
+        if (room != null) {
+            roomConfiguration.getItems().addAll("Classroom", "Boardroom", "Presentation");
+        }
     }
 }
