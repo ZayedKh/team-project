@@ -2,15 +2,31 @@ package lancaster.boxOfficeInterface;
 
 import lancaster.model.Booking;
 import lancaster.model.Seat;
+import lancaster.utils.DBUtils;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Test {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         BoxOfficeJDBC db = new BoxOfficeJDBC();
+        DBUtils dbUtils = new DBUtils();
+
+        List<String> roomNames = dbUtils.getRoomNames();
+
+        System.out.println("Room Names: " + roomNames);
+
+        LocalDate localDate = LocalDate.now();
+
+        List<Booking> bookings = dbUtils.generateDailySheets(localDate);
+
+        for (Booking booking : bookings) {
+            System.out.println(booking.getBookedBy());
+        }
 
         System.out.println("TESTING SEATING CONFIG");
         List<Seat> wheelchairSeats = db.getWheelchairSeats(1);
@@ -40,11 +56,17 @@ public class Test {
         System.out.println("Get daily sheet for " + date);
         List<Booking> dailySheets = db.getDailySheet(date);
 
-        for(Booking booking : dailySheets) {
+        for (Booking booking : dailySheets) {
             System.out.println(booking.getBookedBy());
-            System.out.println(booking.getDate().toString());
+            System.out.println(booking.getStartDate().toString());
             System.out.println(booking.getConfiguration());
         }
+
+        LocalTime startTime = LocalTime.of(17, 59, 59);
+        LocalTime endTime = LocalTime.of(19, 59, 59);
+        LocalDate date21 = LocalDate.of(2025, 04, 10);
+
+        System.out.println(dbUtils.isEventScheduled(date21, startTime, endTime));
 
     }
 }
