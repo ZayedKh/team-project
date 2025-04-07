@@ -52,6 +52,9 @@ public class BookingsController implements Initializable {
     private CheckBox policyCheckbox;
 
     @FXML
+    private CheckBox extraRoomCheckBox;
+
+    @FXML
     private Label total;
 
     @FXML
@@ -69,6 +72,8 @@ public class BookingsController implements Initializable {
     @FXML
     private Label tax;
 
+    boolean extraRoomSelected = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        DBUtils dbUtils;
@@ -85,9 +90,11 @@ public class BookingsController implements Initializable {
 //        selectVenue.getItems().addAll(roomNames);
 
         selectVenue.getItems().addAll(
-                "The Green Room", "Brontë Boardroom", "Dickens Den",
+                "Main Hall", "Small Hall", "Rehearsal Space", "The Green Room", "Brontë Boardroom", "Dickens Den",
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
+
+        eventTypeBox.getItems().addAll("Event", "Meeting", "Conference", "Workshop");
 
 
         extraRoom.getItems().addAll(
@@ -95,9 +102,20 @@ public class BookingsController implements Initializable {
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
 
+        extraRoom.setDisable(true);
+
 
         selectVenue.setOnAction(e -> handleVenueConfiguration());
         //extraRoom.setOnAction(e -> handleRoomConfiguration());
+
+        extraRoomCheckBox.setOnAction(e -> {
+            extraRoomSelected = extraRoomCheckBox.isSelected();
+            if (extraRoomSelected) {
+                extraRoom.setDisable(false);
+            } else {
+                extraRoom.setDisable(true);
+            }
+        });
 
         for (int hour = 10; hour <= 23; hour++) {
             String time = String.format("%02d:00", hour);
@@ -134,7 +152,7 @@ public class BookingsController implements Initializable {
         String venue = selected.trim();
 
         if (venue.equalsIgnoreCase("Main Hall")) {
-            selectConfiguration.getItems().addAll("Stalls", "Stalls and Balconies");
+            selectConfiguration.getItems().addAll("Stalls", "Stalls and Balconies", "Main Seating Only");
         } else if (venue.equalsIgnoreCase("Small Hall")) {
             selectConfiguration.getItems().add("Stalls");
         } else {
