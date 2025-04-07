@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.TheaterSeatingController" fx:id="scrollPane" fitToWidth="true" fitToHeight="true" pannable="true" style="-fx-background: #FFFFFF; -fx-border-color: transparent;">
+    <BorderPane fx:id="mainBorderPane" style="-fx-background-color: #FFFFFF;" prefWidth="1024" prefHeight="768">
+        <top>
+            <VBox spacing="5">
+                <HBox prefHeight="80" style="-fx-background-color: #1C2526; -fx-padding: 10 10 0 10; -fx-alignment: CENTER_LEFT;">
+                    <ImageView fx:id="logo" fitHeight="100" fitWidth="175">
+                        <Image url="@../LancasterLogo.png" />
+                    </ImageView>
+                    <Label text="Main Hall Seating" style="-fx-text-fill: white; -fx-font-size: 20;" alignment="CENTER" />
+                </HBox>
+                <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 10 20 10 20; -fx-background-color: #FFFFFF;">
+                    <!-- Removed Current Event Label -->
+                    <HBox HBox.hgrow="ALWAYS" />
+                    <HBox spacing="10" alignment="CENTER">
+                        <HBox alignment="CENTER" style="-fx-background-color: #E8F5E9; -fx-padding: 5; -fx-background-radius: 5;">
+                            <Label text="Available" style="-fx-text-fill: #4CAF50; -fx-font-weight: bold;" />
+                        </HBox>
+                        <HBox alignment="CENTER" style="-fx-background-color: #FFF8E1; -fx-padding: 5; -fx-background-radius: 5;">
+                            <Label text="Reserved" style="-fx-text-fill: #FFA000; -fx-font-weight: bold;" />
+                        </HBox>
+                        <HBox alignment="CENTER" style="-fx-background-color: #FFEBEE; -fx-padding: 5; -fx-background-radius: 5;">
+                            <Label text="Unavailable" style="-fx-text-fill: #D32F2F; -fx-font-weight: bold;" />
+                        </HBox>
+                    </HBox>
+                    <Button fx:id="bookButton" text="Book Selected Seats" style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-background-radius: 5;" onAction="#handleBookSeats" />
+                </HBox>
+                <Separator style="-fx-background-color: #E0E0E0;" />
+            </VBox>
+        </top>
+        <center>
+            <StackPane alignment="CENTER" style="-fx-background-color: #FFFFFF; -fx-padding: 20;">
+                <VBox alignment="CENTER" spacing="20">
+                    <Pane fx:id="seatingContainer" style="-fx-padding: 10;" />
+                    <VBox alignment="CENTER">
+                    </VBox>
+                </VBox>
+            </StackPane>
+        </center>
+    </BorderPane>
+</ScrollPane>
