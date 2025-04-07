@@ -71,19 +71,23 @@ public class BookingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DBUtils dbUtils;
-        try {
-            dbUtils = new DBUtils();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        List<String> roomNames = dbUtils.getRoomNames();
-        selectVenue.getItems().addAll(roomNames);
+//        DBUtils dbUtils;
+//        try {
+//            dbUtils = new DBUtils();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        List<String> roomNames = dbUtils.getRoomNames();
+//        selectVenue.getItems().addAll(roomNames);
 
+        selectVenue.getItems().addAll(
+                "The Green Room", "Brontë Boardroom", "Dickens Den",
+                "Poe Parlor", "Globe Room", "Chekhov Chamber"
+        );
 
 
         extraRoom.getItems().addAll(
@@ -91,8 +95,34 @@ public class BookingsController implements Initializable {
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
 
+
         selectVenue.setOnAction(e -> handleVenueConfiguration());
         //extraRoom.setOnAction(e -> handleRoomConfiguration());
+
+        for (int hour = 10; hour <= 23; hour++) {
+            String time = String.format("%02d:00", hour);
+            startTimeBox.getItems().add(time);
+            selectEndTime.getItems().add(time);
+        }
+    }
+
+    private void checkEndTime() {
+        String startTime = startTimeBox.getValue();
+        String endTime = selectEndTime.getValue();
+
+        if (startTime != null && endTime != null) {
+            int startHour = Integer.parseInt(startTime.split(":")[0]);
+            int endHour = Integer.parseInt(endTime.split(":")[0]);
+
+            if (endHour < startHour) {
+                // Display an error message or take appropriate action
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Time Selection");
+                alert.setHeaderText(null);
+                alert.setContentText("End time cannot be before start time.");
+                alert.showAndWait();
+            }
+        }
     }
 
     private void handleVenueConfiguration() {
