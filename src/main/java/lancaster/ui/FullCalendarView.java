@@ -97,7 +97,7 @@ public class FullCalendarView {
                 AnchorPaneNode ap = new AnchorPaneNode(mainView, calendarView);
                 // Let the cell expand with grid
                 ap.setPrefSize(200, 150);
-                ap.setStyle("-fx-background-color: white; -fx-border-color: #122023; -fx-border-width: 1px;"
+                ap.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #122023; -fx-border-width: 1px;"
                         + " -fx-background-radius: 5px; -fx-border-radius: 3px;");
                 calendar.add(ap, j, i);
                 allCalendarDays.add(ap);
@@ -131,7 +131,7 @@ public class FullCalendarView {
 
         // Title bar with month navigation buttons and a back button.
         calendarTitle = new Text();
-        calendarTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: white;");
+        calendarTitle.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: #f8f8f8;");
 
         Button previousMonth = new Button("<<");
         previousMonth.setPrefSize(80, 40);
@@ -198,7 +198,7 @@ public class FullCalendarView {
                 ap.setStyle("-fx-background-color: #e0ffe4; -fx-background-radius: 5px;");
                 textStyle = "-fx-font-size: 24px; -fx-font-weight: bold;";
             } else {
-                ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
+                ap.setStyle("-fx-background-color: #f8f8f8; -fx-background-radius: 5px;");
             }
 
             txt.setStyle(textStyle);
@@ -206,14 +206,14 @@ public class FullCalendarView {
                 if (selectionMode && selectedDates.contains(ap.getDate())) {
                     ap.setStyle("-fx-background-color: #e0ffe4; -fx-background-radius: 5px;");
                 } else {
-                    ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
+                    ap.setStyle("-fx-background-color: #f8f8f8; -fx-background-radius: 5px;");
                 }
             });
             ap.setOnMouseExited(e -> {
                 if (selectionMode && selectedDates.contains(ap.getDate())) {
                     ap.setStyle("-fx-background-color: #e0ffe4; -fx-background-radius: 5px;");
                 } else {
-                    ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
+                    ap.setStyle("-fx-background-color: #f8f8f8; -fx-background-radius: 5px;");
                 }
             });
 
@@ -274,7 +274,7 @@ public class FullCalendarView {
 
             if (selectedDates.contains(clickedDate)) {
                 selectedDates.remove(clickedDate);
-                ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
+                ap.setStyle("-fx-background-color: #f8f8f8; -fx-background-radius: 5px;");
                 txt.setStyle("-fx-font-size: 24px;");
             } else {
                 if (!multiSelectEnabled && !e.isControlDown()) {
