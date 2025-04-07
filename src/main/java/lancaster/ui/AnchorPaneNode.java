@@ -28,7 +28,7 @@ public class AnchorPaneNode extends AnchorPane {
 
         String originalStyle = "-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;"
                 + " -fx-background-radius: 5px; -fx-border-radius: 3px;";
-        String hoverStyle = "-fx-background-color: #FFFFFF; -fx-border-color: #122023; -fx-border-width: 1px;"
+        String hoverStyle = "-fx-background-color: #F8F8F8; -fx-border-color: #122023; -fx-border-width: 1px;"
                 + " -fx-background-radius: 5px; -fx-border-radius: 3px;";
 
         this.setOnMouseEntered(e -> this.setStyle(hoverStyle));
