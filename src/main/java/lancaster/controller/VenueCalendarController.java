@@ -20,31 +20,19 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Controller class for managing the venue calendar and booking visualization in a JavaFX application.
+ */
 public class VenueCalendarController implements Initializable {
 
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private BorderPane mainBorderPane;
-
-    @FXML
-    private GridPane calendarGrid;
-
-    @FXML
-    private DatePicker datePicker;
-
-    @FXML
-    private Button prevDayButton;
-
-    @FXML
-    private Button nextDayButton;
-
-    @FXML
-    private Label currentDateLabel;
-
-    @FXML
-    private Button addBookingButton;
+    @FXML private ScrollPane scrollPane;        // Scroll pane containing the calendar
+    @FXML private BorderPane mainBorderPane;    // Main container for the calendar layout
+    @FXML private GridPane calendarGrid;        // Grid displaying the calendar
+    @FXML private DatePicker datePicker;        // Date picker for selecting the current date
+    @FXML private Button prevDayButton;         // Button to navigate to the previous day
+    @FXML private Button nextDayButton;         // Button to navigate to the next day
+    @FXML private Label currentDateLabel;       // Label displaying the current date
+    @FXML private Button addBookingButton;      // Button to initiate adding a new booking
 
     private final List<String> rooms = Arrays.asList(
             "The Green Room",
@@ -56,20 +44,29 @@ public class VenueCalendarController implements Initializable {
             "Main Hall",
             "Small Hall",
             "Rehearsal Space"
-    );
+    );  // List of available rooms
 
     // Mock data for bookings
-    private Map<String, Map<LocalDateTime, VenueStatus>> bookings = new HashMap<>();
-    private double scaleFactor = 1.0;
-    private LocalDate currentDate = LocalDate.now();
-    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy");
-    private SelectionPaneController selectionPaneController;
+    private Map<String, Map<LocalDateTime, VenueStatus>> bookings = new HashMap<>(); // Tracks booking status by room and time
+    private double scaleFactor = 1.0;           // Zoom scale factor for calendar display
+    private LocalDate currentDate = LocalDate.now(); // Currently displayed date
+    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm"); // Formatter for time display
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy"); // Formatter for date display
+    private SelectionPaneController selectionPaneController; // Reference to the selection pane controller
 
+    /**
+     * Sets the SelectionPaneController instance for navigation purposes.
+     * @param selectionPaneController The controller to set
+     */
     public void setSelectionPaneController(SelectionPaneController selectionPaneController) {
         this.selectionPaneController = selectionPaneController;
     }
 
+    /**
+     * Initializes the controller after its root element has been processed.
+     * @param location The location used to resolve relative paths for the root object
+     * @param resources The resources used to localize the root object
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         datePicker.setValue(currentDate);
@@ -83,6 +80,9 @@ public class VenueCalendarController implements Initializable {
         populateCalendar();
     }
 
+    /**
+     * Populates the calendar grid with time slots and room availability.
+     */
     private void populateCalendar() {
         calendarGrid.getChildren().clear();
         calendarGrid.getColumnConstraints().clear();
@@ -149,6 +149,13 @@ public class VenueCalendarController implements Initializable {
         }
     }
 
+    /**
+     * Creates a cell representing a booking status for a specific room and time.
+     * @param room The room name
+     * @param dateTime The date and time of the booking
+     * @param status The status of the venue at this time
+     * @return StackPane representing the booking cell
+     */
     private StackPane createBookingCell(String room, LocalDateTime dateTime, VenueStatus status) {
         StackPane cellPane = new StackPane();
         cellPane.setPadding(new Insets(10));
@@ -173,6 +180,7 @@ public class VenueCalendarController implements Initializable {
         Label statusLabel = new Label(status.name());
         statusLabel.setWrapText(true);
 
+        // Set text color based on status
         switch (status) {
             case AVAILABLE:
                 statusLabel.setTextFill(Color.valueOf("#4CAF50"));
@@ -188,7 +196,7 @@ public class VenueCalendarController implements Initializable {
         content.getChildren().add(statusLabel);
         cellPane.getChildren().add(content);
 
-        // Add tooltip
+        // Add tooltip with detailed information
         Tooltip tooltip = new Tooltip(room + "\n" +
                 dateTime.format(DateTimeFormatter.ofPattern("HH:mm")) + " - " +
                 dateTime.plusHours(1).format(DateTimeFormatter.ofPattern("HH:mm")) + "\n" +
@@ -198,6 +206,10 @@ public class VenueCalendarController implements Initializable {
         return cellPane;
     }
 
+    /**
+     * Updates the calendar with a list of booking details.
+     * @param bookingList List of bookings to update the calendar with
+     */
     public void updateCalendarWithBookings(List<BookingDetails> bookingList) {
         for (BookingDetails booking : bookingList) {
             LocalTime startTime = LocalTime.parse(booking.getStartTime());
@@ -213,6 +225,9 @@ public class VenueCalendarController implements Initializable {
         populateCalendar();
     }
 
+    /**
+     * Handles navigation to the previous day.
+     */
     @FXML
     private void handlePreviousDay() {
         currentDate = currentDate.minusDays(1);
@@ -221,6 +236,9 @@ public class VenueCalendarController implements Initializable {
         populateCalendar();
     }
 
+    /**
+     * Handles navigation to the next day.
+     */
     @FXML
     private void handleNextDay() {
         currentDate = currentDate.plusDays(1);
@@ -229,6 +247,9 @@ public class VenueCalendarController implements Initializable {
         populateCalendar();
     }
 
+    /**
+     * Handles the action to add a new booking by navigating to the booking pane.
+     */
     @FXML
     private void handleAddBooking() {
         if (selectionPaneController != null) {
@@ -238,11 +259,17 @@ public class VenueCalendarController implements Initializable {
         }
     }
 
-
+    /**
+     * Updates the current date label with the formatted date.
+     */
     private void updateCurrentDateLabel() {
         currentDateLabel.setText(currentDate.format(dateFormatter));
     }
 
+    /**
+     * Handles scroll events for zooming the calendar display.
+     * @param event The scroll event
+     */
     private void handleScroll(ScrollEvent event) {
         if (event.isControlDown()) {
             double deltaY = event.getDeltaY();
@@ -260,6 +287,12 @@ public class VenueCalendarController implements Initializable {
         }
     }
 
+    /**
+     * Retrieves the booking status for a specific room and time.
+     * @param room The room name
+     * @param dateTime The date and time to check
+     * @return The venue status for the given room and time
+     */
     private VenueStatus getBookingStatus(String room, LocalDateTime dateTime) {
         if (bookings.containsKey(room) && bookings.get(room).containsKey(dateTime)) {
             return bookings.get(room).get(dateTime);
@@ -267,8 +300,9 @@ public class VenueCalendarController implements Initializable {
         return VenueStatus.AVAILABLE; // Default status
     }
 
-
-    // Helper class to store booking data in each cell
+    /**
+     * Helper class to store booking data in each calendar cell.
+     */
     private static class BookingData {
         String room;
         LocalDateTime dateTime;

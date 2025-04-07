@@ -20,54 +20,55 @@ import java.net.URL;
 import java.time.YearMonth;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing the selection pane navigation in a JavaFX application.
+ */
 public class SelectionPaneController implements Initializable {
 
-    @FXML
-    private StackPane mainContainer;
+    @FXML private StackPane mainContainer;  // Main content container for switching views
+    @FXML private Button btnBooking;        // Button for booking view
+    @FXML private Button btnCalendar;       // Button for regular calendar view
+    @FXML private Button btnReview;         // Button for review management view
+    @FXML private Button btnRevenue;        // Button for revenue tracking view
+    @FXML private Button btnSeating;        // Button for seating arrangement view
+    @FXML private Button btnVenue;          // Button for venue calendar view
+    @FXML private Button btnDailySheet;     // Button for daily sheet calendar view
 
-    @FXML
-    private Button btnBooking;
+    // View instances
+    private FullCalendarView bookingCalendarView;     // Calendar view for booking
+    private FullCalendarView regularCalendarView;     // Regular calendar view
+    private FullCalendarView dailySheetCalenderView;  // Daily sheet calendar view
+    private RevenueTrackingUI revenueTrackingUI;      // Revenue tracking UI
+    private Node reviewPane;                         // Review management pane
+    private Node seatingPane;                        // Seating arrangement pane
+    private Node homePane;                           // Home/default pane
+    private Node smallHallSeatingPane;               // Small hall seating layout
+    private Node theaterSeatingPane;                 // Theater seating layout
+    private Node roomLayoutPane;                     // Room layout pane
+    private BorderPane combinedSeatingPane;          // Combined seating view with toggle buttons
 
-    @FXML
-    private Button btnCalendar;
-
-    @FXML
-    private Button btnReview;
-
-    @FXML
-    private Button btnRevenue;
-
-    @FXML
-    private Button btnSeating;
-    @FXML
-    private Button btnVenue;
-    @FXML
-    private Button btnDailySheet;
-
-    private FullCalendarView bookingCalendarView;
-    private FullCalendarView regularCalendarView;
-    private FullCalendarView dailySheetCalenderView;
-    private RevenueTrackingUI revenueTrackingUI;
-    private Node reviewPane;
-    private Node seatingPane;
-    private Node homePane;
-    private Node smallHallSeatingPane;
-    private Node theaterSeatingPane;
-    private BorderPane combinedSeatingPane;
-
+    // Button styling constants
     private final String BUTTON_DEFAULT_STYLE = "-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;";
     private final String BUTTON_ACTIVE_STYLE = "-fx-background-color: rgba(46, 204, 64, 0.15); -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: #2ECC40;";
     private final String TOGGLE_BUTTON_STYLE = "-fx-background-color: #122023; -fx-text-fill: white; -fx-border-color: #2ECC40; -fx-border-width: 1;";
     private final String TOGGLE_BUTTON_SELECTED_STYLE = "-fx-background-color: #2ECC40; -fx-text-fill: white; -fx-border-color: #2ECC40; -fx-border-width: 1;";
 
+    /**
+     * Initializes the controller after its root element has been processed.
+     * @param url The location used to resolve relative paths for the root object
+     * @param resourceBundle The resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        homePane = mainContainer.getChildren().get(0);
+        homePane = mainContainer.getChildren().get(0);  // Set initial home pane
         setupButtonActions();
         initializeViews();
         resetButtonStyles();
     }
 
+    /**
+     * Sets up action event handlers for navigation buttons.
+     */
     private void setupButtonActions() {
         btnBooking.setOnAction(event -> showBookingPane());
         btnCalendar.setOnAction(event -> showRegularCalendar());
@@ -84,16 +85,23 @@ public class SelectionPaneController implements Initializable {
         btnDailySheet.setOnAction(event -> showDailySheetCalendar());
     }
 
+    /**
+     * Initializes all view components used in the selection pane.
+     */
     private void initializeViews() {
         bookingCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane);
         regularCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane);
         dailySheetCalenderView = new FullCalendarView(YearMonth.now(), mainContainer, homePane, true);
         revenueTrackingUI = new RevenueTrackingUI();
-      //  createPlaceholderPanes();
+        // createPlaceholderPanes();  // Commented out in original code
         initializeSeatingPanes();
     }
 
+    /**
+     * Creates placeholder panes for review and seating views (currently unused).
+     */
     private void createPlaceholderPanes() {
+        // Review placeholder
         VBox reviewPlaceholder = new VBox();
         reviewPlaceholder.setStyle("-fx-background-color: #122023;");
         reviewPlaceholder.setAlignment(javafx.geometry.Pos.CENTER);
@@ -110,6 +118,7 @@ public class SelectionPaneController implements Initializable {
         reviewPlaceholder.getChildren().addAll(reviewTitle, reviewSubtitle);
         reviewPane = reviewPlaceholder;
 
+        // Seating placeholder
         VBox seatingPlaceholder = new VBox();
         seatingPlaceholder.setStyle("-fx-background-color: #122023;");
         seatingPlaceholder.setAlignment(javafx.geometry.Pos.CENTER);
@@ -127,45 +136,64 @@ public class SelectionPaneController implements Initializable {
         seatingPane = seatingPlaceholder;
     }
 
+    /**
+     * Displays the home page view.
+     */
     public void showHomePage() {
         mainContainer.getChildren().setAll(homePane);
         resetButtonStyles();
     }
+
+    /**
+     * Initializes seating layout panes by loading FXML files.
+     */
     private void initializeSeatingPanes() {
         try {
-
             FXMLLoader smallHallLoader = new FXMLLoader(getClass().getResource("/lancaster/ui/SmallHallSeating.fxml"));
             smallHallSeatingPane = smallHallLoader.load();
 
             FXMLLoader theaterLoader = new FXMLLoader(getClass().getResource("/lancaster/ui/TheaterSeatingLayout.fxml"));
             theaterSeatingPane = theaterLoader.load();
 
+            FXMLLoader roomLoader = new FXMLLoader(getClass().getResource("/lancaster/ui/RoomLayout.fxml"));
+            roomLayoutPane = roomLoader.load();
+
             createCombinedSeatingPane();
         } catch (IOException e) {
             e.printStackTrace();
-            createSeatingPlaceholder();
+            createSeatingPlaceholder();  // Fallback in case of loading failure
         }
     }
-    private void createCombinedSeatingPane() {
 
+    /**
+     * Creates a combined seating pane with toggle buttons for different layouts.
+     */
+    private void createCombinedSeatingPane() {
         combinedSeatingPane = new BorderPane();
         combinedSeatingPane.setStyle("-fx-background-color: #122023;");
 
+        // Create toggle buttons for seating options
         ToggleButton smallHallButton = new ToggleButton("Small Hall");
         ToggleButton mainHallButton = new ToggleButton("Main Hall");
+        ToggleButton roomsButton = new ToggleButton("Rooms");
 
         ToggleGroup hallGroup = new ToggleGroup();
         smallHallButton.setToggleGroup(hallGroup);
         mainHallButton.setToggleGroup(hallGroup);
+        roomsButton.setToggleGroup(hallGroup);
 
+        // Apply initial styles
         smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
         mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+        roomsButton.setStyle(TOGGLE_BUTTON_STYLE);
 
+        // Add listeners for toggle button selection
         smallHallButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
             if (isSelected) {
                 combinedSeatingPane.setCenter(smallHallSeatingPane);
                 smallHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
                 mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+                roomsButton.setStyle(TOGGLE_BUTTON_STYLE);
             }
         });
 
@@ -174,20 +202,36 @@ public class SelectionPaneController implements Initializable {
                 combinedSeatingPane.setCenter(theaterSeatingPane);
                 mainHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
                 smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+                roomsButton.setStyle(TOGGLE_BUTTON_STYLE);
             }
         });
 
-        HBox buttonBox = new HBox(20, smallHallButton, mainHallButton);
+        roomsButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                combinedSeatingPane.setCenter(roomLayoutPane);
+                roomsButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
+                smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+                mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+            }
+        });
+
+        // Create button container
+        HBox buttonBox = new HBox(20, smallHallButton, mainHallButton, roomsButton);
         buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
         buttonBox.setPadding(new javafx.geometry.Insets(10));
         buttonBox.setStyle("-fx-background-color: #0A1517;");
 
         combinedSeatingPane.setBottom(buttonBox);
 
+        // Set default selection
         smallHallButton.setSelected(true);
         combinedSeatingPane.setCenter(smallHallSeatingPane);
         smallHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
     }
+
+    /**
+     * Creates a fallback placeholder for seating view if FXML loading fails.
+     */
     private void createSeatingPlaceholder() {
         VBox seatingPlaceholder = new VBox();
         seatingPlaceholder.setStyle("-fx-background-color: #122023;");
@@ -205,6 +249,7 @@ public class SelectionPaneController implements Initializable {
         seatingPlaceholder.getChildren().addAll(seatingTitle, seatingSubtitle);
         combinedSeatingPane = new BorderPane(seatingPlaceholder);
     }
+
     /**
      * Switches to the booking calendar view for scheduling events.
      */
@@ -219,11 +264,17 @@ public class SelectionPaneController implements Initializable {
         }
     }
 
+    /**
+     * Displays the regular calendar view.
+     */
     public void showRegularCalendar() {
         mainContainer.getChildren().setAll(regularCalendarView.getCalendarView());
         setActiveButton(btnCalendar);
     }
 
+    /**
+     * Displays the daily sheet calendar view.
+     */
     @FXML
     private void showDailySheetCalendar() {
         mainContainer.getChildren().setAll(dailySheetCalenderView.getCalendarView());
@@ -231,7 +282,8 @@ public class SelectionPaneController implements Initializable {
     }
 
     /**
-     * Switches to the review management placeholder pane.
+     * Switches to the review management view.
+     * @throws IOException if the FXML file cannot be loaded
      */
     private void showReviewPane() throws IOException {
         try {
@@ -243,16 +295,25 @@ public class SelectionPaneController implements Initializable {
         }
     }
 
+    /**
+     * Displays the revenue tracking view.
+     */
     private void showRevenueTracking() {
         mainContainer.getChildren().setAll(revenueTrackingUI);
         setActiveButton(btnRevenue);
     }
 
+    /**
+     * Displays the combined seating arrangement view.
+     */
     private void showSeatingPane() {
         mainContainer.getChildren().setAll(combinedSeatingPane);
         setActiveButton(btnSeating);
     }
 
+    /**
+     * Displays the venue calendar view.
+     */
     private void showVenueCalendar() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/VenueCalendar.fxml"));
@@ -265,12 +326,19 @@ public class SelectionPaneController implements Initializable {
             e.printStackTrace();
         }
     }
-    // Button styling helpers
+
+    /**
+     * Sets the active style for the specified button.
+     * @param button The button to set as active
+     */
     private void setActiveButton(Button button) {
         resetButtonStyles();
         button.setStyle(BUTTON_ACTIVE_STYLE);
     }
 
+    /**
+     * Resets all navigation buttons to their default style.
+     */
     private void resetButtonStyles() {
         Button[] buttons = {btnBooking, btnCalendar, btnReview, btnRevenue, btnSeating, btnVenue, btnDailySheet};
         for (Button btn : buttons) {

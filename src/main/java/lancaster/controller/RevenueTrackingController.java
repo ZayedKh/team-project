@@ -82,7 +82,7 @@ public class RevenueTrackingController {
         revenueTable.setItems(revenueData);
 
         // Style the table
-//        revenueTable.setStyle("-fx-text-fill: white;");
+        //revenueTable.setStyle("-fx-text-fill: white;");
         venueRevPieChart.setStyle("-fx-background-color: #1A2C30;");
         monthlyRevBarChart.setStyle("-fx-background-color: #1A2C30;");
 
@@ -116,7 +116,6 @@ public class RevenueTrackingController {
 
     /**
      * Handles the back button action to return to the main menu.
-     * (Navigation implementation would depend on the application's structure.)
      */
     @FXML
     private void handleBack() {
@@ -133,15 +132,12 @@ public class RevenueTrackingController {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
-        // In a real implementation, this would filter your data source
-        // For now, we'll just reload the sample data
         loadSampleData();
         updateCharts();
     }
 
     /**
      * Handles the export button action to export revenue data.
-     * (Export functionality would be implemented here.)
      */
     @FXML
     private void handleExport() {
