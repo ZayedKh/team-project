@@ -153,6 +153,8 @@ public class BookingsController implements Initializable {
             }
         });
 
+
+
         fullDayCheckbox.setOnAction(e -> {
             fullDaySelected = fullDayCheckbox.isSelected();
             if (fullDaySelected) {
