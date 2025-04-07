@@ -188,7 +188,7 @@ public class SelectionPaneController implements Initializable {
     }
 
     private void resetButtonStyles() {
-        Button[] buttons = {btnBooking, btnCalendar, btnReview, btnRevenue, btnSeating, btnVenue};
+        Button[] buttons = {btnBooking, btnCalendar, btnReview, btnRevenue, btnSeating, btnVenue, btnDailySheet};
         for (Button btn : buttons) {
             btn.setStyle(BUTTON_DEFAULT_STYLE);
         }
