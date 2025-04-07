@@ -3,12 +3,8 @@ package lancaster.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import lancaster.utils.DBUtils;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class BookingsController implements Initializable {
@@ -32,6 +28,9 @@ public class BookingsController implements Initializable {
 
     @FXML
     private DatePicker eventDatePicker;
+
+    @FXML
+    private DatePicker eventEndDatePicker;
 
     @FXML
     private ComboBox<String> startTimeBox;
@@ -61,6 +60,15 @@ public class BookingsController implements Initializable {
     private CheckBox policyCheckbox;
 
     @FXML
+    private CheckBox extraRoomCheckBox;
+
+    @FXML
+    private CheckBox multidayCheckbox;
+
+    @FXML
+    private CheckBox fullDayCheckbox;
+
+    @FXML
     private Label total;
 
     @FXML
@@ -78,6 +86,10 @@ public class BookingsController implements Initializable {
     @FXML
     private Label tax;
 
+    boolean extraRoomSelected = false;
+
+    boolean multidaySelected = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        DBUtils dbUtils;
@@ -93,18 +105,91 @@ public class BookingsController implements Initializable {
 //        List<String> roomNames = dbUtils.getRoomNames();
 //        selectVenue.getItems().addAll(roomNames);
 
+        eventEndDatePicker.setDisable(true);
+
         selectVenue.getItems().addAll(
-                "The Green Room", "Brontë Boardroom", "Dickens Den",
+                "Main Hall", "Small Hall", "Rehearsal Space", "The Green Room", "Brontë Boardroom", "Dickens Den",
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
+
+        eventTypeBox.getItems().addAll("Event", "Meeting", "Conference", "Workshop");
+
 
         extraRoom.getItems().addAll(
                 "The Green Room", "Brontë Boardroom", "Dickens Den",
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
 
+        extraRoom.setDisable(true);
+
+
         selectVenue.setOnAction(e -> handleVenueConfiguration());
         //extraRoom.setOnAction(e -> handleRoomConfiguration());
+
+        extraRoomCheckBox.setOnAction(e -> {
+            extraRoomSelected = extraRoomCheckBox.isSelected();
+            if (extraRoomSelected) {
+                extraRoom.setDisable(false);
+            } else {
+                extraRoom.setDisable(true);
+            }
+        });
+
+
+        multidayCheckbox.setOnAction(e -> {
+            multidaySelected = multidayCheckbox.isSelected();
+            if (multidaySelected) {
+                eventEndDatePicker.setDisable(false);
+                startTimeBox.setDisable(true);
+                selectEndTime.setDisable(true);
+                if (fullDayCheckbox.isSelected()) {
+                    fullDayCheckbox.setSelected(false);
+                }
+            } else {
+                eventEndDatePicker.setDisable(true);
+            }
+        });
+
+        fullDayCheckbox.setOnAction(e -> {
+            if (fullDayCheckbox.isSelected()) {
+                startTimeBox.setValue("10:00");
+                selectEndTime.setValue("23:00");
+                startTimeBox.setDisable(true);
+                selectEndTime.setDisable(true);
+                if (multidaySelected) {
+                    multidayCheckbox.setSelected(false);
+                }
+            } else {
+                startTimeBox.setDisable(false);
+                selectEndTime.setDisable(false);
+            }
+        });
+
+        for (int hour = 10; hour <= 23; hour++) {
+            String time = String.format("%02d:00", hour);
+            startTimeBox.getItems().add(time);
+            selectEndTime.getItems().add(time);
+        }
+    }
+
+
+    private void checkEndTime() {
+        String startTime = startTimeBox.getValue();
+        String endTime = selectEndTime.getValue();
+
+        if (startTime != null && endTime != null) {
+            int startHour = Integer.parseInt(startTime.split(":")[0]);
+            int endHour = Integer.parseInt(endTime.split(":")[0]);
+
+            if (endHour < startHour) {
+                // Display an error message or take appropriate action
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid Time Selection");
+                alert.setHeaderText(null);
+                alert.setContentText("End time cannot be before start time.");
+                alert.showAndWait();
+            }
+        }
     }
 
     private void handleVenueConfiguration() {
@@ -116,7 +201,7 @@ public class BookingsController implements Initializable {
         String venue = selected.trim();
 
         if (venue.equalsIgnoreCase("Main Hall")) {
-            selectConfiguration.getItems().addAll("Stalls", "Stalls and Balconies");
+            selectConfiguration.getItems().addAll("Stalls", "Stalls and Balconies", "Main Seating Only");
         } else if (venue.equalsIgnoreCase("Small Hall")) {
             selectConfiguration.getItems().add("Stalls");
         } else {
