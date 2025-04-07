@@ -41,7 +41,6 @@ public class DBUtils {
         String username = props.getProperty("db.username");
         String password = props.getProperty("db.password");
 
-        System.out.println("url: " + url);
 
         connection = DriverManager.getConnection(url, username, password);
 
@@ -57,6 +56,7 @@ public class DBUtils {
                         e.event_date,
                         e.start_time,
                         e.end_time,
+                        b.end_date,
                         b.customer_name,
                         sc.configuration_name
                     FROM events e
@@ -75,15 +75,40 @@ public class DBUtils {
 
             while (rs.next()) {
                 String roomName = rs.getString("room_name");
+                LocalDate endDate = rs.getDate("end_date").toLocalDate();
                 LocalTime startTime = rs.getTime("start_time").toLocalTime();
                 LocalTime endTime = rs.getTime("end_time").toLocalTime();
                 String customerName = rs.getString("customer_name");
                 String configName = rs.getString("configuration_name");
-                sheet.add(new Booking(roomName, date, startTime, endTime, customerName, configName));
+                sheet.add(new Booking(roomName, date, endDate, startTime, endTime, customerName, configName));
             }
-
-            return sheet;
         }
+
+        return sheet;
+
+    }
+
+    public boolean isEventScheduled(LocalDate date, LocalTime startTime, LocalTime endTime) throws SQLException {
+        String query = """
+            SELECT COUNT(*) 
+            FROM events 
+            WHERE event_date = ? 
+              AND start_time <= ? 
+              AND end_time >= ?;
+        """;
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setDate(1, Date.valueOf(date));
+            stmt.setTime(2, Time.valueOf(endTime));
+            stmt.setTime(3, Time.valueOf(startTime));
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+
+        return false;
     }
 
     public List<String> getRoomNames() {

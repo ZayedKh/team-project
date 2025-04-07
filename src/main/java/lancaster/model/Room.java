@@ -1,18 +1,17 @@
 package lancaster.model;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
- * Abstract class representing details of a room.
+ * Class representing details of a room.
  * This class provides a base structure for managing room properties and availability.
  */
-public abstract class Room {
-    protected String roomId;
+public class Room {
+    protected int roomId;
     protected String roomName;
-    protected int capacity;
-    protected List<String> facilities;
-    protected RoomBookingPriority bookingPriority;
+    protected List<Integer> capacities;
+    protected String facilities;
+    protected String bookingPriority;
     protected String usageRestrictions;
 
     /**
@@ -20,17 +19,17 @@ public abstract class Room {
      *
      * @param roomId            Unique identifier for the room.
      * @param roomName          Name of the room.
-     * @param capacity          Maximum capacity of the room.
+     * @param capacities        Maximum capacity of the room.
      * @param facilities        List of facilities available in the room.
      * @param bookingPriority   Booking priority level of the room.
      * @param usageRestrictions Any restrictions on room usage.
      */
-    public Room(String roomId, String roomName, int capacity, List<String> facilities,
-                RoomBookingPriority bookingPriority, String usageRestrictions) {
+    public Room(int roomId, String roomName, List<Integer> capacities, String facilities,
+                String bookingPriority, String usageRestrictions) {
         this.roomId = roomId;
         this.roomName = roomName;
-        this.capacity = capacity;
-        this.facilities = facilities != null ? Collections.unmodifiableList(facilities) : Collections.emptyList();
+        this.capacities = capacities;
+        this.facilities = facilities;
         this.bookingPriority = bookingPriority;
         this.usageRestrictions = usageRestrictions;
     }
@@ -40,7 +39,7 @@ public abstract class Room {
      *
      * @return The room ID as a string.
      */
-    public String getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
@@ -58,8 +57,8 @@ public abstract class Room {
      *
      * @return The maximum capacity of the room.
      */
-    public int getCapacity() {
-        return capacity;
+    public List<Integer> getCapacities() {
+        return capacities;
     }
 
     /**
@@ -67,7 +66,7 @@ public abstract class Room {
      *
      * @return An unmodifiable list of facilities.
      */
-    public List<String> getFacilities() {
+    public String getFacilities() {
         return facilities;
     }
 
@@ -76,7 +75,7 @@ public abstract class Room {
      *
      * @return The booking priority as a {@link RoomBookingPriority} enum.
      */
-    public RoomBookingPriority getBookingPriority() {
+    public String getBookingPriority() {
         return bookingPriority;
     }
 
@@ -94,7 +93,10 @@ public abstract class Room {
      *
      * @return {@code true} if the room is available, otherwise {@code false}.
      */
-    public abstract boolean isRoomAvailable();
+    public boolean isRoomAvailable() {
+        // Implement the logic to check room availability
+        return true; // Placeholder implementation
+    }
 
     /**
      * Returns a string representation of the room object.
@@ -106,7 +108,7 @@ public abstract class Room {
         return "Room{" +
                 "roomId='" + roomId + '\'' +
                 ", roomName='" + roomName + '\'' +
-                ", capacity=" + capacity +
+                ", capacity=" + capacities +
                 ", facilities=" + facilities +
                 ", bookingPriority=" + bookingPriority +
                 ", usageRestrictions='" + usageRestrictions + '\'' +
