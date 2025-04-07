@@ -53,6 +53,7 @@ public class SelectionPaneController implements Initializable {
     private Node homePane;
     private Node smallHallSeatingPane;
     private Node theaterSeatingPane;
+    private Node roomLayoutPane;
     private BorderPane combinedSeatingPane;
 
     private final String BUTTON_DEFAULT_STYLE = "-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;";
@@ -140,6 +141,9 @@ public class SelectionPaneController implements Initializable {
             FXMLLoader theaterLoader = new FXMLLoader(getClass().getResource("/lancaster/ui/TheaterSeatingLayout.fxml"));
             theaterSeatingPane = theaterLoader.load();
 
+            FXMLLoader roomLoader = new FXMLLoader(getClass().getResource("/lancaster/ui/RoomLayout.fxml"));
+            roomLayoutPane = roomLoader.load();
+
             createCombinedSeatingPane();
         } catch (IOException e) {
             e.printStackTrace();
@@ -147,25 +151,31 @@ public class SelectionPaneController implements Initializable {
         }
     }
     private void createCombinedSeatingPane() {
-
         combinedSeatingPane = new BorderPane();
         combinedSeatingPane.setStyle("-fx-background-color: #122023;");
 
+        // Create toggle buttons for seating options
         ToggleButton smallHallButton = new ToggleButton("Small Hall");
         ToggleButton mainHallButton = new ToggleButton("Main Hall");
+        ToggleButton roomsButton = new ToggleButton("Rooms");
 
         ToggleGroup hallGroup = new ToggleGroup();
         smallHallButton.setToggleGroup(hallGroup);
         mainHallButton.setToggleGroup(hallGroup);
+        roomsButton.setToggleGroup(hallGroup);
 
+        // Apply initial styles
         smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
         mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+        roomsButton.setStyle(TOGGLE_BUTTON_STYLE);
 
+        // Add listeners for toggle button selection
         smallHallButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
             if (isSelected) {
                 combinedSeatingPane.setCenter(smallHallSeatingPane);
                 smallHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
                 mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+                roomsButton.setStyle(TOGGLE_BUTTON_STYLE);
             }
         });
 
@@ -174,16 +184,28 @@ public class SelectionPaneController implements Initializable {
                 combinedSeatingPane.setCenter(theaterSeatingPane);
                 mainHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
                 smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+                roomsButton.setStyle(TOGGLE_BUTTON_STYLE);
             }
         });
 
-        HBox buttonBox = new HBox(20, smallHallButton, mainHallButton);
+        roomsButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                combinedSeatingPane.setCenter(roomLayoutPane);
+                roomsButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
+                smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+                mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+            }
+        });
+
+        // Create button container
+        HBox buttonBox = new HBox(20, smallHallButton, mainHallButton, roomsButton);
         buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
         buttonBox.setPadding(new javafx.geometry.Insets(10));
         buttonBox.setStyle("-fx-background-color: #0A1517;");
 
         combinedSeatingPane.setBottom(buttonBox);
 
+        // Set default selection
         smallHallButton.setSelected(true);
         combinedSeatingPane.setCenter(smallHallSeatingPane);
         smallHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
