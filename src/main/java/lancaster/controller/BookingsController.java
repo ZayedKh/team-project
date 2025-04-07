@@ -57,6 +57,9 @@ public class BookingsController implements Initializable {
     private CheckBox multidayCheckbox;
 
     @FXML
+    private CheckBox fullDayCheckbox;
+
+    @FXML
     private Label total;
 
     @FXML
@@ -123,12 +126,33 @@ public class BookingsController implements Initializable {
             }
         });
 
+
         multidayCheckbox.setOnAction(e -> {
             multidaySelected = multidayCheckbox.isSelected();
             if (multidaySelected) {
                 eventEndDatePicker.setDisable(false);
+                startTimeBox.setDisable(true);
+                selectEndTime.setDisable(true);
+                if (fullDayCheckbox.isSelected()) {
+                    fullDayCheckbox.setSelected(false);
+                }
             } else {
                 eventEndDatePicker.setDisable(true);
+            }
+        });
+
+        fullDayCheckbox.setOnAction(e -> {
+            if (fullDayCheckbox.isSelected()) {
+                startTimeBox.setValue("10:00");
+                selectEndTime.setValue("23:00");
+                startTimeBox.setDisable(true);
+                selectEndTime.setDisable(true);
+                if (multidaySelected) {
+                    multidayCheckbox.setSelected(false);
+                }
+            } else {
+                startTimeBox.setDisable(false);
+                selectEndTime.setDisable(false);
             }
         });
 
@@ -138,6 +162,7 @@ public class BookingsController implements Initializable {
             selectEndTime.getItems().add(time);
         }
     }
+
 
     private void checkEndTime() {
         String startTime = startTimeBox.getValue();
