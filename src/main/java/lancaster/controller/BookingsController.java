@@ -3,8 +3,14 @@ package lancaster.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import lancaster.utils.DBUtils;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ResourceBundle;
 
 /**
@@ -15,44 +21,76 @@ import java.util.ResourceBundle;
 public class BookingsController implements Initializable {
 
     // Client Information Inputs
-    @FXML private TextField clientInput;
-    @FXML private TextField clientEmailInput;
-    @FXML private TextField clientTelephoneInput;
-    @FXML private TextField clientAddressInput;
+    @FXML
+    private TextField clientInput;
+    @FXML
+    private TextField clientEmailInput;
+    @FXML
+    private TextField clientTelephoneInput;
+    @FXML
+    private TextField clientAddressInput;
 
     // Event Information Inputs
-    @FXML private TextField eventNameInput;
-    @FXML private ComboBox<String> eventTypeBox;
-    @FXML private DatePicker eventDatePicker;
-    @FXML private DatePicker eventEndDatePicker;
+    @FXML
+    private TextField eventNameInput;
+    @FXML
+    private ComboBox<String> eventTypeBox;
+    @FXML
+    private DatePicker eventDatePicker;
+    @FXML
+    private DatePicker eventEndDatePicker;
 
     // Time Selection Controls
-    @FXML private ComboBox<String> startTimeBox;
-    @FXML private ComboBox<String> selectEndTime;
+    @FXML
+    private ComboBox<String> startTimeBox;
+    @FXML
+    private ComboBox<String> selectEndTime;
+    @FXML
+    private ComboBox<String> selectExtraConfiguration;
+
+    @FXML
+    private ComboBox<String> extraRoom;
 
     // Venue and Room Configuration
-    @FXML private ComboBox<String> selectVenue;
-    @FXML private ComboBox<String> selectConfiguration;
-    @FXML private ComboBox<String> extraRoom;
-    @FXML private ComboBox<String> roomConfiguration;
+    @FXML
+    private ComboBox<String> selectVenue;
+    @FXML
+    private ComboBox<String> selectConfiguration;
+    @FXML
+    private ComboBox<String> roomConfiguration;
 
     // Booking Action Buttons
-    @FXML private Button addBookingButton;
-    @FXML private Button confirmBookingButton;
+    @FXML
+    private Button addBookingButton;
+    @FXML
+    private Button confirmBookingButton;
+    @FXML
+    private Button addEventButton;
+
 
     // Booking Options
-    @FXML private CheckBox policyCheckbox;
-    @FXML private CheckBox extraRoomCheckBox;
-    @FXML private CheckBox multidayCheckbox;
-    @FXML private CheckBox fullDayCheckbox;
+    @FXML
+    private CheckBox policyCheckbox;
+    @FXML
+    private CheckBox extraRoomCheckBox;
+    @FXML
+    private CheckBox multidayCheckbox;
+    @FXML
+    private CheckBox fullDayCheckbox;
 
     // Pricing Labels
-    @FXML private Label total;
-    @FXML private Label venueCost;
-    @FXML private Label duration;
-    @FXML private Label extraRoomCost;
-    @FXML private Label additionalServices;
-    @FXML private Label tax;
+    @FXML
+    private Label total;
+    @FXML
+    private Label venueCost;
+    @FXML
+    private Label duration;
+    @FXML
+    private Label extraRoomCost;
+    @FXML
+    private Label additionalServices;
+    @FXML
+    private Label tax;
 
     // Option state flags
     private boolean extraRoomSelected = false;
@@ -66,6 +104,20 @@ public class BookingsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Disable the end date picker initially (only used for multiday)
         eventEndDatePicker.setDisable(true);
+//        DBUtils dbUtils;
+//        try {
+//            dbUtils = new DBUtils();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        List<String> roomNames = dbUtils.getRoomNames();
+//        selectVenue.getItems().addAll(roomNames);
+
+        //eventEndDatePicker.setDisable(true);
 
         // Populate venue and event type dropdowns
         selectVenue.getItems().addAll(
@@ -82,13 +134,21 @@ public class BookingsController implements Initializable {
         extraRoom.setDisable(true);
 
         // Handle room configuration updates when a venue is selected
-        selectVenue.setOnAction(e -> handleVenueConfiguration());
+        selectVenue.setOnAction(e -> handleVenueConfiguration(selectVenue, selectConfiguration));
+        extraRoom.setOnAction(e -> handleVenueConfiguration(extraRoom, selectExtraConfiguration));
 
         // Enable/disable extra room selection based on checkbox
         extraRoomCheckBox.setOnAction(e -> {
             extraRoomSelected = extraRoomCheckBox.isSelected();
-            extraRoom.setDisable(!extraRoomSelected);
+            if (extraRoomSelected) {
+                extraRoom.setDisable(false);
+                selectExtraConfiguration.setDisable(false);
+            } else {
+                extraRoom.setDisable(true);
+                selectExtraConfiguration.setDisable(true);
+            }
         });
+
 
         // Enable multiday options and update UI accordingly
         multidayCheckbox.setOnAction(e -> {
@@ -118,6 +178,10 @@ public class BookingsController implements Initializable {
             } else {
                 startTimeBox.setDisable(false);
                 selectEndTime.setDisable(false);
+                startTimeBox.setValue(null);
+                selectEndTime.setValue(null);
+                startTimeBox.setPromptText("Select a start time");
+                selectEndTime.setPromptText("Select an end time");
             }
         });
 
@@ -127,6 +191,41 @@ public class BookingsController implements Initializable {
             startTimeBox.getItems().add(time);
             selectEndTime.getItems().add(time);
         }
+
+        confirmBookingButton.setOnAction(event -> {
+            if (clientInput.getText().isEmpty() || clientEmailInput.getText().isEmpty()
+                    || clientTelephoneInput.getText().isEmpty() || clientAddressInput.getText().isEmpty()
+                    || eventTypeBox.getValue().isEmpty() || eventNameInput.getText().isEmpty()
+                    || eventDatePicker.getValue() == null || startTimeBox.getValue().isEmpty()
+                    || selectEndTime.getValue().isEmpty() || selectVenue.getValue().isEmpty()
+                    || (extraRoomCheckBox.isSelected() && extraRoom.getValue().isEmpty())
+                    || (extraRoomCheckBox.isSelected() && selectExtraConfiguration.getValue().isEmpty())
+                    || !policyCheckbox.isSelected()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Please enter all fields");
+                alert.show();
+            } else {
+                try {
+                    DBUtils db = new DBUtils();
+                    if (!db.bookingConflict(Date.valueOf(eventDatePicker.getValue()), Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"))) {
+                        db.createBooking(db.getRoomId(selectVenue.getValue()), Date.valueOf(eventDatePicker.getValue()), Date.valueOf(eventDatePicker.getValue()),
+                                clientInput.getText(), clientEmailInput.getText(), clientTelephoneInput.getText(),
+                                clientAddressInput.getText(), "pending");
+                        db.createEvent(db.getRoomId(selectVenue.getValue()), 1, eventNameInput.getText(), Date.valueOf(eventDatePicker.getValue()),
+                                Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"));
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setContentText("You have created a booking");
+                        alert.show();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("Already an event at this time");
+                        alert.show();
+                    }
+                } catch (SQLException | IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     /**
@@ -154,16 +253,21 @@ public class BookingsController implements Initializable {
     /**
      * Updates the room configuration options based on selected venue.
      */
-    private void handleVenueConfiguration() {
-        String selected = selectVenue.getValue();
-        selectConfiguration.getItems().clear();
+
+    private void handleVenueConfiguration(ComboBox<String> venues, ComboBox<String> config) {
+        String selected = venues.getValue();
+        config.getItems().clear();
 
         if (selected == null) return;
 
-        switch (selected.trim()) {
-            case "Main Hall" -> selectConfiguration.getItems().addAll("Stalls", "Stalls and Balconies", "Main Seating Only");
-            case "Small Hall" -> selectConfiguration.getItems().add("Stalls");
-            default -> selectConfiguration.getItems().addAll("Classroom", "Presentation", "Boardroom");
+        String venue = selected.trim();
+
+        if (venue.equalsIgnoreCase("Main Hall")) {
+            config.getItems().addAll("Stalls", "Stalls and Balconies", "Main Seating Only");
+        } else if (venue.equalsIgnoreCase("Small Hall")) {
+            config.getItems().add("Stalls");
+        } else {
+            config.getItems().addAll("Classroom", "Presentation", "Boardroom");
         }
     }
 
