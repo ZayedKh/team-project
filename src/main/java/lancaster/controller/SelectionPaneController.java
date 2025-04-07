@@ -47,6 +47,7 @@ public class SelectionPaneController implements Initializable {
     private Node roomLayoutPane;                     // Room layout pane
     private BorderPane combinedSeatingPane;          // Combined seating view with toggle buttons
 
+
     // Button styling constants
     private final String BUTTON_DEFAULT_STYLE = "-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;";
     private final String BUTTON_ACTIVE_STYLE = "-fx-background-color: rgba(46, 204, 64, 0.15); -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: #2ECC40;";
@@ -217,6 +218,16 @@ public class SelectionPaneController implements Initializable {
 
         // Create button container
         HBox buttonBox = new HBox(20, smallHallButton, mainHallButton, roomsButton);
+        roomsButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                combinedSeatingPane.setCenter(roomLayoutPane);
+                roomsButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
+                smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+                mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+            }
+        });
+
+        // Create button container
         buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
         buttonBox.setPadding(new javafx.geometry.Insets(10));
         buttonBox.setStyle("-fx-background-color: #0A1517;");

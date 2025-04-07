@@ -391,6 +391,7 @@ public class RoomLayoutController implements Initializable {
      * @return StackPane representing the seat
      */
     private StackPane createSeat(String seatId, double x, double y, SeatStatus defaultStatus, int seatNumber) {
+        // Use RESERVED status if the seat has been booked.
         SeatStatus status = reservedSeats.contains(seatId) ? SeatStatus.RESERVED : defaultStatus;
         StackPane seat = new StackPane();
         seat.setId("seat-" + seatId);
@@ -411,7 +412,9 @@ public class RoomLayoutController implements Initializable {
         Tooltip tooltip = new Tooltip("Seat " + seatNumber + " - " + status.getDescription());
         Tooltip.install(seat, tooltip);
 
+        // Update the temporary map.
         seatStatusMap.put(seatId, status);
+        // Allow selection only if the seat is available.
         if (status == SeatStatus.AVAILABLE) {
             seat.setOnMouseClicked(event -> handleSeatClick(seatId, seat));
         }
@@ -424,6 +427,7 @@ public class RoomLayoutController implements Initializable {
      * @param seat The StackPane representing the seat
      */
     private void handleSeatClick(String seatId, StackPane seat) {
+        // Only allow selection if the seat is available.
         if (seatStatusMap.get(seatId) == SeatStatus.AVAILABLE) {
             if (selectedSeats.contains(seatId)) {
                 selectedSeats.remove(seatId);
