@@ -80,18 +80,23 @@ public class BookingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DBUtils dbUtils;
-        try {
-            dbUtils = new DBUtils();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        List<String> roomNames = dbUtils.getRoomNames();
-        selectVenue.getItems().addAll(roomNames);
+//        DBUtils dbUtils;
+//        try {
+//            dbUtils = new DBUtils();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        List<String> roomNames = dbUtils.getRoomNames();
+//        selectVenue.getItems().addAll(roomNames);
+
+        selectVenue.getItems().addAll(
+                "The Green Room", "Brontë Boardroom", "Dickens Den",
+                "Poe Parlor", "Globe Room", "Chekhov Chamber"
+        );
 
         extraRoom.getItems().addAll(
                 "The Green Room", "Brontë Boardroom", "Dickens Den",
