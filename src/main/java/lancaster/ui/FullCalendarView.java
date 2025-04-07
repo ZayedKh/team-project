@@ -97,7 +97,7 @@ public class FullCalendarView {
                 AnchorPaneNode ap = new AnchorPaneNode(mainView, calendarView);
                 // Let the cell expand with grid
                 ap.setPrefSize(200, 150);
-                ap.setStyle("-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;"
+                ap.setStyle("-fx-background-color: white; -fx-border-color: #122023; -fx-border-width: 1px;"
                         + " -fx-background-radius: 5px; -fx-border-radius: 3px;");
                 calendar.add(ap, j, i);
                 allCalendarDays.add(ap);
@@ -149,6 +149,10 @@ public class FullCalendarView {
         backButton.setStyle("-fx-font-size: 16px;");
         backButton.setOnAction(e -> mainView.getChildren().setAll(selectionPane));
 
+        previousMonth.setStyle("-fx-background-color: #2ECC4026; -fx-text-fill: #2ECC40; -fx-font-size: 20px;");
+        nextMonth.setStyle("-fx-background-color: #2ECC4026; -fx-text-fill: #2ECC40; -fx-font-size: 20px;");
+        backButton.setStyle("-fx-background-color: #2ECC4026; -fx-text-fill: #2ECC40; -fx-font-size: 20px;");
+
         // Arrange back, previous, title, and next in the title bar.
         HBox titleBar = new HBox(20, backButton, previousMonth, calendarTitle, nextMonth);
         titleBar.setAlignment(Pos.CENTER);
@@ -177,36 +181,51 @@ public class FullCalendarView {
      */
     public void populateCalendar(YearMonth yearMonth) {
         LocalDate calendarDate = LocalDate.of(yearMonth.getYear(), yearMonth.getMonthValue(), 1);
-        // Roll back to the previous Sunday.
         while (!calendarDate.getDayOfWeek().toString().equals("SUNDAY")) {
             calendarDate = calendarDate.minusDays(1);
         }
         for (AnchorPaneNode ap : allCalendarDays) {
-            // Clear previous content.
             ap.getChildren().clear();
             Text txt = new Text(String.valueOf(calendarDate.getDayOfMonth()));
 
             String textStyle;
             if (calendarDate.getMonth() != yearMonth.getMonth()) {
-                textStyle = "-fx-fill: #AAAAAA; -fx-font-size: 20px;";
+                textStyle = "-fx-font-size: 24px; -fx-fill: grey;";
             } else {
-                textStyle = "-fx-fill: #333333; -fx-font-size: 20px;";
+                textStyle = "-fx-font-size: 24px;";
             }
-
-            // In selection mode, highlight selected dates
             if (selectionMode && selectedDates.contains(calendarDate)) {
-                ap.setStyle("-fx-background-color: #2ECC40; -fx-border-color: #122023; -fx-border-width: 1px;"
-                        + " -fx-background-radius: 5px; -fx-border-radius: 3px;");
-                textStyle = "-fx-fill: #FFFFFF; -fx-font-size: 20px; -fx-font-weight: bold;";
+                ap.setStyle("-fx-background-color: #e0ffe4; -fx-background-radius: 5px;");
+                textStyle = "-fx-font-size: 24px; -fx-font-weight: bold;";
             } else {
-                ap.setStyle("-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;"
-                        + " -fx-background-radius: 5px; -fx-border-radius: 3px;");
+                ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
             }
 
             txt.setStyle(textStyle);
+            ap.setOnMouseEntered(e -> {
+                if (selectionMode && selectedDates.contains(ap.getDate())) {
+                    ap.setStyle("-fx-background-color: #e0ffe4; -fx-background-radius: 5px;");
+                } else {
+                    ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
+                }
+            });
+            ap.setOnMouseExited(e -> {
+                if (selectionMode && selectedDates.contains(ap.getDate())) {
+                    ap.setStyle("-fx-background-color: #e0ffe4; -fx-background-radius: 5px;");
+                } else {
+                    ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
+                }
+            });
+
+            StackPane sp = new StackPane(txt);
+            sp.setAlignment(Pos.CENTER);
+            AnchorPane.setTopAnchor(sp, 0.0);
+            AnchorPane.setBottomAnchor(sp, 0.0);
+            AnchorPane.setLeftAnchor(sp, 0.0);
+            AnchorPane.setRightAnchor(sp, 0.0);
+
             ap.setDate(calendarDate);
 
-            // Set up click event based on mode
             if (selectionMode) {
                 setupSelectionModeClickEvent(ap);
             } else if (reportMode) {
@@ -215,13 +234,14 @@ public class FullCalendarView {
                 setupBookingModeClickEvent(ap);
             }
 
-            AnchorPane.setTopAnchor(txt, 10.0);
-            AnchorPane.setLeftAnchor(txt, 10.0);
-            ap.getChildren().add(txt);
+            ap.getChildren().add(sp);
             calendarDate = calendarDate.plusDays(1);
         }
         calendarTitle.setText(yearMonth.getMonth().toString() + " " + yearMonth.getYear());
     }
+
+
+
 
     private void previousMonth() {
         currentYearMonth = currentYearMonth.minusMonths(1);
@@ -249,39 +269,30 @@ public class FullCalendarView {
         ap.setOnMouseClicked(e -> {
             LocalDate clickedDate = ap.getDate();
 
-            // Toggle selection state for this date
+            StackPane sp = (StackPane) ap.getChildren().get(0);
+            Text txt = (Text) sp.getChildren().get(0);
+
             if (selectedDates.contains(clickedDate)) {
                 selectedDates.remove(clickedDate);
-                ap.setStyle("-fx-background-color: #e0ffe4; -fx-border-color: #122023; -fx-border-width: 1px;"
-                        + " -fx-background-radius: 5px; -fx-border-radius: 3px;");
-                // Update text style
-                Text txt = (Text) ap.getChildren().get(0);
-                if (clickedDate.getMonth() != currentYearMonth.getMonth()) {
-                    txt.setStyle("-fx-fill: #AAAAAA; -fx-font-size: 20px;");
-                } else {
-                    txt.setStyle("-fx-fill: #333333; -fx-font-size: 20px;");
-                }
+                ap.setStyle("-fx-background-color: white; -fx-background-radius: 5px;");
+                txt.setStyle("-fx-font-size: 24px;");
             } else {
-                // If not multi-select, clear previous selections unless Ctrl is held
                 if (!multiSelectEnabled && !e.isControlDown()) {
                     clearAllSelections();
                 }
-
                 selectedDates.add(clickedDate);
-                ap.setStyle("-fx-background-color: #2ECC40; -fx-border-color: #122023; -fx-border-width: 1px;"
-                        + " -fx-background-radius: 5px; -fx-border-radius: 3px;");
-
-                // Update text style
-                Text txt = (Text) ap.getChildren().get(0);
-                txt.setStyle("-fx-fill: #FFFFFF; -fx-font-size: 20px; -fx-font-weight: bold;");
+                // Use new color for selection
+                ap.setStyle("-fx-background-color: #e0ffe4; -fx-background-radius: 5px;");
+                txt.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
             }
 
-            // Trigger callback if set
             if (onDateSelectionCallback != null) {
                 onDateSelectionCallback.run();
             }
         });
     }
+
+
 
     /**
      * Setup click event for report mode
@@ -376,7 +387,8 @@ public class FullCalendarView {
         nextMonth.setPrefSize(60, 30);
         nextMonth.setStyle("-fx-font-size: 14px;");
         nextMonth.setOnAction(e -> nextMonth());
-
+        previousMonth.setStyle("-fx-background-color: #2ECC4026; -fx-text-fill: #2ECC40; -fx-font-size: 20px;");
+        nextMonth.setStyle("-fx-background-color: #2ECC4026; -fx-text-fill: #2ECC40; -fx-font-size: 20px;");
         HBox titleBar = new HBox(15, previousMonth, calendarTitle, nextMonth);
         titleBar.setAlignment(Pos.CENTER);
         titleBar.setPadding(new Insets(10));
