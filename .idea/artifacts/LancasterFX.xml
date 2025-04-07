@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="LancasterFX">
+    <output-path>$PROJECT_DIR$/out/artifacts/LancasterFX</output-path>
+    <root id="root">
+      <element id="archive" name="LancasterFX.jar">
+        <element id="module-output" name="LancasterFX" />
+      </element>
+    </root>
+  </artifact>
+</component>

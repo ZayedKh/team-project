@@ -13,11 +13,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import lancaster.model.Event;
+import lancaster.utils.DBUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 /**

@@ -3,8 +3,14 @@ package lancaster.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import lancaster.utils.DBUtils;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ResourceBundle;
 
 /**
@@ -118,6 +124,10 @@ public class BookingsController implements Initializable {
             } else {
                 startTimeBox.setDisable(false);
                 selectEndTime.setDisable(false);
+                startTimeBox.setValue(null);
+                selectEndTime.setValue(null);
+                startTimeBox.setPromptText("Select a start time");
+                selectEndTime.setPromptText("Select an end time");
             }
         });
 
@@ -127,6 +137,43 @@ public class BookingsController implements Initializable {
             startTimeBox.getItems().add(time);
             selectEndTime.getItems().add(time);
         }
+
+        confirmBookingButton.setOnAction(event -> {
+            if(clientInput.getText().isEmpty() || clientEmailInput.getText().isEmpty()
+                    || clientTelephoneInput.getText().isEmpty() || clientAddressInput.getText().isEmpty()
+                    || eventTypeBox.getValue().isEmpty() || eventNameInput.getText().isEmpty()
+                    || eventDatePicker.getValue() == null || startTimeBox.getValue().isEmpty()
+                    || selectEndTime.getValue().isEmpty() || selectVenue.getValue().isEmpty()
+                    || (extraRoomCheckBox.isSelected() && extraRoom.getValue().isEmpty())
+                    || (extraRoomCheckBox.isSelected() && selectExtraConfiguration.getValue().isEmpty())
+                    || !policyCheckbox.isSelected()){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Please enter all fields");
+                alert.show();
+            }
+            else{
+                try {
+                    DBUtils db = new DBUtils();
+                    if(!db.bookingConflict(Date.valueOf(eventDatePicker.getValue()), Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"))){
+                        db.createBooking(db.getRoomId(selectVenue.getValue()), Date.valueOf(eventDatePicker.getValue()), Date.valueOf(eventDatePicker.getValue()),
+                                clientInput.getText(), clientEmailInput.getText(), clientTelephoneInput.getText(),
+                                clientAddressInput.getText(), "pending");
+                        db.createEvent(db.getRoomId(selectVenue.getValue()), 1, eventNameInput.getText(), Date.valueOf(eventDatePicker.getValue()),
+                                Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"));
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setContentText("You have created a booking");
+                        alert.show();
+                    }
+                    else{
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("Already an event at this time");
+                        alert.show();
+                    }
+                } catch (SQLException | IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     /**
