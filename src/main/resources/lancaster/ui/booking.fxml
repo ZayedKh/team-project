@@ -77,11 +77,29 @@
                     </VBox>
                     <VBox prefHeight="110.0" prefWidth="600.0">
                         <children>
-                            <Label prefHeight="25.0" prefWidth="216.0" text="Booking Date &amp; Time:">
-                                <font>
-                                    <Font name="System Bold" size="16.0" />
-                                </font>
-                            </Label>
+                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="730.0">
+                              <children>
+                                  <Label prefHeight="25.0" prefWidth="216.0" text="Booking Date &amp; Time:">
+                                      <font>
+                                          <Font name="System Bold" size="16.0" />
+                                      </font>
+                                  </Label>
+                                 <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="298.0" spacing="10.0">
+                                    <children>
+                                       <CheckBox fx:id="fullDayCheckbox" mnemonicParsing="false" prefHeight="16.0" prefWidth="111.0" text="Full Day Booking">
+                                          <font>
+                                             <Font size="12.0" />
+                                          </font>
+                                       </CheckBox>
+                                       <CheckBox fx:id="multidayCheckbox" mnemonicParsing="false" text="Multi-Day Booking">
+                                          <font>
+                                             <Font size="12.0" />
+                                          </font>
+                                       </CheckBox>
+                                    </children>
+                                 </HBox>
+                              </children>
+                           </HBox>
                             <HBox fx:id="eventTimeHBox" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
                                 <children>
                                     <DatePicker fx:id="eventDatePicker" prefHeight="64.0" prefWidth="300.0" promptText="Select a start date" HBox.hgrow="ALWAYS">
@@ -89,6 +107,7 @@
                                             <Insets />
                                         </HBox.margin>
                                     </DatePicker>
+                                 <DatePicker fx:id="eventEndDatePicker" layoutX="10.0" layoutY="20.0" prefHeight="64.0" prefWidth="300.0" promptText="Select an end date" />
                                     <ComboBox fx:id="startTimeBox" prefHeight="64.0" prefWidth="300.0" promptText="Select a start time" HBox.hgrow="ALWAYS">
                                         <HBox.margin>
                                             <Insets />
