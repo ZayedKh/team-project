@@ -59,14 +59,14 @@ public class EventDAOImpl implements EventDAO {
 
     private Event mapRowToEvent(ResultSet rs) throws SQLException {
         return new Event(
-                rs.getString("event_id"),
-                rs.getString("event_name"),
-                rs.getDate("event_date").toLocalDate(),
-                rs.getTime("start_time").toLocalTime(),
-                rs.getTime("end_time").toLocalTime(),
-                rs.getString("event_type"),
-                EventStatus.valueOf(rs.getString("status")),
-                rs.getTimestamp("last_updated").toLocalDateTime()
+                rs.getInt("event_id"),
+                rs.getInt("booking_id"),
+                rs.getInt("room_id"),
+                rs.getInt("seating_config_id"),
+                rs.getString("name"),
+                rs.getDate("event_date"),
+                rs.getTime("start_time"),
+                rs.getTime("end_time")
         );
     }
 }
