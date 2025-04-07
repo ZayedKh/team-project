@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<ScrollPane fx:id="scrollPane" fitToHeight="false" fitToWidth="true" style="-fx-background: #FFFFFF; -fx-border-color: transparent;" stylesheets="@../../css/bookingStyles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.BookingsController">
+<ScrollPane fx:id="scrollPane" fitToHeight="false" fitToWidth="true" style="-fx-background: #FFFFFF; -fx-border-color: transparent;" stylesheets="@../../css/bookingStyles.css" vbarPolicy="AS_NEEDED" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lancaster.controller.BookingsController">
     <BorderPane fx:id="mainBorderPane" prefWidth="1200">
         <top>
             <HBox prefHeight="80" style="-fx-background-color: #1C2526; -fx-padding: 10 10 0 10; -fx-alignment: CENTER_LEFT;">
@@ -45,152 +45,176 @@
                                  <Font name="System Bold" size="16.0" />
                               </font>
                            </Label>
-                           <HBox fx:id="eventInfoBox1" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
+                           <HBox fx:id="eventInfoBox1" alignment="CENTER_LEFT" minHeight="48.0" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
                               <children>
-                                 <TextField fx:id="clientInput" layoutX="120.0" layoutY="25.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Name" />
-                                 <TextField fx:id="clientEmailInput" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Email" />
-                                 <TextField fx:id="clientTelephoneInput" layoutX="401.0" layoutY="15.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Telephone Number" />
-                                 <TextField fx:id="clientAddressInput" layoutX="792.0" layoutY="15.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Address" />
+                                 <TextField fx:id="clientInput" layoutX="120.0" layoutY="25.0" maxWidth="280.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Name">
+                                    <HBox.margin>
+                                       <Insets />
+                                    </HBox.margin></TextField>
+                                 <TextField fx:id="clientEmailInput" maxWidth="280.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Email">
+                                    <HBox.margin>
+                                       <Insets />
+                                    </HBox.margin></TextField>
+                                 <TextField fx:id="clientTelephoneInput" layoutX="401.0" layoutY="15.0" maxWidth="280.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Telephone Number" />
+                                 <TextField fx:id="clientAddressInput" layoutX="792.0" layoutY="15.0" maxWidth="280.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Address" />
+                              </children>
+                              <VBox.margin>
+                                 <Insets />
+                              </VBox.margin>
+                           </HBox>
+                        </children>
+                     </VBox>
+                     <VBox fx:id="eventCreate" prefHeight="200.0" prefWidth="100.0">
+                        <children>
+                                  <VBox prefHeight="110.0" prefWidth="600.0">
+                                      <children>
+                                          <Label minWidth="200.0" prefHeight="25.0" prefWidth="152.0" text="Event Information:">
+                                              <font>
+                                                  <Font name="System Bold" size="16.0" />
+                                              </font>
+                                          </Label>
+                                          <HBox fx:id="eventInfoBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
+                                          <children>
+                                              <TextField fx:id="eventNameInput" prefHeight="64.0" prefWidth="564.0" promptText="Enter Event Name" />
+      
+                                                  <ComboBox id=" eventTypeBox" fx:id="eventTypeBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
+                                              <HBox.margin>
+                                                  <Insets />
+                                              </HBox.margin>
+                                          </ComboBox>
+                                      </children>
+                                  </HBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="30.0" />
+                              </VBox.margin>
+                          </VBox>
+                          <VBox prefHeight="110.0" prefWidth="600.0">
+                              <children>
+                                 <HBox alignment="CENTER_LEFT" maxWidth="1170.0" prefHeight="100.0" prefWidth="200.0" spacing="730.0">
+                                    <children>
+                                        <Label minWidth="300.0" prefHeight="25.0" prefWidth="216.0" text="Booking Date &amp; Time:">
+                                            <font>
+                                                <Font name="System Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+                                       <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="298.0" spacing="10.0" />
+                                    </children>
+                                 </HBox>
+                                  <HBox fx:id="eventTimeHBox" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
+                                      <children>
+                                          <DatePicker fx:id="eventDatePicker" prefHeight="64.0" prefWidth="300.0" promptText="Select a date" HBox.hgrow="ALWAYS">
+                                              <HBox.margin>
+                                                  <Insets />
+                                              </HBox.margin>
+                                          </DatePicker>
+                                          <ComboBox fx:id="startTimeBox" prefHeight="64.0" prefWidth="300.0" promptText="Select a start time" HBox.hgrow="ALWAYS">
+                                              <HBox.margin>
+                                                  <Insets />
+                                              </HBox.margin>
+                                          </ComboBox>
+                                       <ComboBox fx:id="selectEndTime" layoutX="472.0" layoutY="20.0" prefHeight="64.0" prefWidth="300.0" promptText="Select an end time" />
+                                       <CheckBox fx:id="fullDayCheckbox" alignment="CENTER" maxWidth="140.0" minWidth="120.0" mnemonicParsing="false" text="Full Day Booking">
+                                          <font>
+                                             <Font size="12.0" />
+                                          </font>
+                                          <HBox.margin>
+                                             <Insets left="45.0" top="13.0" />
+                                          </HBox.margin>
+                                       </CheckBox>
+                                      </children>
+                                      <padding>
+                                          <Insets top="10.0" />
+                                      </padding>
+                                  </HBox>
+                              </children>
+                              <VBox.margin>
+                                 <Insets bottom="30.0" />
+                              </VBox.margin>
+                          </VBox>
+      
+                          <VBox prefHeight="110.0" prefWidth="600.0">
+                              <children>
+                                  <HBox fx:id="venueHBox" maxWidth="1000.0" prefHeight="29.0" prefWidth="1122.0" spacing="700.0">
+                                      <children>
+                                          <Label minWidth="250.0" prefHeight="25.0" prefWidth="238.0" text="Venue &amp; Room Selection:">
+                                              <font>
+                                                  <Font name="System Bold" size="16.0" />
+                                              </font>
+                                          </Label>
+                                          <HBox alignment="CENTER" maxWidth="210.0" spacing="20.0">
+                                              <children>
+                                                  <Label maxWidth="90.0" minWidth="90.0" text="Seat Preview" underline="true">
+                                                      <font>
+                                                          <Font name="System Bold" size="12.0" />
+                                                      </font>
+                                                  </Label>
+                                                  <CheckBox fx:id="extraRoomCheckBox" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" text="Extra Room">
+                                                      <font>
+                                                          <Font name="System Bold" size="12.0" />
+                                                      </font>
+                                                <HBox.margin>
+                                                   <Insets />
+                                                </HBox.margin>
+                                                  </CheckBox>
+                                              </children>
+                                          </HBox>
+                                      </children>
+                                  </HBox>
+                                  <HBox fx:id="eventTimeHBox1" prefHeight="79.0" prefWidth="1122.0" spacing="12.0">
+                                      <children>
+                                          <ComboBox fx:id="selectVenue" layoutX="10.0" layoutY="20.0" prefHeight="64.0" prefWidth="564.0" promptText="Select a Venue" />
+                                          <ComboBox fx:id="extraRoom" disable="true" prefHeight="64.0" prefWidth="564.0" promptText="Extra Room" HBox.hgrow="ALWAYS">
+                                              <HBox.margin>
+                                                  <Insets />
+                                              </HBox.margin>
+                                          </ComboBox>
+                                      </children>
+                                      <padding>
+                                          <Insets top="10.0" />
+                                      </padding>
+                                  </HBox>
+                              </children>
+                              <VBox.margin>
+                                  <Insets bottom="30.0" right="15.0" />
+                              </VBox.margin>
+                          </VBox>
+                          <VBox prefHeight="110.0" prefWidth="600.0">
+                              <children>
+                                  <HBox fx:id="venueHBox1" prefHeight="29.0" prefWidth="1122.0" spacing="700.0">
+                                      <children>
+                                          <Label prefHeight="25.0" prefWidth="238.0" text="Seating Configuration:">
+                                              <font>
+                                                  <Font name="System Bold" size="16.0" />
+                                              </font>
+                                          </Label>
+                                      </children>
+                                  </HBox>
+                                  <HBox fx:id="eventTimeHBox11" prefHeight="79.0" prefWidth="1122.0" spacing="12.0">
+                                      <children>
+                                          <ComboBox fx:id="selectConfiguration" layoutX="10.0" layoutY="20.0" prefHeight="64.0" prefWidth="564.0" promptText="Select Configuration" />
+                                       <ComboBox fx:id="selectExtraConfiguration" disable="true" prefHeight="64.0" prefWidth="564.0" promptText="Select Extra Configuration" />
+                                      </children>
+                                      <padding>
+                                          <Insets top="10.0" />
+                                      </padding>
+                                  </HBox>
+                              </children>
+                          </VBox>
+                        </children></VBox>
+                     <VBox prefHeight="200.0" prefWidth="100.0">
+                        <children>
+                           <HBox prefHeight="100.0" prefWidth="200.0">
+                              <children>
+                                 <Button fx:id="addEventButton" alignment="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" style="-fx-border-radius: 32; -fx-background-radius: 32;" text="Add new event" textFill="WHITE">
+                                    <HBox.margin>
+                                       <Insets top="15.0" />
+                                    </HBox.margin>
+                                 </Button>
                               </children>
                            </HBox>
                         </children>
                      </VBox>
-                            <VBox prefHeight="110.0" prefWidth="600.0">
-                                <children>
-                                    <Label prefHeight="25.0" prefWidth="152.0" text="Event Information:">
-                                        <font>
-                                            <Font name="System Bold" size="16.0" />
-                                        </font>
-                                    </Label>
-                                    <HBox fx:id="eventInfoBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
-                                    <children>
-                                        <TextField fx:id="eventNameInput" prefHeight="64.0" prefWidth="564.0" promptText="Enter Event Name" />
-
-                                            <ComboBox id=" eventTypeBox" fx:id="eventTypeBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </ComboBox>
-                                </children>
-                            </HBox>
-                        </children>
-                    </VBox>
-                    <VBox prefHeight="110.0" prefWidth="600.0">
-                        <children>
-                           <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="730.0">
-                              <children>
-                                  <Label prefHeight="25.0" prefWidth="216.0" text="Booking Date &amp; Time:">
-                                      <font>
-                                          <Font name="System Bold" size="16.0" />
-                                      </font>
-                                  </Label>
-                                 <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="298.0" spacing="10.0">
-                                    <children>
-                                       <CheckBox fx:id="fullDayCheckbox" mnemonicParsing="false" prefHeight="16.0" prefWidth="111.0" text="Full Day Booking">
-                                          <font>
-                                             <Font size="12.0" />
-                                          </font>
-                                       </CheckBox>
-                                       <CheckBox fx:id="multidayCheckbox" mnemonicParsing="false" text="Multi-Day Booking">
-                                          <font>
-                                             <Font size="12.0" />
-                                          </font>
-                                       </CheckBox>
-                                    </children>
-                                 </HBox>
-                              </children>
-                           </HBox>
-                            <HBox fx:id="eventTimeHBox" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
-                                <children>
-                                    <DatePicker fx:id="eventDatePicker" prefHeight="64.0" prefWidth="300.0" promptText="Select a start date" HBox.hgrow="ALWAYS">
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </DatePicker>
-                                 <DatePicker fx:id="eventEndDatePicker" layoutX="10.0" layoutY="20.0" prefHeight="64.0" prefWidth="300.0" promptText="Select an end date" />
-                                    <ComboBox fx:id="startTimeBox" prefHeight="64.0" prefWidth="300.0" promptText="Select a start time" HBox.hgrow="ALWAYS">
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </ComboBox>
-                                 <ComboBox fx:id="selectEndTime" layoutX="472.0" layoutY="20.0" prefHeight="64.0" prefWidth="300.0" promptText="Select an end time" />
-                                    <Button fx:id="addBookingButton" maxWidth="222.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="222.0" style="-fx-border-radius: 32; -fx-background-radius: 32;" text="Add Booking" textFill="#ffffff">
-                                        <font>
-                                            <Font name="System Bold" size="14.0" />
-                                        </font>
-                                    </Button>
-                                </children>
-                                <padding>
-                                    <Insets top="10.0" />
-                                </padding>
-                            </HBox>
-                        </children>
-                    </VBox>
-
-                    <VBox layoutX="10.0" layoutY="120.0" prefHeight="110.0" prefWidth="600.0">
-                        <children>
-                            <HBox fx:id="venueHBox" prefHeight="29.0" prefWidth="1122.0" spacing="700.0">
-                                <children>
-                                    <Label prefHeight="25.0" prefWidth="238.0" text="Venue &amp; Room Selection:">
-                                        <font>
-                                            <Font name="System Bold" size="16.0" />
-                                        </font>
-                                    </Label>
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                                        <children>
-                                            <Label prefHeight="25.0" prefWidth="78.0" text="Seat Preview" underline="true">
-                                                <font>
-                                                    <Font name="System Bold" size="12.0" />
-                                                </font>
-                                            </Label>
-                                            <CheckBox fx:id="extraRoomCheckBox" mnemonicParsing="false" text="Extra Room">
-                                                <font>
-                                                    <Font name="System Bold" size="12.0" />
-                                                </font>
-                                            </CheckBox>
-                                        </children>
-                                    </HBox>
-                                </children>
-                            </HBox>
-                            <HBox fx:id="eventTimeHBox1" prefHeight="79.0" prefWidth="1122.0" spacing="12.0">
-                                <children>
-                                    <ComboBox fx:id="selectVenue" layoutX="10.0" layoutY="20.0" prefHeight="64.0" prefWidth="564.0" promptText="Select a Venue" />
-                                    <ComboBox fx:id="extraRoom" prefHeight="64.0" prefWidth="564.0" promptText="Extra Room" HBox.hgrow="ALWAYS">
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </ComboBox>
-                                </children>
-                                <padding>
-                                    <Insets top="10.0" />
-                                </padding>
-                            </HBox>
-                        </children>
-                        <VBox.margin>
-                            <Insets right="15.0" />
-                        </VBox.margin>
-                    </VBox>
-                    <VBox layoutX="10.0" layoutY="246.0" prefHeight="110.0" prefWidth="600.0">
-                        <children>
-                            <HBox fx:id="venueHBox1" prefHeight="29.0" prefWidth="1122.0" spacing="700.0">
-                                <children>
-                                    <Label prefHeight="25.0" prefWidth="238.0" text="Seating Configuration:">
-                                        <font>
-                                            <Font name="System Bold" size="16.0" />
-                                        </font>
-                                    </Label>
-                                </children>
-                            </HBox>
-                            <HBox fx:id="eventTimeHBox11" prefHeight="79.0" prefWidth="1122.0" spacing="12.0">
-                                <children>
-                                    <ComboBox fx:id="selectConfiguration" layoutX="10.0" layoutY="20.0" prefHeight="58.0" prefWidth="1126.0" promptText="Select Configuration" />
-                                </children>
-                                <padding>
-                                    <Insets top="10.0" />
-                                </padding>
-                            </HBox>
-                        </children>
-                    </VBox>
 
                     <VBox prefHeight="284.0" prefWidth="1137.0" spacing="12.0">
                         <children>

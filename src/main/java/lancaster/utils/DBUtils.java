@@ -169,11 +169,11 @@ public class DBUtils {
         }
     }
 
-    public void createBooking(int roomID, Date startDate, Date endDate, String clientName, String status) {
+    public void createBooking(int roomID, Date startDate, Date endDate, String clientName, String clientEmail, String clientPhone, String clientAddress, String status) {
         String query = """
                         INSERT INTO bookings (booking_id, room_id, start_date,
-                         end_date, customer_name, booking_status)
-                        VALUES (null, ?, ?, ?, ?, ?)
+                         end_date, customer_name, customer_email, customer_phone, customer_address, booking_status)
+                        VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)
                         """;
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -181,10 +181,12 @@ public class DBUtils {
             statement.setDate(2, startDate);
             statement.setDate(3, endDate);
             statement.setString(4, clientName);
-            statement.setString(5, status);
+            statement.setString(5, clientEmail);
+            statement.setString(6, clientPhone);
+            statement.setString(7, clientAddress);
+            statement.setString(8, status);
 
             statement.execute();
-            connection.close();
         }
         catch (SQLException e){
             throw new RuntimeException("Error creating booking");
@@ -192,20 +194,22 @@ public class DBUtils {
 
     }
 
-    public void createEvent(int roomID, int seating_configID, Date eventDate,
+    public void createEvent(int roomID, int seating_configID, String name, Date eventDate,
                             Time startTime, Time endTime){
         String query = """
-                    INSERT INTO events (event_id, booking_id,  room_id, seating_config_id, event_date, start_date, end_date)
-                    VALUES(null, null, ?, ?, ?, ?, ?)
+                    INSERT INTO events (event_id, booking_id, room_id, seating_config_id, Name, event_date, start_time, end_time)
+                    VALUES(null, null, ?, ?, ?, ?, ?, ?)
                 """;
 
         try{
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, roomID);
             statement.setInt(2, seating_configID);
-            statement.setDate(3, eventDate);
-            statement.setTime(4, startTime);
-            statement.setTime(5, endTime);
+            statement.setString(3, name);
+            statement.setDate(4, eventDate);
+            statement.setTime(5, startTime);
+            statement.setTime(6, endTime);
+
             statement.execute();
             connection.close();
         }
@@ -304,6 +308,7 @@ public class DBUtils {
                         rs.getTime("start_time"),
                         rs.getTime("end_time")));
             }
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException("Error getting daily events");
         }
@@ -326,9 +331,33 @@ public class DBUtils {
             while(rs.next()){
                 name = rs.getString("room_name");
             }
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException("Error getting room name");
         }
         return name;
     }
+
+    public int getRoomId(String room_name){
+        System.out.println(room_name);
+        int ID = 0;
+        String query = """
+                    SELECT room_id FROM rooms
+                    WHERE room_name = ?
+                """;
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, room_name);
+
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                ID = rs.getInt("room_id");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error getting room name");
+        }
+        return ID;
+    }
+
 }
