@@ -7,7 +7,9 @@ import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import lancaster.model.Booking;
+import lancaster.model.Review;
 
+import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -165,4 +167,121 @@ public class DBUtils {
             throw new RuntimeException(e);
         }
     }
+
+    public void createBooking(int roomID, Date startDate, Date endDate, String clientName, String status) {
+        String query = """
+                        INSERT INTO bookings (booking_id, room_id, start_date,
+                         end_date, customer_name, booking_status)
+                        VALUES (null, ?, ?, ?, ?, ?)
+                        """;
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, roomID);
+            statement.setDate(2, startDate);
+            statement.setDate(3, endDate);
+            statement.setString(4, clientName);
+            statement.setString(5, status);
+
+            statement.execute();
+            connection.close();
+        }
+        catch (SQLException e){
+            throw new RuntimeException("Error creating booking");
+        }
+
+    }
+
+    public void createEvent(int bookingID, int roomID, int seating_configID, Date eventDate,
+                            Time startTime, Time endTime){
+        String query = """
+                    INSERT INTO events (event_id, booking_id,  room_id, seating_config_id, event_date, start_date, end_date)
+                    VALUES(null, ?, ?, ?, ?, ?, ?)
+                """;
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, bookingID);
+            statement.setInt(2, roomID);
+            statement.setInt(3, seating_configID);
+            statement.setDate(4, eventDate);
+            statement.setTime(5, startTime);
+            statement.setTime(6, endTime);
+            statement.execute();
+            connection.close();
+        }
+        catch(SQLException e){
+            throw new RuntimeException("Error creating event");
+        }
+    }
+
+    public boolean bookingConflict(Date eventDate, Time startTime, Time endTime){
+        String query = """
+                    SELECT event_id FROM events
+                    WHERE event_date = ?
+                    AND start_time >= ?
+                    AND end_time <= ?
+                """;
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setDate(1, eventDate);
+            statement.setTime(2, startTime);
+            statement.setTime(3, endTime);
+
+            ResultSet rs = statement.executeQuery();
+
+            return rs.isBeforeFirst();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error checking booking clash");
+        }
+
+
+    }
+
+    public ArrayList<Review> getReviews() throws SQLException {
+        ArrayList<Review> reviews = new ArrayList<>();
+        String query = """
+                    SELECT * FROM Review
+                """;
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                Review rev = new Review(rs.getInt(1), rs.getInt(2),
+                        rs.getString(3), rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getString(7), rs.getString(8));
+                reviews.add(rev);
+            }
+        }
+        catch (SQLException e){
+            throw new RuntimeException("Error getting reviews");
+        }
+        connection.close();
+        return reviews;
+    }
+
+    public int getRoomPrice(String name){
+        String query = """
+                       SELECT rp.price
+                       FROM RoomPrice rp
+                       JOIN rooms r ON rp.roomid = r.room_id
+                       WHERE r.room_name = ?;
+                       """;
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                return resultSet.getInt(1);
+            }
+        }
+        catch (SQLException e){
+            throw new RuntimeException("Error getting prices");
+        }
+        return 0;
+    }
+
+
 }
