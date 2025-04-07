@@ -147,6 +147,8 @@ public class BookingsController implements Initializable {
                     fullDayCheckbox.setSelected(fullDaySelected);
                 }
             } else {
+                startTimeBox.setDisable(false);
+                selectEndTime.setDisable(false);
                 eventEndDatePicker.setDisable(true);
             }
         });
@@ -158,6 +160,7 @@ public class BookingsController implements Initializable {
                 selectEndTime.setValue("23:00");
                 startTimeBox.setDisable(true);
                 selectEndTime.setDisable(true);
+                eventEndDatePicker.setDisable(true);
                 if (multidaySelected) {
                     multidaySelected = false;
                     multidayCheckbox.setSelected(multidaySelected);
