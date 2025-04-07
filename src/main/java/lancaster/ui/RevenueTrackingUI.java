@@ -2,7 +2,6 @@ package lancaster.ui;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,25 +10,25 @@ import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import lancaster.model.RevenueCalculator.*;
-import lancaster.model.RevenueEntry;
-import lancaster.model.RevenueManager;
+import javafx.beans.property.SimpleDoubleProperty;
+import lancaster.model.*;
 
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-/**
- * A graphical dashboard for tracking and analyzing venue revenue.
- * Features tabs for an overview, detailed reports, year-over-year comparisons, and revenue calculations,
- * with filters and charts to provide clear financial insights for venue managers.
- */
 public class RevenueTrackingUI extends BorderPane {
 
     private RevenueManager dataManager;
+    private VenueSpace venueSpace;
+    private BookingType bookingType;
 
     private DatePicker fromDatePicker;
     private DatePicker toDatePicker;
@@ -43,24 +42,25 @@ public class RevenueTrackingUI extends BorderPane {
     private BarChart<String, Number> revenueBarChart;
     private BarChart<String, Number> yearComparisonChart;
 
+    // Custom color scheme
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final String[] PIE_COLORS = {"#2ECC40", "#005355", "#00a561", "#1a2c30", "#4472C4"};
     private static final String[] BAR_COLORS = {"#2ECC40", "#005355"};
 
-    private static final String CHART_TEXT_STYLE = "-fx-text-fill: black; -fx-font-family: 'Cambria';";
+    // Consistent text styling
     private static final String AXIS_STYLE = "-fx-tick-label-fill: black; -fx-font-family: 'Cambria';";
     private static final String LABEL_STYLE = "-fx-text-fill: black; -fx-font-family: 'Cambria';";
+    private static final String WHITE_BACKGROUND = "-fx-background-color: white;";
 
     /**
      * Constructs the revenue tracking dashboard, initializing the data manager and UI components.
      */
     public RevenueTrackingUI() {
-        // Initialize models
         dataManager = new RevenueManager();
 
-        // Set up UI
         setupUI();
-        updateCharts();
+
+        Platform.runLater(this::updateCharts);
     }
 
     /**
@@ -68,7 +68,7 @@ public class RevenueTrackingUI extends BorderPane {
      */
     private void setupUI() {
         this.setPadding(new Insets(10));
-        this.setStyle("-fx-background-color: white;");
+        this.setStyle(WHITE_BACKGROUND);
 
         HBox filterBar = createFilterBar();
         this.setTop(filterBar);
@@ -86,7 +86,7 @@ public class RevenueTrackingUI extends BorderPane {
         comparisonTab.setClosable(false);
         calculationTab.setClosable(false);
 
-        // Set up content for each tab
+        // Setting up the content for each tab
         overviewTab.setContent(createOverviewContent());
         detailedTab.setContent(createDetailedContent());
         comparisonTab.setContent(createComparisonContent());
@@ -96,7 +96,6 @@ public class RevenueTrackingUI extends BorderPane {
 
         this.setCenter(tabPane);
     }
-
     /**
      * Creates a filter bar with date pickers, venue dropdown, and action buttons.
      *
@@ -105,24 +104,24 @@ public class RevenueTrackingUI extends BorderPane {
     private HBox createFilterBar() {
         HBox filterBar = new HBox(10);
         filterBar.setPadding(new Insets(10));
-        filterBar.setStyle("-fx-background-color: white;");
-
-        GridPane summaryGrid = new GridPane();
-        summaryGrid.setHgap(20);
-        summaryGrid.setVgap(10);
-        summaryGrid.setPadding(new Insets(10));
-        summaryGrid.setStyle("-fx-background-color: white;");
+        filterBar.setStyle(WHITE_BACKGROUND);
 
         Label fromLabel = new Label("From:");
         fromLabel.setTextFill(TEXT_COLOR);
+        fromLabel.setStyle(LABEL_STYLE);
+
         fromDatePicker = new DatePicker(LocalDate.now().minusMonths(1));
 
         Label toLabel = new Label("To:");
         toLabel.setTextFill(TEXT_COLOR);
+        toLabel.setStyle(LABEL_STYLE);
+
         toDatePicker = new DatePicker(LocalDate.now());
 
         Label venueLabel = new Label("Venue:");
         venueLabel.setTextFill(TEXT_COLOR);
+        venueLabel.setStyle(LABEL_STYLE);
+
         venueSelector = new ComboBox<>();
         venueSelector.getItems().addAll("All Venues", "Main Hall", "Small Hall", "Rehearsal Space", "Rooms");
         venueSelector.setValue("All Venues");
@@ -151,32 +150,40 @@ public class RevenueTrackingUI extends BorderPane {
     private VBox createOverviewContent() {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
-        content.setStyle("-fx-background-color: white;");
+        content.setStyle(WHITE_BACKGROUND);
 
         GridPane summaryGrid = new GridPane();
         summaryGrid.setHgap(20);
         summaryGrid.setVgap(10);
         summaryGrid.setPadding(new Insets(10));
-        summaryGrid.setStyle("-fx-background-color: white;");
+        summaryGrid.setStyle(WHITE_BACKGROUND);
 
-        addStyledLabel(summaryGrid, "Total Revenue:", totalRevenueLabel = new Label("£0.00"), 0);
-        addStyledLabel(summaryGrid, "Room Hire Revenue:", roomHireLabel = new Label("£0.00"), 1);
-        addStyledLabel(summaryGrid, "Ticket Sales Revenue:", ticketSalesLabel = new Label("£0.00"), 2);
+        // Create summary labels with consistent styling
+        totalRevenueLabel = new Label("£0.00");
+        roomHireLabel = new Label("£0.00");
+        ticketSalesLabel = new Label("£0.00");
 
+        addStyledLabel(summaryGrid, "Total Revenue:", totalRevenueLabel, 0);
+        addStyledLabel(summaryGrid, "Room Hire Revenue:", roomHireLabel, 1);
+        addStyledLabel(summaryGrid, "Ticket Sales Revenue:", ticketSalesLabel, 2);
+
+        // Set up the pie chart
         revenuePieChart = new PieChart();
         revenuePieChart.setTitle("Revenue Breakdown by Venue");
-        styleChartText(revenuePieChart);
+        revenuePieChart.setLegendVisible(true);
+        revenuePieChart.setLabelsVisible(true);
+        revenuePieChart.setStyle(WHITE_BACKGROUND);
 
+        // Set up the bar chart
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         revenueBarChart = new BarChart<>(xAxis, yAxis);
         revenueBarChart.setTitle("Revenue by Type");
-        styleChartText(revenueBarChart);
+        revenueBarChart.setStyle(WHITE_BACKGROUND);
 
         xAxis.setLabel("Venue");
+        xAxis.setTickLabelRotation(0);
         yAxis.setLabel("Revenue (£)");
-        styleAxis(xAxis);
-        styleAxis(yAxis);
 
         content.getChildren().addAll(summaryGrid, revenuePieChart, revenueBarChart);
         return content;
@@ -193,66 +200,13 @@ public class RevenueTrackingUI extends BorderPane {
     private void addStyledLabel(GridPane grid, String labelText, Label valueLabel, int row) {
         Label label = new Label(labelText);
         label.setTextFill(TEXT_COLOR);
+        label.setStyle(LABEL_STYLE);
+
         valueLabel.setTextFill(TEXT_COLOR);
+        valueLabel.setStyle(LABEL_STYLE);
+
         grid.add(label, 0, row);
         grid.add(valueLabel, 1, row);
-    }
-
-    /**
-     * Styles chart text (title, legend) for consistent readability.
-     *
-     * @param chart the chart to style
-     */
-    private void styleChartText(Chart chart) {
-        chart.setStyle("-fx-text-fill: black;");
-        chart.lookup(".chart-title").setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
-
-        Node legend = chart.lookup(".chart-legend");
-        if (legend != null) {
-            legend.setStyle("-fx-background-color: transparent;");
-
-            for (Node item : legend.lookupAll(".chart-legend-item")) {
-                item.setStyle("-fx-text-fill: black;");
-            }
-
-            for (Node text : legend.lookupAll(".chart-legend-item-text")) {
-                text.setStyle("-fx-fill: black; -fx-font-family: 'Cambria';");
-            }
-        }
-
-        if (chart instanceof PieChart) {
-            for (Node node : chart.lookupAll(".chart-pie-label")) {
-                node.setStyle("-fx-fill: black; -fx-font-family: 'Cambria';");
-            }
-        }
-        if (chart instanceof XYChart) {
-            for (Node node : chart.lookupAll(".chart-bar-label")) {
-                node.setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
-            }
-
-            for (Node node : chart.lookupAll(".data")) {
-                node.setStyle("-fx-text-fill: black;");
-            }
-
-            for (Node node : chart.lookupAll(".text")) {
-                node.setStyle("-fx-fill: black;");
-            }
-        }
-    }
-
-    /**
-     * Styles an axis for clear visibility with black text.
-     *
-     * @param axis the axis to style
-     */
-    private void styleAxis(Axis<?> axis) {
-        axis.setTickLabelFill(TEXT_COLOR);
-        axis.setStyle(AXIS_STYLE);
-
-        Node axisLabel = axis.lookup(".axis-label");
-        if (axisLabel != null) {
-            axisLabel.setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
-        }
     }
 
     /**
@@ -263,9 +217,10 @@ public class RevenueTrackingUI extends BorderPane {
     private VBox createDetailedContent() {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
-        content.setStyle("-fx-background-color: white;");
+        content.setStyle(WHITE_BACKGROUND);
 
         revenueTable = new TableView<>();
+        revenueTable.setStyle("-fx-text-fill: black;");
 
         TableColumn<RevenueEntry, String> venueCol = new TableColumn<>("Venue");
         venueCol.setCellValueFactory(new PropertyValueFactory<>("venue"));
@@ -299,8 +254,8 @@ public class RevenueTrackingUI extends BorderPane {
             return new SimpleDoubleProperty(clientPayable).asObject();
         });
         clientPayableCol.setPrefWidth(120);
-        revenueTable.setPrefHeight(500);
 
+        revenueTable.setPrefHeight(500);
         revenueTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
         revenueTable.getColumns().addAll(venueCol, dateCol, bookingTypeCol, roomRateCol, ticketSalesCol, totalCol, clientPayableCol);
 
@@ -317,17 +272,21 @@ public class RevenueTrackingUI extends BorderPane {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
         content.setAlignment(Pos.CENTER);
-        content.setStyle("-fx-background-color: white;");
+        content.setStyle(WHITE_BACKGROUND);
 
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         yearComparisonChart = new BarChart<>(xAxis, yAxis);
+        yearComparisonChart.setStyle(WHITE_BACKGROUND);
 
         yearComparisonChart.setTitle("Year-over-Year Revenue Comparison");
         xAxis.setLabel("Month");
         yAxis.setLabel("Revenue (£)");
 
         yearComparisonChart.setPrefHeight(500);
+
+        styleAxis(xAxis);
+        styleAxis(yAxis);
 
         content.getChildren().add(yearComparisonChart);
         return content;
@@ -341,13 +300,13 @@ public class RevenueTrackingUI extends BorderPane {
     private VBox createCalculationContent() {
         VBox content = new VBox(20);
         content.setPadding(new Insets(10));
-        content.setStyle("-fx-background-color: white;");
+        content.setStyle(WHITE_BACKGROUND);
 
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(10));
-        grid.setStyle("-fx-background-color: white;");
+        grid.setStyle(WHITE_BACKGROUND);
 
         // Create all labels with black text
         Label venueLabel = new Label("Venue Space:");
@@ -407,7 +366,7 @@ public class RevenueTrackingUI extends BorderPane {
         Button calculateButton = new Button("Calculate Revenue");
         calculateButton.setOnAction(e -> {
             VenueSpace venue = VenueSpace.valueOf(venueCombo.getValue());
-            DayType dayType = DayType.valueOf(dayCombo.getValue());
+            RevenueCalculator.DayType dayType = RevenueCalculator.DayType.valueOf(dayCombo.getValue());
             BookingType bookingType = BookingType.valueOf(bookingTypeCombo.getValue());
             int hours = hoursCombo.getValue();
             boolean includeVAT = vatCombo.getValue().equals("Yes");
@@ -442,63 +401,116 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Applies consistent colors to charts for visual clarity.
+     * Styles chart text (title, legend) for consistent readability.
+     *
+     * @param chart the chart to style
      */
-    private void applyChartColors() {
-        if (revenuePieChart != null && revenuePieChart.getData() != null) {
-            for (int i = 0; i < revenuePieChart.getData().size(); i++) {
-                PieChart.Data data = revenuePieChart.getData().get(i);
-                String color = PIE_COLORS[i % PIE_COLORS.length];
+    private void styleChartText(Chart chart) {
+        // Style chart title
+        chart.lookup(".chart-title").setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
 
-                data.getNode().setStyle("-fx-pie-color: " + color + ";");
+        // Style legend items
+        Node legend = chart.lookup(".chart-legend");
+        if (legend != null) {
+            legend.setStyle("-fx-background-color: transparent;");
 
-                Node legendItem = revenuePieChart.lookup(".chart-legend-item-symbol.default-color" + i);
-                if (legendItem != null) {
-                    legendItem.setStyle("-fx-background-color: " + color + ";");
-                }
+            for (Node item : legend.lookupAll(".chart-legend-item-text")) {
+                item.setStyle("-fx-fill: black; -fx-font-family: 'Cambria';");
             }
         }
 
-        if (revenueBarChart != null && revenueBarChart.getData() != null) {
-            int seriesIndex = 0;
-            for (XYChart.Series<String, Number> series : revenueBarChart.getData()) {
-                String color = BAR_COLORS[seriesIndex % BAR_COLORS.length];
-
-                for (XYChart.Data<String, Number> data : series.getData()) {
-                    if (data.getNode() != null) {
-                        data.getNode().setStyle("-fx-bar-fill: " + color + ";");
-                    }
-                }
-
-                Node legendItem = revenueBarChart.lookup(".chart-legend-item-symbol.default-color" + seriesIndex);
-                if (legendItem != null) {
-                    legendItem.setStyle("-fx-background-color: " + color + ";");
-                }
-
-                seriesIndex++;
+        // Style specific chart elements
+        if (chart instanceof PieChart) {
+            for (Node node : chart.lookupAll(".chart-pie-label")) {
+                node.setStyle("-fx-fill: black; -fx-font-family: 'Cambria';");
             }
         }
+    }
 
-        if (yearComparisonChart != null && yearComparisonChart.getData() != null) {
-            int seriesIndex = 0;
-            String[] yearColors = {"#2ecc40", "#005355", "#1a2c30"};
+    /**
+     * Styles an axis for clear visibility with black text.
+     *
+     * @param axis the axis to style
+     */
+    private void styleAxis(Axis<?> axis) {
+        axis.setTickLabelFill(TEXT_COLOR);
+        axis.setStyle(AXIS_STYLE);
 
-            for (XYChart.Series<String, Number> series : yearComparisonChart.getData()) {
-                String color = yearColors[seriesIndex % yearColors.length];
+        // Style axis label
+        Node axisLabel = axis.lookup(".axis-label");
+        if (axisLabel != null) {
+            axisLabel.setStyle("-fx-text-fill: black; -fx-font-family: 'Cambria';");
+        }
+    }
 
-                for (XYChart.Data<String, Number> data : series.getData()) {
-                    if (data.getNode() != null) {
-                        data.getNode().setStyle("-fx-bar-fill: " + color + ";");
-                    }
+    /**
+     * Applies custom colors to pie chart slices.
+     */
+    private void applyPieChartColors() {
+        if (revenuePieChart == null || revenuePieChart.getData() == null) return;
+
+        int index = 0;
+        for (PieChart.Data data : revenuePieChart.getData()) {
+            String color = PIE_COLORS[index % PIE_COLORS.length];
+
+            // Use CSS to apply color
+            data.getNode().setStyle("-fx-pie-color: " + color + ";");
+
+            index++;
+        }
+    }
+
+    /**
+     * Applies custom colors to bar chart series.
+     */
+    private void applyBarChartColors() {
+        if (revenueBarChart == null || revenueBarChart.getData() == null) return;
+
+        int seriesIndex = 0;
+        for (XYChart.Series<String, Number> series : revenueBarChart.getData()) {
+            String color = BAR_COLORS[seriesIndex % BAR_COLORS.length];
+
+            // Apply color to each data point in the series
+            for (XYChart.Data<String, Number> data : series.getData()) {
+                if (data.getNode() != null) {
+                    data.getNode().setStyle("-fx-bar-fill: " + color + ";");
                 }
-
-                Node legendItem = yearComparisonChart.lookup(".chart-legend-item-symbol.default-color" + seriesIndex);
-                if (legendItem != null) {
-                    legendItem.setStyle("-fx-background-color: " + color + ";");
-                }
-
-                seriesIndex++;
             }
+
+            // Update series in legend
+            Node legendItem = revenueBarChart.lookup(".chart-legend-item-symbol.default-color" + seriesIndex);
+            if (legendItem != null) {
+                legendItem.setStyle("-fx-background-color: " + color + ";");
+            }
+
+            seriesIndex++;
+        }
+    }
+
+    /**
+     * Applies custom colors to yearly comparison chart.
+     */
+    private void applyYearChartColors() {
+        if (yearComparisonChart == null || yearComparisonChart.getData() == null) return;
+
+        String[] yearColors = {"#2ecc40", "#005355", "#1a2c30"};
+        int seriesIndex = 0;
+
+        for (XYChart.Series<String, Number> series : yearComparisonChart.getData()) {
+            String color = yearColors[seriesIndex % yearColors.length];
+
+            for (XYChart.Data<String, Number> data : series.getData()) {
+                if (data.getNode() != null) {
+                    data.getNode().setStyle("-fx-bar-fill: " + color + ";");
+                }
+            }
+
+            Node legendItem = yearComparisonChart.lookup(".chart-legend-item-symbol.default-color" + seriesIndex);
+            if (legendItem != null) {
+                legendItem.setStyle("-fx-background-color: " + color + ";");
+            }
+
+            seriesIndex++;
         }
     }
 
@@ -506,51 +518,54 @@ public class RevenueTrackingUI extends BorderPane {
      * Updates all charts, tables, and summary labels based on current filter settings.
      */
     private void updateCharts() {
+        // Get filter values
         LocalDate fromDate = fromDatePicker.getValue();
         LocalDate toDate = toDatePicker.getValue();
         String selectedVenue = venueSelector.getValue();
 
+        // Get filtered data
         ObservableList<RevenueEntry> filteredData = dataManager.getFilteredData(fromDate, toDate, selectedVenue);
-
         revenueTable.setItems(filteredData);
 
+        // Get venue revenue data
         Map<String, Double> venueRevenueMap = dataManager.getVenueRevenueMap(filteredData);
         Map<String, Double> venueRoomRateMap = dataManager.getVenueRoomRateMap(filteredData);
         Map<String, Double> venueTicketSalesMap = dataManager.getVenueTicketSalesMap(filteredData);
 
+        // Get sorted maps for better visualization
         Map<String, Double> sortedRevenueMap = dataManager.getSortedVenueMap(venueRevenueMap);
         Map<String, Double> sortedRoomMap = dataManager.getSortedVenueMap(venueRoomRateMap);
         Map<String, Double> sortedTicketMap = dataManager.getSortedVenueMap(venueTicketSalesMap);
 
+        // Update pie chart
         revenuePieChart.setData(dataManager.generatePieChartData(sortedRevenueMap));
-        Map<String, String> venueColors = new HashMap<>();
-        venueColors.put("Main Hall", "#4472C4");
-        venueColors.put("Small Hall", "#ED7D31");
-        venueColors.put("Rehearsal Space", "#A5A5A5");
 
-        for (int i = 0; i < revenuePieChart.getData().size(); i++) {
-            PieChart.Data data = revenuePieChart.getData().get(i);
-            data.getNode().setStyle("-fx-pie-color: " + PIE_COLORS[i % PIE_COLORS.length] + ";");
-        }
+        // Clear and update bar chart
         revenueBarChart.getData().clear();
+        CategoryAxis xAxis = (CategoryAxis) revenueBarChart.getXAxis();
+        xAxis.getCategories().clear();
 
+        // Get sorted venues and add to x-axis
+        List<String> sortedVenues = new ArrayList<>(sortedRoomMap.keySet());
+        xAxis.getCategories().addAll(sortedVenues);
+
+        // Create series for room hire and ticket sales
         XYChart.Series<String, Number> roomRateSeries = new XYChart.Series<>();
         roomRateSeries.setName("Room Hire");
 
         XYChart.Series<String, Number> ticketSalesSeries = new XYChart.Series<>();
         ticketSalesSeries.setName("Ticket Sales");
 
-        for (String venue : sortedRoomMap.keySet()) {
+        // Populate series with data
+        for (String venue : sortedVenues) {
             roomRateSeries.getData().add(new XYChart.Data<>(venue, sortedRoomMap.get(venue)));
+            ticketSalesSeries.getData().add(new XYChart.Data<>(venue, sortedTicketMap.getOrDefault(venue, 0.0)));
         }
 
-        for (String venue : sortedTicketMap.keySet()) {
-            ticketSalesSeries.getData().add(new XYChart.Data<>(venue, sortedTicketMap.get(venue)));
-        }
-
+        // Add series to bar chart
         revenueBarChart.getData().addAll(roomRateSeries, ticketSalesSeries);
 
-        // --- Summary Labels ---
+        // Calculate and update summary values
         double totalRevenue = filteredData.stream().mapToDouble(RevenueEntry::getTotalRevenue).sum();
         double roomRevenue = filteredData.stream().mapToDouble(RevenueEntry::getRoomRate).sum();
         double ticketRevenue = filteredData.stream().mapToDouble(RevenueEntry::getTicketSales).sum();
@@ -559,46 +574,27 @@ public class RevenueTrackingUI extends BorderPane {
         roomHireLabel.setText(String.format("£%.2f", roomRevenue));
         ticketSalesLabel.setText(String.format("£%.2f", ticketRevenue));
 
-        // Optional: update yearComparisonChart if you want
-        yearComparisonChart.getData().clear();
-        yearComparisonChart.setTitle("Year-over-Year Revenue Comparison");
-
         // Update yearly comparison chart
+        yearComparisonChart.getData().clear();
         updateYearlyComparisonChart();
 
+        // Apply styling after data is updated
         Platform.runLater(() -> {
+            // Apply styles to chart text
             styleChartText(revenuePieChart);
             styleChartText(revenueBarChart);
             styleChartText(yearComparisonChart);
 
-            // Style the axes
-            for (Node node : revenueBarChart.lookupAll(".axis")) {
-                if (node instanceof Axis) {
-                    styleAxis((Axis<?>) node);
-                }
-            }
+            // Style axes
+            styleAxis(xAxis);
+            styleAxis((NumberAxis) revenueBarChart.getYAxis());
+            styleAxis(yearComparisonChart.getXAxis());
+            styleAxis(yearComparisonChart.getYAxis());
 
-            for (Node node : yearComparisonChart.lookupAll(".axis")) {
-                if (node instanceof Axis) {
-                    styleAxis((Axis<?>) node);
-                }
-            }
-
-            // Apply and ensure consistent colors
-            applyChartColors();
-
-            // Additional styling for data labels if needed
-            for (Node n : revenueBarChart.lookupAll(".data0.chart-bar")) {
-                n.setStyle("-fx-bar-fill: " + BAR_COLORS[0] + ";");
-            }
-
-            for (Node n : revenueBarChart.lookupAll(".data1.chart-bar")) {
-                n.setStyle("-fx-bar-fill: " + BAR_COLORS[1] + ";");
-            }
-
-            revenuePieChart.applyCss();
-            revenueBarChart.applyCss();
-            yearComparisonChart.applyCss();
+            // Apply custom colors
+            applyPieChartColors();
+            applyBarChartColors();
+            applyYearChartColors();
         });
     }
 
@@ -606,20 +602,28 @@ public class RevenueTrackingUI extends BorderPane {
      * Updates the year-over-year comparison chart with data from the revenue manager.
      */
     private void updateYearlyComparisonChart() {
-        yearComparisonChart.getData().clear();
-
         Map<String, Map<String, Number>> yearlyData = dataManager.getYearComparisonData();
         yearComparisonChart.getData().addAll(dataManager.generateYearlyComparisonData(yearlyData));
+    }
 
-        String[] yearColors = {"#2ecc40", "#005355", "#1a2c30"};
-        int seriesIndex = 0;
+    /**
+     * Main method for testing only - in production this will be integrated into the larger application
+     */
+    public static void main(String[] args) {
+        Application.launch(TestUI.class, args);
+    }
 
-        for (XYChart.Series<String, Number> series : yearComparisonChart.getData()) {
-            String color = yearColors[seriesIndex % yearColors.length];
-            for (XYChart.Data<String, Number> data : series.getData()) {
-                data.getNode().setStyle("-fx-bar-fill: " + color + ";");
-            }
-            seriesIndex++;
+    /**
+     * Test class to launch the UI independently
+     */
+    public static class TestUI extends Application {
+        @Override
+        public void start(Stage primaryStage) {
+            primaryStage.setTitle("Music Hall Revenue Tracking");
+            RevenueTrackingUI revenueUI = new RevenueTrackingUI();
+            Scene scene = new Scene(revenueUI, 900, 700);
+            primaryStage.setScene(scene);
+            primaryStage.show();
         }
     }
 }

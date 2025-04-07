@@ -1,8 +1,12 @@
 package lancaster.model;
 
+import lancaster.model.VenueSpace;
+import lancaster.model.BookingType;
+
 public class RevenueCalculator {
     // VAT rate as a decimal
     private static final double VAT_RATE = 0.20; // Standard UK VAT rate
+    private BookingType bookingType;
 
     // Enum for days of the week
     public enum DayType {
@@ -11,28 +15,6 @@ public class RevenueCalculator {
         SUNDAY
     }
 
-    // Enum for venue spaces
-    public enum VenueSpace {
-        WHOLE_VENUE,
-        MAIN_HALL,
-        SMALL_HALL,
-        REHEARSAL_SPACE,
-        GREEN_ROOM,
-        BRONTE_BOARDROOM,
-        DICKENS_DEN,
-        POE_PARLOR,
-        GLOBE_ROOM,
-        CHEKHOV_CHAMBER
-    }
-
-    // Enum for booking duration types
-    public enum BookingType {
-        HOURLY,
-        EVENING,
-        FULL_DAY,
-        MORNING_AFTERNOON,
-        WEEKLY
-    }
 
     // Method to calculate revenue for whole venue bookings
     public double calculateWholeVenueRevenue(DayType day, BookingType bookingType, boolean includeVAT) {
