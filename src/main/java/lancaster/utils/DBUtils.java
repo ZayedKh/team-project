@@ -347,6 +347,7 @@ public class DBUtils {
                     WHERE room_name = ?
                 """;
 
+
         try{
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, room_name);
