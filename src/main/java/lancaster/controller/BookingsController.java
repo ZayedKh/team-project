@@ -12,6 +12,15 @@ public class BookingsController implements Initializable {
     private TextField clientInput;
 
     @FXML
+    private TextField clientEmailInput;
+
+    @FXML
+    private TextField clientTelephoneInput;
+
+    @FXML
+    private TextField clientAddressInput;
+
+    @FXML
     private TextField eventNameInput;
 
     @FXML
@@ -207,5 +216,19 @@ public class BookingsController implements Initializable {
         if (room != null) {
             roomConfiguration.getItems().addAll("Classroom", "Boardroom", "Presentation");
         }
+    }
+
+    private void storeInputValues() {
+        String clientName = clientInput.getText();
+        String eventName = eventNameInput.getText();
+        String eventType = eventTypeBox.getValue();
+        String eventDate = eventDatePicker.getValue().toString();
+        String startTime = startTimeBox.getValue();
+        String endTime = selectEndTime.getValue();
+        String venue = selectVenue.getValue();
+        String configuration = selectConfiguration.getValue();
+        String extraRoomValue = extraRoom.getValue();
+        String roomConfig = roomConfiguration.getValue();
+        boolean policyAgreed = policyCheckbox.isSelected();
     }
 }
