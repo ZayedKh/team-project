@@ -3,12 +3,8 @@ package lancaster.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import lancaster.utils.DBUtils;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class BookingsController implements Initializable {
@@ -23,6 +19,9 @@ public class BookingsController implements Initializable {
 
     @FXML
     private DatePicker eventDatePicker;
+
+    @FXML
+    private DatePicker eventEndDatePicker;
 
     @FXML
     private ComboBox<String> startTimeBox;
@@ -55,6 +54,9 @@ public class BookingsController implements Initializable {
     private CheckBox extraRoomCheckBox;
 
     @FXML
+    private CheckBox multidayCheckbox;
+
+    @FXML
     private Label total;
 
     @FXML
@@ -74,6 +76,8 @@ public class BookingsController implements Initializable {
 
     boolean extraRoomSelected = false;
 
+    boolean multidaySelected = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        DBUtils dbUtils;
@@ -88,6 +92,8 @@ public class BookingsController implements Initializable {
 //        }
 //        List<String> roomNames = dbUtils.getRoomNames();
 //        selectVenue.getItems().addAll(roomNames);
+
+        eventEndDatePicker.setDisable(true);
 
         selectVenue.getItems().addAll(
                 "Main Hall", "Small Hall", "Rehearsal Space", "The Green Room", "Brontë Boardroom", "Dickens Den",
@@ -114,6 +120,15 @@ public class BookingsController implements Initializable {
                 extraRoom.setDisable(false);
             } else {
                 extraRoom.setDisable(true);
+            }
+        });
+
+        multidayCheckbox.setOnAction(e -> {
+            multidaySelected = multidayCheckbox.isSelected();
+            if (multidaySelected) {
+                eventEndDatePicker.setDisable(false);
+            } else {
+                eventEndDatePicker.setDisable(true);
             }
         });
 
