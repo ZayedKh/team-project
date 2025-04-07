@@ -1,82 +1,114 @@
 package lancaster.model;
 
-import lancaster.utils.DBUtils;
-
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Class representing event details.
+ * Abstract class representing event details.
  * This class defines the essential attributes and behaviors related to an event.
  */
 public class Event {
-    private int event_id;
-    private int booking_id;
-    private int room_id;
-    private String room_name;
-    private int seating_configurations_id;
-    private String name;
-    private Date event_date;
-    private Time start_time;
-    private Time end_time;
+    protected String eventId;
+    protected String eventName;
+    protected LocalDate eventDate;
+    protected LocalTime startTime;
+    protected LocalTime endTime;
+    protected String eventType;
+    protected EventStatus status;
+    protected LocalDateTime lastUpdated;
 
-
-    public Event(int event_id, int booking_id, int room_id, int seating_configurations_id, String name,
-                 Date event_date, Time start_time, Time end_time){
-        this.event_id = event_id;
-        this.booking_id = booking_id;
-        try {
-            DBUtils db = new DBUtils();
-            this.room_name = db.getRoomName(room_id);
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        this.room_id = room_id;
-        this.seating_configurations_id = seating_configurations_id;
-        this.name = name;
-        this.event_date = event_date;
-        this.start_time = start_time;
-        this.end_time = end_time;
+    /**
+     * Constructs an Event object with the given details.
+     *
+     * @param eventId       Unique identifier for the event.
+     * @param eventName     Name of the event.
+     * @param eventDateTime Date and time of the event.
+     * @param eventType     Type or category of the event.
+     * @param status        Current status of the event.
+     * @param lastUpdated   Timestamp of the last update to the event details.
+     */
+    public Event(String eventId, String eventName, LocalDate eventDateTime, LocalTime startTime, LocalTime endTime, String eventType,
+                 EventStatus status, LocalDateTime lastUpdated) {
+        this.eventId = eventId;
+        this.eventName = eventName;
+        this.eventDate = eventDateTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.eventType = eventType;
+        this.status = status;
+        this.lastUpdated = lastUpdated;
     }
 
-    public int getEvent_id() {
-        return event_id;
+    /**
+     * Retrieves the unique event ID.
+     *
+     * @return The event ID.
+     */
+    public String getEventId() {
+        return eventId;
     }
 
-    public int getBooking_id() {
-        return booking_id;
+    /**
+     * Retrieves the name of the event.
+     *
+     * @return The event name.
+     */
+    public String getEventName() {
+        return eventName;
     }
 
-    public int getRoom_id() {
-        return room_id;
+    /**
+     * Retrieves the date and time when the event is scheduled.
+     *
+     * @return The event date and time.
+     */
+    public LocalDate getEventDate() {
+        return eventDate;
     }
 
-    public String getRoom_name() {
-        return room_name;
+    /**
+     * Retrieves the type or category of the event.
+     *
+     * @return The event type.
+     */
+    public String getEventType() {
+        return eventType;
     }
 
-    public int getSeating_configurations_id() {
-        return seating_configurations_id;
+    /**
+     * Retrieves the current status of the event.
+     *
+     * @return The event status.
+     */
+    public EventStatus getStatus() {
+        return status;
     }
 
-    public String getName() {
-        return name;
+    /**
+     * Retrieves the timestamp of the last update made to the event details.
+     *
+     * @return The last updated timestamp.
+     */
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
     }
 
-    public Date getEvent_date() {
-        return event_date;
-    }
 
-    public Time getStart_time() {
-        return start_time;
-    }
-
-    public Time getEnd_time() {
-        return end_time;
+    /**
+     * Returns a string representation of the event details.
+     *
+     * @return A formatted string with event details.
+     */
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId='" + eventId + '\'' +
+                ", eventName='" + eventName + '\'' +
+                ", eventDateTime=" + eventDate +
+                ", eventType='" + eventType + '\'' +
+                ", status=" + status +
+                ", lastUpdated=" + lastUpdated +
+                '}';
     }
 }
