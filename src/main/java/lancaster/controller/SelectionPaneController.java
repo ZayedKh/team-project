@@ -37,9 +37,12 @@ public class SelectionPaneController implements Initializable {
     private Button btnSeating;
     @FXML
     private Button btnVenue;
+    @FXML
+    private Button btnDailySheet;
 
     private FullCalendarView bookingCalendarView;
     private FullCalendarView regularCalendarView;
+    private FullCalendarView dailySheetCalenderView;
     private RevenueTrackingUI revenueTrackingUI;
     private Node reviewPane;
     private Node seatingPane;
@@ -69,11 +72,13 @@ public class SelectionPaneController implements Initializable {
         btnRevenue.setOnAction(event -> showRevenueTracking());
         btnSeating.setOnAction(event -> showSeatingPane());
         btnVenue.setOnAction(event -> showVenueCalendar());
+        btnDailySheet.setOnAction(event -> showDailySheetCalendar());
     }
 
     private void initializeViews() {
         bookingCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane);
         regularCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane);
+        dailySheetCalenderView = new FullCalendarView(YearMonth.now(), mainContainer, homePane, true);
         revenueTrackingUI = new RevenueTrackingUI();
         createPlaceholderPanes();
     }
@@ -136,6 +141,11 @@ public class SelectionPaneController implements Initializable {
         setActiveButton(btnCalendar);
     }
 
+    @FXML
+    private void showDailySheetCalendar() {
+        mainContainer.getChildren().setAll(dailySheetCalenderView.getCalendarView());
+        setActiveButton(btnDailySheet);
+    }
 
     /**
      * Switches to the review management placeholder pane.
