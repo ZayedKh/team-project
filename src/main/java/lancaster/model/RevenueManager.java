@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import lancaster.utils.DBUtils;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -20,9 +17,6 @@ import java.util.*;
 public class RevenueManager {
     private ObservableList<RevenueEntry> revenueData;
     private RevenueCalculator calculator;
-    private DBUtils dbUtils;
-    private VenueSpace venue;
-    private BookingType bookingType;
 
     /**
      * Creates a new revenue manager with an empty booking list and a calculator.
@@ -31,60 +25,9 @@ public class RevenueManager {
     public RevenueManager() {
         revenueData = FXCollections.observableArrayList();
         calculator = new RevenueCalculator();
-
-
-        System.out.println("Sample data loaded. Entries: " + revenueData.size());
-
-        try {
-            dbUtils = new DBUtils();
-            loadSampleData();
-            printSampleData();
-//            loadRealBookingData();
-        } catch (SQLException | IOException | ClassNotFoundException e) {
-            System.err.println("Failed to connect to database: " + e.getMessage());
-//            loadSampleData();
-            loadRealBookingData();
-        }
+        loadSampleData(); // In production, this would be replaced with actual data loading
     }
 
-    public void loadRealBookingData() {
-        revenueData.clear();
-        System.out.println("Attempting to load real booking data..."); // Debug
-
-        try {
-            LocalDate now = LocalDate.now();
-            LocalDate threeMonthsAgo = now.minusMonths(3);
-            System.out.println("Date range: " + threeMonthsAgo + " to " + now); // Debug
-
-            List<RevenueEntry> bookingData = dbUtils.getBookingRevenueData(threeMonthsAgo, now);
-            System.out.println("Retrieved " + bookingData.size() + " entries from DB"); // Debug
-
-            revenueData.addAll(bookingData);
-            generateDummyTicketSales();
-
-            System.out.println("Current revenueData size: " + revenueData.size()); // Debug
-        } catch (SQLException e) {
-            System.err.println("Failed to load booking data: " + e.getMessage());
-            loadSampleData();
-        }
-    }
-
-    public void generateDummyTicketSales() {
-        Random random = new Random();
-
-        for (RevenueEntry entry : revenueData) {
-            // ticket sales only for Main Hall and Small Hall
-            if (entry.getVenue().equals("Main Hall")) {
-                // generating random sales between 1500 and 2500
-                double ticketSales = 1500 + random.nextDouble() * 1000;
-                entry.setTicketSales(ticketSales);
-            } else if (entry.getVenue().equals("Small Hall")) {
-                // generating random ticket sales between 300 and 700
-                double ticketSales = 300 + random.nextDouble() * 400;
-                entry.setTicketSales(ticketSales);
-            }
-        }
-    }
     /**
      * Gets the full list of revenue entries for all venue bookings.
      *
@@ -129,18 +72,6 @@ public class RevenueManager {
         revenueData.add(new RevenueEntry("Poe Parlor", now.minusDays(12).format(formatter), "WEEKLY", 800.0, 0.0));
         revenueData.add(new RevenueEntry("Globe Room", now.minusDays(19).format(formatter), "FULL_DAY", 250.0, 0.0));
         revenueData.add(new RevenueEntry("Chekhov Chamber", now.minusDays(26).format(formatter), "MORNING_AFTERNOON", 110.0, 0.0));
-    }
-    public void printSampleData() {
-        System.out.println("\n=== CURRENT REVENUE DATA ===");
-        for (RevenueEntry entry : revenueData) {
-            System.out.printf("%s | %s | %s | £%.2f | £%.2f%n",
-                    entry.getVenue(),
-                    entry.getDate(),
-                    entry.getBookingType(),
-                    entry.getRoomRate(),
-                    entry.getTicketSales());
-        }
-        System.out.println("Total entries: " + revenueData.size() + "\n");
     }
 
     /**
@@ -360,7 +291,7 @@ public class RevenueManager {
      * @param includeVAT  whether to include VAT in the estimate
      * @return the estimated total revenue
      */
-    public double calculateRevenue(VenueSpace venue, RevenueCalculator.DayType dayType, BookingType bookingType, int hours, boolean includeVAT) {
+    public double calculateRevenue(RevenueCalculator.VenueSpace venue, RevenueCalculator.DayType dayType, RevenueCalculator.BookingType bookingType, int hours, boolean includeVAT) {
         return calculator.calculateTotalRevenue(venue, dayType, bookingType, hours, includeVAT);
     }
 
