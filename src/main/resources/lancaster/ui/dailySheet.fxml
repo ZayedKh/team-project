@@ -21,10 +21,11 @@
     <center>
         <TableView fx:id="tableDaily">
             <columns>
-                <TableColumn fx:id="colRoom" text="Room" prefWidth="150"/>
-                <TableColumn fx:id="colName" text="Name" prefWidth="150"/>
-                <TableColumn fx:id="colStartTime" text="Start Time" prefWidth="200"/>
-                <TableColumn fx:id="colEndTime" text="End Time" prefWidth="200"/>
+                <TableColumn fx:id="colSpace" text="Room" prefWidth="200"/>
+                <TableColumn fx:id="colStartTime" text="Start Time" prefWidth="150"/>
+                <TableColumn fx:id="colEndTime" text="End Time" prefWidth="150"/>
+                <TableColumn fx:id="colBy" text="Booked By" prefWidth="200"/>
+                <TableColumn fx:id="colConfig" text="Configuration" prefWidth="200"/>
             </columns>
             <BorderPane.margin>
                 <Insets left="20" right="20" bottom="20" />
