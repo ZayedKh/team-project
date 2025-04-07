@@ -218,18 +218,20 @@ public class DBUtils {
         }
     }
 
-    public boolean bookingConflict(Date eventDate, Time startTime, Time endTime){
+    public boolean bookingConflict(Date eventDate, Time startTime, Time endTime, int room_id){
         String query = """
                     SELECT event_id FROM events
                     WHERE event_date = ?
-                    AND start_time >= ?
-                    AND end_time <= ?
+                    AND start_time <= ?
+                    AND end_time >= ?
+                    AND room_id = ?
                 """;
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setDate(1, eventDate);
-            statement.setTime(2, startTime);
-            statement.setTime(3, endTime);
+            statement.setTime(2, endTime);
+            statement.setTime(3, startTime);
+            statement.setInt(4, room_id);
 
             ResultSet rs = statement.executeQuery();
 
@@ -339,12 +341,12 @@ public class DBUtils {
     }
 
     public int getRoomId(String room_name){
-        System.out.println(room_name);
         int ID = 0;
         String query = """
                     SELECT room_id FROM rooms
                     WHERE room_name = ?
                 """;
+
 
         try{
             PreparedStatement statement = connection.prepareStatement(query);

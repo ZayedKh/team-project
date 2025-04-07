@@ -179,12 +179,12 @@ public class BookingsController implements Initializable {
         confirmBookingButton.setOnAction(event -> {
             if(clientInput.getText().isEmpty() || clientEmailInput.getText().isEmpty()
                     || clientTelephoneInput.getText().isEmpty() || clientAddressInput.getText().isEmpty()
-                    || eventTypeBox.getValue().isEmpty() || eventNameInput.getText().isEmpty()
-                    || eventDatePicker.getValue() == null || startTimeBox.getValue().isEmpty()
-                    || selectEndTime.getValue().isEmpty() || selectVenue.getValue().isEmpty()
-                    || (extraRoomCheckBox.isSelected() && extraRoom.getValue().isEmpty())
-                    || (extraRoomCheckBox.isSelected() && selectExtraConfiguration.getValue().isEmpty())
-                    || !policyCheckbox.isSelected()){
+                    || eventTypeBox.getValue() == null || eventNameInput.getText().isEmpty()
+                    || eventDatePicker.getValue() == null || startTimeBox.getValue() == null
+                    || selectEndTime.getValue() == null || selectVenue.getValue() == null
+                    || (extraRoomCheckBox.isSelected() && extraRoom.getValue() == null)
+                    || (extraRoomCheckBox.isSelected() && selectExtraConfiguration.getValue() == null)
+                    || !policyCheckbox.isSelected() || selectConfiguration.getValue() == null){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Please enter all fields");
                 alert.show();
@@ -192,7 +192,7 @@ public class BookingsController implements Initializable {
             else{
                 try {
                     DBUtils db = new DBUtils();
-                    if(!db.bookingConflict(Date.valueOf(eventDatePicker.getValue()), Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"))){
+                    if(!db.bookingConflict(Date.valueOf(eventDatePicker.getValue()), Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"), db.getRoomId(selectVenue.getValue()))){
                         db.createBooking(db.getRoomId(selectVenue.getValue()), Date.valueOf(eventDatePicker.getValue()), Date.valueOf(eventDatePicker.getValue()),
                                 clientInput.getText(), clientEmailInput.getText(), clientTelephoneInput.getText(),
                                 clientAddressInput.getText(), "pending");
