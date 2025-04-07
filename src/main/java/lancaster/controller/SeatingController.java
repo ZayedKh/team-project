@@ -15,12 +15,9 @@ public class SeatingController {
     @FXML
     private Label lblSeatStatus;
 
-    // Event handler for seating arrangement button
     @FXML
     private void handleSeatArrangement() {
         // Placeholder logic for seating arrangement
         System.out.println("Seating Arrangement Button Pressed!");
     }
-
-    //more methods here
 }

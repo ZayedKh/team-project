@@ -2,6 +2,10 @@ package lancaster.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import lancaster.ui.FullCalendarView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,9 +51,14 @@ public class SelectionPaneController implements Initializable {
     private Node reviewPane;
     private Node seatingPane;
     private Node homePane;
+    private Node smallHallSeatingPane;
+    private Node theaterSeatingPane;
+    private BorderPane combinedSeatingPane;
 
     private final String BUTTON_DEFAULT_STYLE = "-fx-background-color: transparent; -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: transparent;";
     private final String BUTTON_ACTIVE_STYLE = "-fx-background-color: rgba(46, 204, 64, 0.15); -fx-text-fill: white; -fx-border-width: 0 0 0 5; -fx-border-color: #2ECC40;";
+    private final String TOGGLE_BUTTON_STYLE = "-fx-background-color: #122023; -fx-text-fill: white; -fx-border-color: #2ECC40; -fx-border-width: 1;";
+    private final String TOGGLE_BUTTON_SELECTED_STYLE = "-fx-background-color: #2ECC40; -fx-text-fill: white; -fx-border-color: #2ECC40; -fx-border-width: 1;";
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,7 +89,8 @@ public class SelectionPaneController implements Initializable {
         regularCalendarView = new FullCalendarView(YearMonth.now(), mainContainer, homePane);
         dailySheetCalenderView = new FullCalendarView(YearMonth.now(), mainContainer, homePane, true);
         revenueTrackingUI = new RevenueTrackingUI();
-        createPlaceholderPanes();
+      //  createPlaceholderPanes();
+        initializeSeatingPanes();
     }
 
     private void createPlaceholderPanes() {
@@ -121,7 +131,80 @@ public class SelectionPaneController implements Initializable {
         mainContainer.getChildren().setAll(homePane);
         resetButtonStyles();
     }
+    private void initializeSeatingPanes() {
+        try {
 
+            FXMLLoader smallHallLoader = new FXMLLoader(getClass().getResource("/lancaster/ui/SmallHallSeating.fxml"));
+            smallHallSeatingPane = smallHallLoader.load();
+
+            FXMLLoader theaterLoader = new FXMLLoader(getClass().getResource("/lancaster/ui/TheaterSeatingLayout.fxml"));
+            theaterSeatingPane = theaterLoader.load();
+
+            createCombinedSeatingPane();
+        } catch (IOException e) {
+            e.printStackTrace();
+            createSeatingPlaceholder();
+        }
+    }
+    private void createCombinedSeatingPane() {
+
+        combinedSeatingPane = new BorderPane();
+        combinedSeatingPane.setStyle("-fx-background-color: #122023;");
+
+        ToggleButton smallHallButton = new ToggleButton("Small Hall");
+        ToggleButton mainHallButton = new ToggleButton("Main Hall");
+
+        ToggleGroup hallGroup = new ToggleGroup();
+        smallHallButton.setToggleGroup(hallGroup);
+        mainHallButton.setToggleGroup(hallGroup);
+
+        smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+        mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+
+        smallHallButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                combinedSeatingPane.setCenter(smallHallSeatingPane);
+                smallHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
+                mainHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+            }
+        });
+
+        mainHallButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                combinedSeatingPane.setCenter(theaterSeatingPane);
+                mainHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
+                smallHallButton.setStyle(TOGGLE_BUTTON_STYLE);
+            }
+        });
+
+        HBox buttonBox = new HBox(20, smallHallButton, mainHallButton);
+        buttonBox.setAlignment(javafx.geometry.Pos.CENTER);
+        buttonBox.setPadding(new javafx.geometry.Insets(10));
+        buttonBox.setStyle("-fx-background-color: #0A1517;");
+
+        combinedSeatingPane.setBottom(buttonBox);
+
+        smallHallButton.setSelected(true);
+        combinedSeatingPane.setCenter(smallHallSeatingPane);
+        smallHallButton.setStyle(TOGGLE_BUTTON_SELECTED_STYLE);
+    }
+    private void createSeatingPlaceholder() {
+        VBox seatingPlaceholder = new VBox();
+        seatingPlaceholder.setStyle("-fx-background-color: #122023;");
+        seatingPlaceholder.setAlignment(javafx.geometry.Pos.CENTER);
+        seatingPlaceholder.setSpacing(20);
+
+        javafx.scene.control.Label seatingTitle = new javafx.scene.control.Label("Seating Arrangement");
+        seatingTitle.setFont(new javafx.scene.text.Font("Cambria", 32));
+        seatingTitle.setTextFill(javafx.scene.paint.Color.WHITE);
+
+        javafx.scene.control.Label seatingSubtitle = new javafx.scene.control.Label("Failed to load seating layouts");
+        seatingSubtitle.setFont(new javafx.scene.text.Font("Cambria", 18));
+        seatingSubtitle.setTextFill(javafx.scene.paint.Color.web("#2ECC40"));
+
+        seatingPlaceholder.getChildren().addAll(seatingTitle, seatingSubtitle);
+        combinedSeatingPane = new BorderPane(seatingPlaceholder);
+    }
     /**
      * Switches to the booking calendar view for scheduling events.
      */
@@ -166,9 +249,10 @@ public class SelectionPaneController implements Initializable {
     }
 
     private void showSeatingPane() {
-        mainContainer.getChildren().setAll(seatingPane);
+        mainContainer.getChildren().setAll(combinedSeatingPane);
         setActiveButton(btnSeating);
     }
+
     private void showVenueCalendar() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/VenueCalendar.fxml"));
