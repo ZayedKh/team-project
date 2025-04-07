@@ -18,98 +18,78 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for managing user reviews.
+ * Displays, sorts, and allows the creation of reviews for rooms and shows.
+ */
 public class ReviewController implements Initializable {
 
-    @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
-    private BorderPane mainBorderPane;
-
-    @FXML
-    private VBox centerVBox;
-
-    @FXML
-    private GridPane reviewsGrid;
-
-    @FXML
-    private ComboBox<String> sortComboBox;
-
-    @FXML
-    private Button addReviewButton;
-
-    @FXML
-    private VBox addReviewForm;
-
-    @FXML
-    private TextField titleField;
-
-    @FXML
-    private TextField authorField;
-
-    @FXML
-    private TextArea descriptionArea;
-
-    @FXML
-    private ComboBox<String> roomComboBox;
-
-    @FXML
-    private ComboBox<String> reviewTypeComboBox;
-
-    @FXML
-    private VBox showNameContainer;
-
-    @FXML
-    private TextField showNameField;
-
-    @FXML
-    private Spinner<Integer> ratingSpinner;
-
-    @FXML
-    private Button submitReviewButton;
-
-    @FXML
-    private Label averageRatingLabel;
-
-    @FXML
-    private Label totalReviewsLabel;
+    @FXML private ScrollPane scrollPane;
+    @FXML private BorderPane mainBorderPane;
+    @FXML private VBox centerVBox;
+    @FXML private GridPane reviewsGrid;
+    @FXML private ComboBox<String> sortComboBox;
+    @FXML private Button addReviewButton;
+    @FXML private VBox addReviewForm;
+    @FXML private TextField titleField;
+    @FXML private TextField authorField;
+    @FXML private TextArea descriptionArea;
+    @FXML private ComboBox<String> roomComboBox;
+    @FXML private ComboBox<String> reviewTypeComboBox;
+    @FXML private VBox showNameContainer;
+    @FXML private TextField showNameField;
+    @FXML private Spinner<Integer> ratingSpinner;
+    @FXML private Button submitReviewButton;
+    @FXML private Label averageRatingLabel;
+    @FXML private Label totalReviewsLabel;
 
     private ObservableList<Review> reviews;
     private double scaleFactor = 1.0;
     private HBox reviewsHeader;
 
+    /**
+     * Called automatically when the scene is loaded.
+     * Initializes UI controls, event handlers, and loads review data.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         reviews = FXCollections.observableArrayList();
         reviewsHeader = (HBox) centerVBox.getChildren().get(0);
+
         try {
-            initializeSampleData();
+            initializeSampleData(); // Load initial reviews from database
         } catch (SQLException | IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        // Setup spinner for rating 1-5
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 3);
         ratingSpinner.setValueFactory(valueFactory);
+
+        // Sorting options for reviews
         sortComboBox.getItems().addAll("Most Recent", "Highest Rated", "Lowest Rated");
         sortComboBox.setValue("Most Recent");
+
+        // Populate room and review type dropdowns
         roomComboBox.getItems().addAll(
-                "Main Hall",
-                "Small Hall",
-                "The Green Room",
-                "Brontë Boardroom",
-                "Dickens Den",
-                "Poe Parlor",
-                "Globe Room",
-                "Chekhov Chamber"
+                "Main Hall", "Small Hall", "The Green Room", "Brontë Boardroom",
+                "Dickens Den", "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
         reviewTypeComboBox.getItems().addAll("Show", "Venue", "Both");
+
+        // Hide add review form initially
         addReviewForm.setVisible(false);
+
+        // Reset the main layout to only show header and review grid
         centerVBox.getChildren().clear();
         centerVBox.getChildren().addAll(reviewsHeader, reviewsGrid);
-        populateReviewsGrid();
-        updateSummary();
+
+        populateReviewsGrid(); // Add reviews to grid
+        updateSummary(); // Update total/average stats
+
+        // Sort change listener
         sortComboBox.setOnAction(event -> {
             String selectedSort = sortComboBox.getValue();
             if (selectedSort.equals("Highest Rated")) {
@@ -121,14 +101,20 @@ public class ReviewController implements Initializable {
             }
             populateReviewsGrid();
         });
+
+        // Allow zooming via Ctrl + scroll
         mainBorderPane.setOnScroll(this::handleScroll);
     }
 
+    /**
+     * Loads reviews from database and sets a relative timestamp.
+     */
     private void initializeSampleData() throws SQLException, IOException, ClassNotFoundException {
         LocalDateTime baseTime = LocalDateTime.now();
         DBUtils db = new DBUtils();
         reviews.addAll(db.getReviews());
 
+        // Assign timestamps in reverse order
         for (int i = 0; i < reviews.size(); i++) {
             LocalDateTime reviewTime = baseTime.minusMinutes(i * 10);
             String timestamp = reviewTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
@@ -136,6 +122,9 @@ public class ReviewController implements Initializable {
         }
     }
 
+    /**
+     * Renders the list of reviews in a responsive grid layout.
+     */
     private void populateReviewsGrid() {
         reviewsGrid.getChildren().clear();
         int row = 0;
@@ -173,12 +162,12 @@ public class ReviewController implements Initializable {
             Label timestampLabel = new Label("Submitted: " + review.getTimestamp());
             timestampLabel.setStyle("-fx-text-fill: grey; -fx-font-size: 12px;");
 
-
             if (review.getShowName() != null && !review.getShowName().isEmpty()) {
                 reviewCard.getChildren().addAll(authorLabel, ratingBox, descriptionLabel, reviewTypeLabel, showNameLabel, timestampLabel);
             } else {
                 reviewCard.getChildren().addAll(authorLabel, ratingBox, descriptionLabel, reviewTypeLabel, timestampLabel);
             }
+
             reviewsGrid.add(reviewCard, col, row);
 
             col++;
@@ -189,6 +178,9 @@ public class ReviewController implements Initializable {
         }
     }
 
+    /**
+     * Updates the average rating and total number of reviews.
+     */
     private void updateSummary() {
         int totalReviews = reviews.size();
         double averageRating = reviews.stream()
@@ -199,6 +191,9 @@ public class ReviewController implements Initializable {
         averageRatingLabel.setText(String.format("%.1f", averageRating));
     }
 
+    /**
+     * Toggle visibility of the add review form.
+     */
     @FXML
     private void toggleAddReviewForm() {
         boolean willBeVisible = !addReviewForm.isVisible();
@@ -211,6 +206,7 @@ public class ReviewController implements Initializable {
             centerVBox.getChildren().addAll(reviewsHeader, reviewsGrid);
         }
 
+        // Clear fields when hiding
         if (!willBeVisible) {
             titleField.clear();
             authorField.clear();
@@ -224,19 +220,21 @@ public class ReviewController implements Initializable {
         }
     }
 
+    /**
+     * Show/hide show name field based on review type.
+     */
     @FXML
     private void handleReviewTypeChange() {
         String selectedType = reviewTypeComboBox.getValue();
-        if ("Show".equals(selectedType) || "Both".equals(selectedType)) {
-            showNameContainer.setVisible(true);
-            showNameContainer.setManaged(true);
-        } else {
-            showNameContainer.setVisible(false);
-            showNameContainer.setManaged(false);
-            showNameField.clear();
-        }
+        boolean showField = "Show".equals(selectedType) || "Both".equals(selectedType);
+        showNameContainer.setVisible(showField);
+        showNameContainer.setManaged(showField);
+        if (!showField) showNameField.clear();
     }
 
+    /**
+     * Validates and adds a new review to the list.
+     */
     @FXML
     private void handleAddReview() {
         String title = titleField.getText().trim();
@@ -254,6 +252,7 @@ public class ReviewController implements Initializable {
         boolean isShowNameEmpty = showName == null || showName.isEmpty();
         boolean isRatingEmpty = rating == null;
 
+        // Show validation alert if required fields are missing
         if (isTitleEmpty || isAuthorEmpty || isRoomEmpty || isReviewTypeEmpty || isRatingEmpty) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Missing Required Fields");
@@ -272,14 +271,19 @@ public class ReviewController implements Initializable {
             return;
         }
 
+        // Add new review
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-        Review newReview = new Review(reviews.size() + 1, rating, author, title, description, room, reviewType, "Show".equals(reviewType) || "Both".equals(reviewType) ? showName : null);
+        Review newReview = new Review(
+                reviews.size() + 1, rating, author, title, description, room, reviewType,
+                "Show".equals(reviewType) || "Both".equals(reviewType) ? showName : null
+        );
         newReview.setTimestamp(timestamp);
         reviews.add(0, newReview);
 
         populateReviewsGrid();
         updateSummary();
 
+        // Clear form fields and keep form open
         titleField.clear();
         authorField.clear();
         descriptionArea.clear();
@@ -295,16 +299,14 @@ public class ReviewController implements Initializable {
         centerVBox.getChildren().addAll(addReviewForm, reviewsHeader, reviewsGrid);
     }
 
+    /**
+     * Enables zooming in/out with Ctrl + scroll gesture.
+     */
     @FXML
     private void handleScroll(ScrollEvent event) {
         if (event.isControlDown()) {
             double deltaY = event.getDeltaY();
-            if (deltaY > 0) {
-                scaleFactor += 0.1;
-            } else if (deltaY < 0) {
-                scaleFactor -= 0.1;
-            }
-
+            scaleFactor += (deltaY > 0) ? 0.1 : -0.1;
             scaleFactor = Math.max(0.5, Math.min(2.0, scaleFactor));
 
             mainBorderPane.setScaleX(scaleFactor);
