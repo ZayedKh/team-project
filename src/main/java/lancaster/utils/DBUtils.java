@@ -7,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import lancaster.model.Booking;
-import lancaster.model.Event;
 import lancaster.model.Review;
 
 import javax.imageio.plugins.jpeg.JPEGImageReadParam;
@@ -169,11 +168,11 @@ public class DBUtils {
         }
     }
 
-    public void createBooking(int roomID, Date startDate, Date endDate, String clientName, String clientEmail, String clientPhone, String clientAddress, String status) {
+    public void createBooking(int roomID, Date startDate, Date endDate, String clientName, String status) {
         String query = """
                         INSERT INTO bookings (booking_id, room_id, start_date,
-                         end_date, customer_name, customer_email, customer_phone, customer_address, booking_status)
-                        VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)
+                         end_date, customer_name, booking_status)
+                        VALUES (null, ?, ?, ?, ?, ?)
                         """;
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -181,12 +180,10 @@ public class DBUtils {
             statement.setDate(2, startDate);
             statement.setDate(3, endDate);
             statement.setString(4, clientName);
-            statement.setString(5, clientEmail);
-            statement.setString(6, clientPhone);
-            statement.setString(7, clientAddress);
-            statement.setString(8, status);
+            statement.setString(5, status);
 
             statement.execute();
+            connection.close();
         }
         catch (SQLException e){
             throw new RuntimeException("Error creating booking");
@@ -194,22 +191,21 @@ public class DBUtils {
 
     }
 
-    public void createEvent(int roomID, int seating_configID, String name, Date eventDate,
+    public void createEvent(int bookingID, int roomID, int seating_configID, Date eventDate,
                             Time startTime, Time endTime){
         String query = """
-                    INSERT INTO events (event_id, booking_id, room_id, seating_config_id, Name, event_date, start_time, end_time)
-                    VALUES(null, null, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO events (event_id, booking_id,  room_id, seating_config_id, event_date, start_date, end_date)
+                    VALUES(null, ?, ?, ?, ?, ?, ?)
                 """;
 
         try{
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, roomID);
-            statement.setInt(2, seating_configID);
-            statement.setString(3, name);
+            statement.setInt(1, bookingID);
+            statement.setInt(2, roomID);
+            statement.setInt(3, seating_configID);
             statement.setDate(4, eventDate);
             statement.setTime(5, startTime);
             statement.setTime(6, endTime);
-
             statement.execute();
             connection.close();
         }
@@ -287,77 +283,5 @@ public class DBUtils {
         return 0;
     }
 
-    public ArrayList<Event> getEventForDay(Date date){
-        ArrayList<Event> events = new ArrayList<>();
-        String query = """
-                    SELECT * FROM events
-                    WHERE event_date = ?
-                """;
-
-        try{
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setDate(1, date);
-            ResultSet rs = statement.executeQuery();
-            while(rs.next()){
-                events.add(new Event(rs.getInt("event_id"),
-                        rs.getInt("booking_id"),
-                        rs.getInt("room_id"),
-                        rs.getInt("seating_config_id"),
-                        rs.getString("name"),
-                        rs.getDate("event_date"),
-                        rs.getTime("start_time"),
-                        rs.getTime("end_time")));
-            }
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error getting daily events");
-        }
-        return events;
-    }
-
-
-    public String getRoomName(int room_id){
-        String name = null;
-        String query = """
-                    SELECT room_name FROM rooms
-                    WHERE room_id = ?
-                """;
-
-        try{
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, room_id);
-
-            ResultSet rs = statement.executeQuery();
-            while(rs.next()){
-                name = rs.getString("room_name");
-            }
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error getting room name");
-        }
-        return name;
-    }
-
-    public int getRoomId(String room_name){
-        System.out.println(room_name);
-        int ID = 0;
-        String query = """
-                    SELECT room_id FROM rooms
-                    WHERE room_name = ?
-                """;
-
-        try{
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, room_name);
-
-            ResultSet rs = statement.executeQuery();
-            while(rs.next()){
-                ID = rs.getInt("room_id");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error getting room name");
-        }
-        return ID;
-    }
 
 }
