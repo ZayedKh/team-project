@@ -11,8 +11,11 @@ import javafx.scene.layout.VBox;
 import lancaster.model.Review;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import lancaster.utils.DBUtils;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -82,12 +85,18 @@ public class ReviewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         reviews = FXCollections.observableArrayList();
         reviewsHeader = (HBox) centerVBox.getChildren().get(0);
-        initializeSampleData();
+        try {
+            initializeSampleData();
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 3);
         ratingSpinner.setValueFactory(valueFactory);
         sortComboBox.getItems().addAll("Most Recent", "Highest Rated", "Lowest Rated");
         sortComboBox.setValue("Most Recent");
         roomComboBox.getItems().addAll(
+                "Main Hall",
+                "Small Hall",
                 "The Green Room",
                 "Brontë Boardroom",
                 "Dickens Den",
@@ -115,25 +124,10 @@ public class ReviewController implements Initializable {
         mainBorderPane.setOnScroll(this::handleScroll);
     }
 
-    private void initializeSampleData() {
+    private void initializeSampleData() throws SQLException, IOException, ClassNotFoundException {
         LocalDateTime baseTime = LocalDateTime.now();
-        reviews.add(new Review(3, 5, "Irving Wuckert V", "", "We hosted a local theatre production here, and the venue was just the right size. Great lighting and sound. Will be booking again!", "Theatre", "Show", "Theatre Production"));
-        reviews.add(new Review(6, 5, "Tobias Chen", "", "The sound quality in the main hall is exceptional, making it perfect for both small gigs and large performances. We’ve never had a bad experience here!", "Main Hall", "Both", "Concert Series"));
-        reviews.add(new Review(7, 5, "Dorian D’Amore", "", "The outdoor space was perfect for our summer wedding. Beautifully landscaped and well-kept. The sunset view was breathtaking!", "Outdoor Space", "Venue", null));
-        reviews.add(new Review(8, 5, "Maya Patel", "", "I love the variety of rooms available. Whether you need a small studio for practice or a larger space for a workshop, they have it all covered!", "Various Rooms", "Venue", null));
-        reviews.add(new Review(9, 4, "Alice Johnson", "", "Great venue for our event! The staff were helpful, but the parking was a bit tricky.", "Main Hall", "Venue", null));
-        reviews.add(new Review(10, 5, "Bob Smith", "", "Amazing experience! The acoustics in the main hall were phenomenal.", "Main Hall", "Venue", null));
-        reviews.add(new Review(11, 3, "Charlie Brown", "", "The event space was nice, but the catering options were limited.", "Catering", "Venue", null));
-        reviews.add(new Review(12, 5, "Diana Prince", "", "Perfect spot for our rehearsal. Will definitely book again!", "Rehearsal Room", "Venue", null));
-        reviews.add(new Review(13, 4, "Eve Adams", "", "The venue was great, but the lighting could be improved.", "Theatre", "Show", "Lighting Show"));
-        reviews.add(new Review(14, 5, "Frank Wilson", "", "Fantastic experience! The staff were amazing.", "General", "Venue", null));
-        reviews.add(new Review(15, 5, "Grace Lee", "", "The main hall was perfect for our concert. Highly recommend!", "Main Hall", "Both", "Spring Concert"));
-        reviews.add(new Review(16, 4, "Henry Davis", "", "Good venue, but the booking process was a bit slow.", "Rehearsal Room", "Venue", null));
-        reviews.add(new Review(17, 5, "Isabella Clark", "", "Amazing venue! The staff were incredibly helpful.", "Main Hall", "Venue", null));
-        reviews.add(new Review(18, 4, "James Brown", "", "Great space, but the sound system could use an upgrade.", "Theatre", "Show", "Sound Show"));
-        reviews.add(new Review(19, 5, "Kelly Green", "", "The catering was top-notch! Our guests loved the food.", "Catering", "Venue", null));
-        reviews.add(new Review(20, 5, "Liam Harris", "", "Perfect for our event. Will book again!", "Main Hall", "Venue", null));
-        reviews.add(new Review(21, 3, "Not That Good", "", "infhdsjpdjiy naposvn", "Main Hall", "Venue", null));
+        DBUtils db = new DBUtils();
+        reviews.addAll(db.getReviews());
 
         for (int i = 0; i < reviews.size(); i++) {
             LocalDateTime reviewTime = baseTime.minusMinutes(i * 10);
