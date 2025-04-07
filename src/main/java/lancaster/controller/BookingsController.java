@@ -84,6 +84,8 @@ public class BookingsController implements Initializable {
         List<String> roomNames = dbUtils.getRoomNames();
         selectVenue.getItems().addAll(roomNames);
 
+
+
         extraRoom.getItems().addAll(
                 "The Green Room", "Brontë Boardroom", "Dickens Den",
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"

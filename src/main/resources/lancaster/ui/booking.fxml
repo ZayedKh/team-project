@@ -38,6 +38,23 @@
                     </VBox>
                     <VBox prefHeight="892.0" prefWidth="1137.0" spacing="32.0">
                         <children>
+                     <VBox layoutX="10.0" layoutY="210.0" prefHeight="110.0" prefWidth="600.0">
+                        <children>
+                           <Label prefHeight="25.0" prefWidth="152.0" text="Client Information">
+                              <font>
+                                 <Font name="System Bold" size="16.0" />
+                              </font>
+                           </Label>
+                           <HBox fx:id="eventInfoBox1" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
+                              <children>
+                                 <TextField fx:id="clientInput" layoutX="120.0" layoutY="25.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Name" />
+                                 <TextField fx:id="ClientEmailInput" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Email" />
+                                 <TextField fx:id="ClientTelephoneInput" layoutX="401.0" layoutY="15.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Telephone Number" />
+                                 <TextField fx:id="ClientAddressInput" layoutX="792.0" layoutY="15.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Address" />
+                              </children>
+                           </HBox>
+                        </children>
+                     </VBox>
                             <VBox prefHeight="110.0" prefWidth="600.0">
                                 <children>
                                     <Label prefHeight="25.0" prefWidth="152.0" text="Event Information:">
@@ -47,7 +64,6 @@
                                     </Label>
                                     <HBox fx:id="eventInfoBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="12.0">
                                     <children>
-                                 <TextField fx:id="clientInput" layoutX="120.0" layoutY="25.0" prefHeight="64.0" prefWidth="564.0" promptText="Enter Client Name" />
                                         <TextField fx:id="eventNameInput" prefHeight="64.0" prefWidth="564.0" promptText="Enter Event Name" />
 
                                             <ComboBox id=" eventTypeBox" fx:id="eventTypeBox" prefHeight="64.0" prefWidth="564.0" promptText="Event Type" HBox.hgrow="ALWAYS">
