@@ -87,7 +87,7 @@ public class BookingsController implements Initializable {
     private Label tax;
 
     boolean extraRoomSelected = false;
-
+    boolean fullDaySelected = false;
     boolean multidaySelected = false;
 
     @Override
@@ -143,7 +143,8 @@ public class BookingsController implements Initializable {
                 startTimeBox.setDisable(true);
                 selectEndTime.setDisable(true);
                 if (fullDayCheckbox.isSelected()) {
-                    fullDayCheckbox.setSelected(false);
+                    fullDaySelected = false;
+                    fullDayCheckbox.setSelected(fullDaySelected);
                 }
             } else {
                 eventEndDatePicker.setDisable(true);
@@ -151,13 +152,15 @@ public class BookingsController implements Initializable {
         });
 
         fullDayCheckbox.setOnAction(e -> {
-            if (fullDayCheckbox.isSelected()) {
+            fullDaySelected = fullDayCheckbox.isSelected();
+            if (fullDaySelected) {
                 startTimeBox.setValue("10:00");
                 selectEndTime.setValue("23:00");
                 startTimeBox.setDisable(true);
                 selectEndTime.setDisable(true);
                 if (multidaySelected) {
-                    multidayCheckbox.setSelected(false);
+                    multidaySelected = false;
+                    multidayCheckbox.setSelected(multidaySelected);
                 }
             } else {
                 startTimeBox.setDisable(false);
