@@ -13,96 +13,113 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing event bookings in the Lancaster application.
+ * This class handles the user interface logic for creating and confirming bookings,
+ * including venue selection, date and time picking, and client information input.
+ */
 public class BookingsController implements Initializable {
-    @FXML
-    private TextField clientInput;
 
+    // **UI Elements for Client Information**
     @FXML
-    private TextField clientEmailInput;
-
-    @FXML
-    private TextField clientTelephoneInput;
+    private TextField clientInput;           // Field for client's name
 
     @FXML
-    private TextField clientAddressInput;
+    private TextField clientEmailInput;      // Field for client's email
 
     @FXML
-    private TextField eventNameInput;
+    private TextField clientTelephoneInput;  // Field for client's telephone number
 
     @FXML
-    private ComboBox<String> eventTypeBox;
+    private TextField clientAddressInput;    // Field for client's address
+
+    // **UI Elements for Event Details**
+    @FXML
+    private TextField eventNameInput;        // Field for event name
 
     @FXML
-    private DatePicker eventDatePicker;
+    private ComboBox<String> eventTypeBox;   // Dropdown for selecting event type
 
     @FXML
-    private ComboBox<String> startTimeBox;
+    private DatePicker eventDatePicker;      // Date picker for selecting event date
 
     @FXML
-    private ComboBox<String> selectEndTime;
+    private ComboBox<String> startTimeBox;   // Dropdown for selecting start time
 
     @FXML
-    private Button addBookingButton;
+    private ComboBox<String> selectEndTime;  // Dropdown for selecting end time
+
+    // **UI Elements for Venue and Configuration**
+    @FXML
+    private ComboBox<String> selectVenue;    // Dropdown for selecting the venue
 
     @FXML
-    private ComboBox<String> selectVenue;
+    private ComboBox<String> selectConfiguration;  // Dropdown for venue configuration
 
     @FXML
-    private ComboBox<String> selectConfiguration;
+    private ComboBox<String> selectExtraConfiguration;  // Dropdown for extra room configuration
 
     @FXML
-    private  ComboBox<String> selectExtraConfiguration;
+    private ComboBox<String> extraRoom;      // Dropdown for selecting an extra room
 
     @FXML
-    private ComboBox<String> extraRoom;
+    private ComboBox<String> roomConfiguration;  // Dropdown for room configuration selection
+
+    // **Buttons**
+    @FXML
+    private Button addBookingButton;         // Not used in current code
 
     @FXML
-    private ComboBox<String> roomConfiguration;  //name of the choicebox to select room configuration
+    private Button addEventButton;           // Not used in current code
 
     @FXML
-    private Button addEventButton;
+    private Button confirmBookingButton;     // Button to confirm the booking
+
+    // **Checkboxes**
+    @FXML
+    private CheckBox policyCheckbox;         // Checkbox for policy agreement
 
     @FXML
-    private Button confirmBookingButton;
+    private CheckBox extraRoomCheckBox;      // Checkbox to enable extra room selection
 
     @FXML
-    private CheckBox policyCheckbox;
+    private CheckBox fullDayCheckbox;        // Checkbox for full-day booking
 
     @FXML
-    private CheckBox extraRoomCheckBox;
-
-
-    @FXML
-    private CheckBox fullDayCheckbox;
+    private Label total;                     // Label for total cost
 
     @FXML
-    private Label total;
+    private Label venueCost;                 // Label for venue cost
 
     @FXML
-    private Label venueCost;
+    private Label duration;                  // Label for event duration
 
     @FXML
-    private Label duration;
+    private Label extraRoomCost;             // Label for extra room cost
 
     @FXML
-    private Label extraRoomCost;
+    private Label additionalServices;        // Label for additional services cost
 
     @FXML
-    private Label additionalServices;
+    private Label tax;                       // Label for tax amount
 
     @FXML
-    private Label tax;
+    private VBox eventCreate;                // Not used in current code
 
-    @FXML
-    private VBox eventCreate;
+    boolean extraRoomSelected = false;       // Tracks if an extra room is selected
+    boolean fullDaySelected = false;         // Tracks if full-day option is selected
+    boolean multidaySelected = false;        // Not used in current code
 
-
-    boolean extraRoomSelected = false;
-    boolean fullDaySelected = false;
-    boolean multidaySelected = false;
-
+    /**
+     * Initializes the booking controller after its root element has been completely processed.
+     * Sets up the UI components, populates combo boxes with options, and configures booking handlers.
+     *
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Commented-out database integration for fetching venue names
 //        DBUtils dbUtils;
 //        try {
 //            dbUtils = new DBUtils();
@@ -116,27 +133,27 @@ public class BookingsController implements Initializable {
 //        List<String> roomNames = dbUtils.getRoomNames();
 //        selectVenue.getItems().addAll(roomNames);
 
-        //eventEndDatePicker.setDisable(true);
-
+        // Populate venue selection combo box with available venues
         selectVenue.getItems().addAll(
                 "Main Hall", "Small Hall", "Rehearsal Space", "The Green Room", "Brontë Boardroom", "Dickens Den",
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
 
+        // Populate event type combo box
         eventTypeBox.getItems().addAll("Event", "Meeting", "Conference", "Workshop");
 
-
+        // Populate extra room combo box (initially disabled)
         extraRoom.getItems().addAll(
                 "The Green Room", "Brontë Boardroom", "Dickens Den",
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
-
         extraRoom.setDisable(true);
 
-
+        // Set up event handlers for venue selection to update configuration options
         selectVenue.setOnAction(e -> handleVenueConfiguration(selectVenue, selectConfiguration));
         extraRoom.setOnAction(e -> handleVenueConfiguration(extraRoom, selectExtraConfiguration));
 
+        // Handle extra room checkbox to enable/disable extra room selection
         extraRoomCheckBox.setOnAction(e -> {
             extraRoomSelected = extraRoomCheckBox.isSelected();
             if (extraRoomSelected) {
@@ -148,11 +165,7 @@ public class BookingsController implements Initializable {
             }
         });
 
-
-
-
-
-
+        // Handle full day checkbox to set default times and disable time selection
         fullDayCheckbox.setOnAction(e -> {
             fullDaySelected = fullDayCheckbox.isSelected();
             if (fullDaySelected) {
@@ -170,51 +183,62 @@ public class BookingsController implements Initializable {
             }
         });
 
+        // Populate time selection combo boxes with hourly slots from 10:00 to 23:00
         for (int hour = 10; hour <= 23; hour++) {
             String time = String.format("%02d:00", hour);
             startTimeBox.getItems().add(time);
             selectEndTime.getItems().add(time);
         }
 
+        // Set up confirm booking button to validate inputs and create booking
         confirmBookingButton.setOnAction(event -> {
-            if(clientInput.getText().isEmpty() || clientEmailInput.getText().isEmpty()
+            // Check if all required fields are filled
+            if (clientInput.getText().isEmpty() || clientEmailInput.getText().isEmpty()
                     || clientTelephoneInput.getText().isEmpty() || clientAddressInput.getText().isEmpty()
                     || eventTypeBox.getValue() == null || eventNameInput.getText().isEmpty()
                     || eventDatePicker.getValue() == null || startTimeBox.getValue() == null
                     || selectEndTime.getValue() == null || selectVenue.getValue() == null
                     || (extraRoomCheckBox.isSelected() && extraRoom.getValue() == null)
                     || (extraRoomCheckBox.isSelected() && selectExtraConfiguration.getValue() == null)
-                    || !policyCheckbox.isSelected() || selectConfiguration.getValue() == null){
+                    || !policyCheckbox.isSelected() || selectConfiguration.getValue() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Please enter all fields");
                 alert.show();
-            }
-            else{
+            } else {
                 try {
+                    // Create a new DBUtils instance to interact with the database
                     DBUtils db = new DBUtils();
-                    if(!db.bookingConflict(Date.valueOf(eventDatePicker.getValue()), Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"), db.getRoomId(selectVenue.getValue()))){
+                    // Check if there is a booking conflict for the selected venue, date, and time
+                    if (!db.bookingConflict(Date.valueOf(eventDatePicker.getValue()), Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"), db.getRoomId(selectVenue.getValue()))) {
+                        // Create a new booking with the provided details
                         db.createBooking(db.getRoomId(selectVenue.getValue()), Date.valueOf(eventDatePicker.getValue()), Date.valueOf(eventDatePicker.getValue()),
                                 clientInput.getText(), clientEmailInput.getText(), clientTelephoneInput.getText(),
                                 clientAddressInput.getText(), "pending");
+                        // Create a new event associated with the booking
                         db.createEvent(db.getRoomId(selectVenue.getValue()), 1, eventNameInput.getText(), Date.valueOf(eventDatePicker.getValue()),
                                 Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"));
+                        // Show confirmation alert
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setContentText("You have created a booking");
                         alert.show();
-                    }
-                    else{
+                    } else {
+                        // Show error alert if there is a conflict
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setContentText("Already an event at this time");
                         alert.show();
                     }
                 } catch (SQLException | IOException | ClassNotFoundException e) {
+                    // TODO: Handle exceptions more gracefully, e.g., show an error message to the user
                     throw new RuntimeException(e);
                 }
             }
         });
     }
 
-
+    /**
+     * Checks if the selected end time is after the start time.
+     * Displays an error alert if the end time is before the start time.
+     */
     private void checkEndTime() {
         String startTime = startTimeBox.getValue();
         String endTime = selectEndTime.getValue();
@@ -224,7 +248,6 @@ public class BookingsController implements Initializable {
             int endHour = Integer.parseInt(endTime.split(":")[0]);
 
             if (endHour < startHour) {
-                // Display an error message or take appropriate action
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Invalid Time Selection");
                 alert.setHeaderText(null);
@@ -234,6 +257,13 @@ public class BookingsController implements Initializable {
         }
     }
 
+    /**
+     * Updates the configuration combo box based on the selected venue.
+     * Different venues have different configuration options.
+     *
+     * @param venues The combo box for selecting the venue.
+     * @param config The combo box for selecting the configuration.
+     */
     private void handleVenueConfiguration(ComboBox<String> venues, ComboBox<String> config) {
         String selected = venues.getValue();
         config.getItems().clear();
@@ -251,7 +281,9 @@ public class BookingsController implements Initializable {
         }
     }
 
-
+    /**
+     * Stores the input values from the UI components.
+     */
     private void storeInputValues() {
         String clientName = clientInput.getText();
         String eventName = eventNameInput.getText();
