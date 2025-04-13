@@ -15,7 +15,7 @@ import java.util.List;
  * a specific event by its identifier, and upcoming events.
  * </p>
  *
- * @event This class is part of the marketing API to query events based on their status and schedules.
+ *This class is part of the marketing API to query events based on their status and schedules.
  */
 public class EventDAOImpl implements EventDAO {
 

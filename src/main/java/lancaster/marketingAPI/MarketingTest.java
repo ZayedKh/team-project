@@ -24,7 +24,7 @@ import java.util.List;
  * retrieves a list of {@link Room} objects, and then prints each room to the console.
  * </p>
  *
- * @event This class is intended for testing and demonstration purposes within the marketing API module.
+ * This class is intended for testing and demonstration purposes within the marketing API module.
  */
 public class MarketingTest {
 
