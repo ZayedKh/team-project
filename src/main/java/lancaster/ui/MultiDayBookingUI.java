@@ -10,12 +10,33 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides the user interface components and logic for creating and configuring multi-day bookings.
+ * <p>
+ * The MultiDayBookingUI class is responsible for displaying the initial booking screen,
+ * handling the user's input for event and client information, and enabling the selection and configuration
+ * of dates and rooms for the booking. It integrates with the BookingManager to manage booking data
+ * and uses various UI utility methods to consistently style components.
+ * </p>
+ *
+ * @see BookingManager
+ * @see PendingBookingsUI
+ * @see BookingTypeSelectionUI
+ */
 public class MultiDayBookingUI {
     private StackPane mainView;
     private Node calendarView;
     private AnchorPaneNode anchorPaneNode;
     private BookingManager bookingManager;
 
+    /**
+     * Constructs a MultiDayBookingUI with the required UI components and booking manager.
+     *
+     * @param mainView        the main container pane on which the booking screens will be displayed
+     * @param calendarView    the UI node that displays the calendar view
+     * @param anchorPaneNode  the node providing anchor and date information for the booking
+     * @param bookingManager  the manager that handles the booking data and processes booking requests
+     */
     public MultiDayBookingUI(StackPane mainView, Node calendarView, AnchorPaneNode anchorPaneNode, BookingManager bookingManager) {
         this.mainView = mainView;
         this.calendarView = calendarView;
@@ -23,6 +44,15 @@ public class MultiDayBookingUI {
         this.bookingManager = bookingManager;
     }
 
+    /**
+     * Displays the multi-day booking screen where users can input event details,
+     * select dates, and navigate to time and room configuration.
+     * <p>
+     * The screen is built with a styled BorderPane containing a header, form fields for entering the event and client names,
+     * a dynamic selected dates pane, and a calendar container for date selection. Upon clicking the "Next: Configure Dates"
+     * button, the method validates the form and transitions to a configuration screen for the selected dates.
+     * </p>
+     */
     public void showMultiDayBookingScreen() {
         BorderPane bookingScreen = new BorderPane();
         bookingScreen.setPadding(new Insets(30));
@@ -116,6 +146,20 @@ public class MultiDayBookingUI {
         mainView.getChildren().setAll(bookingScreen);
     }
 
+    /**
+     * Displays the date configuration screen for the selected date.
+     * <p>
+     * This method steps through each selected date (indexed by {@code currentDateIndex}) and allows
+     * the user to configure time slots and room selections for bookings on that date. Each configuration
+     * can include start and end times or an all-day selection, and multiple room options can be chosen.
+     * Once all configurations have been completed for a date, the booking data is stored and the method
+     * either moves to the next date or proceeds to the pending bookings screen if it was the final date.
+     * </p>
+     *
+     * @param clientName      the name of the client booking the event
+     * @param eventName       the name of the event being booked
+     * @param currentDateIndex the index of the current date in the list of selected dates to configure
+     */
     private void showDateConfigurationScreen(String clientName, String eventName, int currentDateIndex) {
         if (currentDateIndex >= bookingManager.getSelectedDates().size()) {
             new PendingBookingsUI(mainView, calendarView, anchorPaneNode, bookingManager).show();
@@ -319,4 +363,4 @@ public class MultiDayBookingUI {
 
         mainView.getChildren().setAll(configScreen);
     }
-    }
+}
