@@ -20,12 +20,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class DBUtils {
-    private static Connection connection;
 
+/**
+ * The {@code DBUtils} class creates utilities for the code that require the database
+ * <p>
+ * This class uses methods that will require a {@code connection} to the database via JDBC. The class itself
+ * will create a {@code connection} when constructed and will use that connection until closed in some
+ * certain methods.
+ * </p>
+ *
+ */
+public class DBUtils {
+    private static Connection connection; //Connection to the database
+
+    /**
+     * Constructor for DBUtils that creates a connection between the user and the database
+     * @throws SQLException             If a database access error occurs
+     * @throws IOException              If an error occurs reading from input stream
+     * @throws ClassNotFoundException   If the jdbc class cannot be found
+     */
     public DBUtils() throws SQLException, IOException, ClassNotFoundException {
         Properties props = new Properties();
 
+        //read from config file to get correct database username and password
         try (FileInputStream fis = new FileInputStream("src/main/resources/config.properties")) {
             props.load(fis);
         }
@@ -40,6 +57,12 @@ public class DBUtils {
         Class.forName("com.mysql.cj.jdbc.Driver");
     }
 
+    /**
+     * This generates a daily sheet of data from the database
+     * @param date          The date of the daily sheet
+     * @return              A list of bookings being held that day
+     * @throws SQLException If there is an error in either database access or table names have changed
+     */
     public List<Booking> generateDailySheets(LocalDate date) throws SQLException {
         String query = """
                     SELECT 
@@ -65,6 +88,7 @@ public class DBUtils {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
+                //get all table columns and create a new booking object to be added to the list
                 String roomName = rs.getString("room_name");
                 LocalDate endDate = rs.getDate("end_date").toLocalDate();
                 LocalTime startTime = rs.getTime("start_time").toLocalTime();
@@ -79,6 +103,14 @@ public class DBUtils {
 
     }
 
+    /**
+     * This will work out if there is an event between specified time and date (used in apis)
+     * @param date          The date of the event being scheduled
+     * @param startTime     The start time of the scheduled event
+     * @param endTime       The end time of the scheduled event
+     * @return              Return if there is an event at that time
+     * @throws SQLException If there is an error in connection or table names have changed
+     */
     public boolean isEventScheduled(LocalDate date, LocalTime startTime, LocalTime endTime) throws SQLException {
         String query = """
             SELECT COUNT(*) 
@@ -95,6 +127,7 @@ public class DBUtils {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                //return true if there is a value found
                 return rs.getInt(1) > 0;
             }
         }
@@ -102,6 +135,10 @@ public class DBUtils {
         return false;
     }
 
+    /**
+     * This will get the list of all the room names in the database
+     * @return  List of strings of the room names
+     */
     public List<String> getRoomNames() {
         String query = "SELECT room_name FROM rooms;";
         List<String> roomNames = new ArrayList<>();
@@ -121,6 +158,13 @@ public class DBUtils {
     }
 
 
+    /**
+     * This will log in a user if inserted credentials are correct, if not alert an error
+     * @param event         The event of the button press, used to get window to change
+     * @param username      The inputted username to be checked in the database
+     * @param password      The inputted password to be checked in the database
+     * @throws IOException  If there is an error loading the FXML
+     */
     public void loginUser(ActionEvent event, String username, String password) throws IOException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -148,7 +192,7 @@ public class DBUtils {
                     String retrievePassword = resultSet.getString("password");
                     if (password.equals(retrievePassword) && username.equals(retrieveUsername)) {
                         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        // Adjust the resource path if needed:
+                        // Relocate the user to the selection page
                         FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource("/lancaster/ui/selectionPane.fxml"));
                         Parent selectionPane = loader.load();
                         primaryStage.getScene().setRoot(selectionPane);
@@ -169,6 +213,17 @@ public class DBUtils {
         }
     }
 
+    /**
+     * This will create a new booking entry into the database
+     * @param roomID        The ID of the room the event will take place
+     * @param startDate     The start date of the booking
+     * @param endDate       The end date of the booking
+     * @param clientName    The name of the client booking the event/s
+     * @param clientEmail   The email address of the client booking the event/s
+     * @param clientPhone   The telephone number of the client booking the event/s
+     * @param clientAddress The address of the client booking the event/s
+     * @param status        The status of the booking, in default should be "pending"
+     */
     public void createBooking(int roomID, Date startDate, Date endDate, String clientName, String clientEmail, String clientPhone, String clientAddress, String status) {
         String query = """
                         INSERT INTO bookings (booking_id, room_id, start_date,
@@ -194,6 +249,15 @@ public class DBUtils {
 
     }
 
+    /**
+     * This will create a new event entry into the database
+     * @param roomID            The room ID the event is taking place
+     * @param seating_configID  The seating configuration ID of the room for the event
+     * @param name              The name of the event - what is the event
+     * @param eventDate         The date of the event
+     * @param startTime         The start time of the event
+     * @param endTime           The end time of the event
+     */
     public void createEvent(int roomID, int seating_configID, String name, Date eventDate,
                             Time startTime, Time endTime){
         String query = """
@@ -211,6 +275,7 @@ public class DBUtils {
             statement.setTime(6, endTime);
 
             statement.execute();
+            //close the connection after a booking and event are added
             connection.close();
         }
         catch(SQLException e){
@@ -218,6 +283,14 @@ public class DBUtils {
         }
     }
 
+    /**
+     * This checks if there will be a conflict when trying to make a new booking
+     * @param eventDate     The date of the event being booked
+     * @param startTime     The start time of the event being booked
+     * @param endTime       The end time of the event being booked
+     * @param room_id       The ID of the room being booked
+     * @return              A boolean of whether there is a conflict
+     */
     public boolean bookingConflict(Date eventDate, Time startTime, Time endTime, int room_id){
         String query = """
                     SELECT event_id FROM events
@@ -235,6 +308,7 @@ public class DBUtils {
 
             ResultSet rs = statement.executeQuery();
 
+            //return true if there is a conflict
             return rs.isBeforeFirst();
 
         } catch (SQLException e) {
@@ -244,6 +318,11 @@ public class DBUtils {
 
     }
 
+    /**
+     * This will get all the reviews in the database to display on screen
+     * @return                  A list of all the reviews
+     * @throws SQLException     If there is an error in connection or table name
+     */
     public ArrayList<Review> getReviews() throws SQLException {
         ArrayList<Review> reviews = new ArrayList<>();
         String query = """
@@ -254,6 +333,7 @@ public class DBUtils {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
+                //should use table names but lazy
                 Review rev = new Review(rs.getInt(1), rs.getInt(2),
                         rs.getString(3), rs.getString(4), rs.getString(5),
                         rs.getString(6), rs.getString(7), rs.getString(8));
@@ -267,6 +347,11 @@ public class DBUtils {
         return reviews;
     }
 
+    /**
+     * This will get the prices for a room for the room name
+     * @param name  Name of room getting price for
+     * @return      The price of the room per hour
+     */
     public int getRoomPrice(String name){
         String query = """
                        SELECT rp.price
@@ -289,6 +374,11 @@ public class DBUtils {
         return 0;
     }
 
+    /**
+     * Gets all the events in a day
+     * @param date  Day being searched for
+     * @return      List of events on given date
+     */
     public ArrayList<Event> getEventForDay(Date date){
         ArrayList<Event> events = new ArrayList<>();
         String query = """
@@ -318,6 +408,11 @@ public class DBUtils {
     }
 
 
+    /**
+     * This will get the room name based on it's ID value
+     * @param room_id   The ID of the room being searched
+     * @return          The name of the room
+     */
     public String getRoomName(int room_id){
         String name = null;
         String query = """
@@ -340,6 +435,11 @@ public class DBUtils {
         return name;
     }
 
+    /**
+     * This will get the room ID based on the room name
+     * @param room_name The room name being searched
+     * @return          The ID value of the room
+     */
     public int getRoomId(String room_name){
         int ID = 0;
         String query = """
