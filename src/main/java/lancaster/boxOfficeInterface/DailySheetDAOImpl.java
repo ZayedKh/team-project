@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An implementation of the DailySheetDAO interface.
+ * An implementation of the {@link DailySheetDAO} interface.
  * <p>
  * This class retrieves a daily sheet of bookings from the database.
  * It queries multiple tables including events, rooms, bookings, and seating configurations to build
