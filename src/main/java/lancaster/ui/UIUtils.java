@@ -17,8 +17,24 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+/**
+ * The UIUtils class provides various utility methods for constructing common UI components
+ * used throughout the application.
+ * <p>
+ * These include methods for creating headers, room cells,
+ * booking cells, text fields, time dropdowns, date chips, calendar containers, and showing alerts.
+ * </p>
+ */
 public class UIUtils {
 
+    /**
+     * Creates a header bar with a back button, title, and (optionally) a pending bookings count.
+     *
+     * @param title      the title to display in the header
+     * @param backAction an action to execute when the back button is clicked
+     * @param bookingGroup the booking group whose pending bookings count is displayed if not empty
+     * @return an HBox containing the constructed header
+     */
     public static HBox createHeader(String title, Consumer<javafx.event.ActionEvent> backAction, BookingGroup bookingGroup) {
         HBox header = new HBox(20);
         header.setAlignment(Pos.CENTER_LEFT);
@@ -45,6 +61,16 @@ public class UIUtils {
         return header;
     }
 
+    /**
+     * Creates a room cell UI component representing a single room.
+     * <p>
+     * The room cell includes the room name and changes its style on mouse hover and click.
+     * </p>
+     *
+     * @param room    the name of the room to be displayed
+     * @param onClick a mouse event consumer to handle click actions on the room cell
+     * @return an HBox representing the room cell
+     */
     public static HBox createRoomCell(String room, Consumer<MouseEvent> onClick) { // Updated to javafx.scene.input.MouseEvent
         HBox roomCell = new HBox();
         roomCell.setAlignment(Pos.CENTER_LEFT);
@@ -66,6 +92,19 @@ public class UIUtils {
         return roomCell;
     }
 
+    /**
+     * Creates a booking cell UI component for a given booking.
+     * <p>
+     * This method displays booking details and includes a remove button that, when clicked,
+     * removes the booking from the booking group and refreshes the view.
+     * </p>
+     *
+     * @param booking      the booking details to display
+     * @param index        the index of the booking in the booking group
+     * @param bookingGroup the booking group containing the booking
+     * @param refresh      a Runnable to refresh the view after removal
+     * @return an HBox representing the booking cell
+     */
     public static HBox createBookingCell(BookingDetails booking, int index, BookingGroup bookingGroup, Runnable refresh) { // Added BookingGroup parameter
         HBox bookingCell = new HBox(10);
         bookingCell.setAlignment(Pos.CENTER_LEFT);
@@ -98,6 +137,14 @@ public class UIUtils {
         return bookingCell;
     }
 
+    /**
+     * Creates a text field with a prompt and specified dimensions.
+     *
+     * @param prompt the prompt text to display in the text field
+     * @param width  the preferred width of the text field
+     * @param height the preferred height of the text field
+     * @return a configured TextField instance
+     */
     public static TextField createTextField(String prompt, double width, double height) {
         TextField field = new TextField();
         field.setPromptText(prompt);
@@ -107,6 +154,17 @@ public class UIUtils {
         return field;
     }
 
+    /**
+     * Creates a choice box (dropdown) populated with times.
+     * <p>
+     * The times are formatted as HH:00 and HH:30 for each hour in the range 10 to 23,
+     * with an additional "00:00" option appended.
+     * </p>
+     *
+     * @param width  the preferred width of the choice box
+     * @param height the preferred height of the choice box
+     * @return a configured ChoiceBox containing time options
+     */
     public static ChoiceBox<String> createTimeDropdown(double width, double height) {
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
         choiceBox.setPrefWidth(width);
@@ -119,6 +177,18 @@ public class UIUtils {
         return choiceBox;
     }
 
+    /**
+     * Adds a date chip (a small labeled UI element) to a flow pane.
+     * <p>
+     * The chip displays a date and includes a remove button that, when clicked,
+     * removes the date from the selected dates list and updates the daily bookings.
+     * </p>
+     *
+     * @param flowPane      the flow pane where the date chip will be added
+     * @param date          the date to display on the chip
+     * @param selectedDates the list of currently selected dates
+     * @param dailyBookings a map of daily bookings that will be updated accordingly
+     */
     public static void addDateChip(FlowPane flowPane, LocalDate date, List<LocalDate> selectedDates,
                                    Map<LocalDate, List<BookingManager.RoomBooking>> dailyBookings) {
         Label dateChip = new Label(date.toString());
@@ -145,6 +215,19 @@ public class UIUtils {
         flowPane.getChildren().add(chipBox);
     }
 
+    /**
+     * Creates a calendar container UI component for selecting multiple dates.
+     * <p>
+     * This component includes an embedded calendar view, control buttons to clear or confirm selections,
+     * and updates a flow pane with selected dates using date chips.
+     * </p>
+     *
+     * @param initialDate      the initial date to display/selected in the calendar
+     * @param selectedDatesPane the FlowPane to display the selected date chips
+     * @param selectedDates    a list of selected dates to be updated
+     * @param dailyBookings    a map of daily bookings which is updated when the dates change
+     * @return a VBox containing the calendar container UI
+     */
     public static VBox createCalendarContainer(LocalDate initialDate, FlowPane selectedDatesPane,
                                                List<LocalDate> selectedDates,
                                                Map<LocalDate, List<BookingManager.RoomBooking>> dailyBookings) {
@@ -206,6 +289,12 @@ public class UIUtils {
         return calendarContainer;
     }
 
+    /**
+     * Displays an alert dialog with the specified title and message.
+     *
+     * @param title   the title of the alert dialog
+     * @param message the message content to display
+     */
     public static void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
