@@ -24,8 +24,10 @@ import java.util.Map;
 
 /**
  * A graphical dashboard for tracking and analyzing venue revenue.
+ * <p>
  * Features tabs for an overview, detailed reports, year-over-year comparisons, and revenue calculations,
  * with filters and charts to provide clear financial insights for venue managers.
+ * </p>
  */
 public class RevenueTrackingUI extends BorderPane {
 
@@ -64,7 +66,11 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Sets up the dashboard layout with a filter bar at the top and a tabbed interface in the center.
+     * Sets up the dashboard layout.
+     * <p>
+     * This method initializes the overall UI layout by setting padding, background styles, a top filter bar,
+     * and a center tabbed interface containing the overview, detailed reports, year comparison, and revenue calculation content.
+     * </p>
      */
     private void setupUI() {
         this.setPadding(new Insets(10));
@@ -98,7 +104,7 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Creates a filter bar with date pickers, venue dropdown, and action buttons.
+     * Creates a filter bar with date pickers, venue selector, and action buttons.
      *
      * @return an HBox containing the filter controls
      */
@@ -144,7 +150,10 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Creates the "Revenue Overview" tab with summary stats and visual charts.
+     * Creates the "Revenue Overview" tab content.
+     * <p>
+     * This method creates a VBox containing summary statistics and charts to show an overview of revenue breakdowns.
+     * </p>
      *
      * @return a VBox with overview content
      */
@@ -183,12 +192,12 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Adds a styled label-value pair to a grid for displaying revenue summaries.
+     * Adds a styled label-value pair to a given grid.
      *
-     * @param grid       the grid to add to
-     * @param labelText  the label text (e.g., "Total Revenue:")
-     * @param valueLabel the label showing the value
-     * @param row        the row index in the grid
+     * @param grid       the grid to add the labels to
+     * @param labelText  the text for the label (e.g., "Total Revenue:")
+     * @param valueLabel the label that will display the corresponding value
+     * @param row        the row index in the grid where the labels should be placed
      */
     private void addStyledLabel(GridPane grid, String labelText, Label valueLabel, int row) {
         Label label = new Label(labelText);
@@ -199,9 +208,9 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Styles chart text (title, legend) for consistent readability.
+     * Applies styling to chart text elements for consistent appearance.
      *
-     * @param chart the chart to style
+     * @param chart the chart to be styled
      */
     private void styleChartText(Chart chart) {
         chart.setStyle("-fx-text-fill: black;");
@@ -241,7 +250,7 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Styles an axis for clear visibility with black text.
+     * Applies a consistent style to an axis for clear visibility.
      *
      * @param axis the axis to style
      */
@@ -256,9 +265,12 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Creates the "Detailed Reports" tab with a table of all revenue entries.
+     * Creates the "Detailed Reports" tab content.
+     * <p>
+     * This method builds a table view containing detailed revenue entries.
+     * </p>
      *
-     * @return a VBox with the detailed content
+     * @return a VBox containing the detailed revenue table
      */
     private VBox createDetailedContent() {
         VBox content = new VBox(20);
@@ -309,9 +321,12 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Creates the "Year Comparison" tab with a bar chart for yearly revenue trends.
+     * Creates the "Year Comparison" tab content.
+     * <p>
+     * This method creates a bar chart to display year-over-year revenue comparisons.
+     * </p>
      *
-     * @return a VBox with the comparison content
+     * @return a VBox containing the year comparison chart
      */
     private VBox createComparisonContent() {
         VBox content = new VBox(20);
@@ -334,9 +349,12 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Creates the "Calculate Revenue" tab with a form to estimate booking revenue.
+     * Creates the "Calculate Revenue" tab content.
+     * <p>
+     * This method constructs a form allowing users to input parameters to calculate estimated booking revenue.
+     * </p>
      *
-     * @return a VBox with the calculation content
+     * @return a VBox containing the revenue calculation form
      */
     private VBox createCalculationContent() {
         VBox content = new VBox(20);
@@ -442,7 +460,7 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Applies consistent colors to charts for visual clarity.
+     * Applies consistent colors to charts (pie, bar, and year comparison) for visual clarity.
      */
     private void applyChartColors() {
         if (revenuePieChart != null && revenuePieChart.getData() != null) {
@@ -503,7 +521,12 @@ public class RevenueTrackingUI extends BorderPane {
     }
 
     /**
-     * Updates all charts, tables, and summary labels based on current filter settings.
+     * Updates all charts, tables, and summary labels based on the current filter settings.
+     * <p>
+     * Retrieves the filtered revenue data, updates the revenue table, refreshes the pie and bar charts,
+     * and updates the summary labels with the latest revenue totals. Also triggers the update of the
+     * year-over-year comparison chart.
+     * </p>
      */
     private void updateCharts() {
         LocalDate fromDate = fromDatePicker.getValue();
@@ -604,6 +627,10 @@ public class RevenueTrackingUI extends BorderPane {
 
     /**
      * Updates the year-over-year comparison chart with data from the revenue manager.
+     * <p>
+     * Retrieves yearly revenue comparison data and populates the year comparison bar chart.
+     * Also applies specific colors to each series for clarity.
+     * </p>
      */
     private void updateYearlyComparisonChart() {
         yearComparisonChart.getData().clear();
