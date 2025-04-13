@@ -149,7 +149,7 @@ public class DBUtils {
                     if (password.equals(retrievePassword) && username.equals(retrieveUsername)) {
                         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         // Adjust the resource path if needed:
-                        FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource("/lancaster/ui/SelectionPane.fxml"));
+                        FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource("/lancaster/ui/selectionPane.fxml"));
                         Parent selectionPane = loader.load();
                         primaryStage.getScene().setRoot(selectionPane);
                         primaryStage.show();
