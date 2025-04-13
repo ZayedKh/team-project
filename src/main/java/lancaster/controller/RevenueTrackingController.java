@@ -13,8 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Controller class for managing Rev Tracking UI
- * Handles display and interaction of revenue data, charts, and filters.
+ * Controller class for managing the Revenue Tracking user interface.
+ * <p>
+ * This class is responsible for initializing and updating the UI components involved in revenue tracking,
+ * including labels, charts, filters, and tables. It displays revenue data such as total revenue, room hire,
+ * and ticket sales, and updates various charts (pie chart, bar charts) based on sample data or applied filters.
+ * </p>
  */
 public class RevenueTrackingController {
 
@@ -41,16 +45,20 @@ public class RevenueTrackingController {
     private ObservableList<RevenueData> revenueData = FXCollections.observableArrayList();
 
     /**
-     * Initializes the controller after FXML fields are injected.
-     * Sets up UI components, default values, and initial data.
+     * Initializes the Revenue Tracking controller after FXML fields are injected.
+     * <p>
+     * This method sets the default values for date pickers, initializes the venue filter dropdown with available options,
+     * configures the table columns with custom cell factories, applies initial styling to charts,
+     * and loads sample revenue data while updating the charts accordingly.
+     * </p>
      */
     @FXML
     public void initialize() {
-        // Initialize date pickers
+        // Initialize date pickers with default date ranges.
         startDatePicker.setValue(LocalDate.now().minusMonths(1));
         endDatePicker.setValue(LocalDate.now());
 
-        // Initialize venue filter
+        // Initialize venue filter dropdown with available venues.
         venueFilterDropdown.getItems().addAll(
                 "All Venues",
                 "Main Hall",
@@ -66,13 +74,14 @@ public class RevenueTrackingController {
         );
         venueFilterDropdown.setValue("All Venues");
 
-        // Configure table columns
+        // Configure table columns to bind to the properties of RevenueData.
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         eventColumn.setCellValueFactory(new PropertyValueFactory<>("event"));
         venueColumn.setCellValueFactory(new PropertyValueFactory<>("venue"));
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
         revenueColumn.setCellValueFactory(new PropertyValueFactory<>("revenue"));
 
+        // Apply custom cell styling to all columns.
         setCellFactory(dateColumn);
         setCellFactory(eventColumn);
         setCellFactory(venueColumn);
@@ -81,21 +90,25 @@ public class RevenueTrackingController {
 
         revenueTable.setItems(revenueData);
 
-        // Style the table
-//        revenueTable.setStyle("-fx-text-fill: white;");
+        // Apply styling to charts.
+        // revenueTable.setStyle("-fx-text-fill: white;");
         venueRevPieChart.setStyle("-fx-background-color: #1A2C30;");
         monthlyRevBarChart.setStyle("-fx-background-color: #1A2C30;");
 
-        // Load sample data
+        // Load sample revenue data and update the associated charts.
         loadSampleData();
         updateCharts();
     }
 
     /**
-     * Configures a table column with a custom cell factory for consistent styling.
+     * Configures a given table column with a custom cell factory for consistent styling.
+     * <p>
+     * This method sets up a cell factory that ensures each cell in the column uses white text on a background color.
+     * This enhances the visual consistency of the revenue table.
+     * </p>
      *
-     * @param column The table column to style.
-     * @param <T>    The type of data in the column.
+     * @param column the table column to configure.
+     * @param <T>    the type of data contained within the column.
      */
     private <T> void setCellFactory(TableColumn<RevenueData, T> column) {
         column.setCellFactory(col -> new TableCell<RevenueData, T>() {
@@ -116,46 +129,48 @@ public class RevenueTrackingController {
 
     /**
      * Handles the back button action to return to the main menu.
-     * (Navigation implementation would depend on the application's structure.)
      */
     @FXML
     private void handleBack() {
-        // Navigation back to main menu
+        // Navigation back to main menu (implementation dependent on application structure).
     }
 
     /**
-     * Applies filters based on user selections and refreshes the data display.
+     * Applies user-selected filters and refreshes the revenue data display.
+     * <p>
+     * Retrieves filter values (venue selection and date range), and applies these filters.
+     * It reloads the data and updates the charts.
+     * </p>
      */
     @FXML
     private void handleApplyFilter() {
-        // Apply filters based on user selection
         String venueFilter = venueFilterDropdown.getValue();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
-
-        // In a real implementation, this would filter your data source
-        // For now, we'll just reload the sample data
         loadSampleData();
         updateCharts();
     }
 
     /**
      * Handles the export button action to export revenue data.
-     * (Export functionality would be implemented here.)
      */
     @FXML
     private void handleExport() {
-        // Export functionality would go here
+        // Export functionality would be implemented here.
     }
 
     /**
-     * Loads sample revenue data into the table and updates totals.
-     * In a real application, this would fetch data from a database.
+     * Loads sample revenue data into the revenue table and updates revenue totals.
+     * <p>
+     * This method clears any existing data, adds revenue entries to the table,
+     * calculates total room hire revenue, ticket sales, and overall revenue,
+     * and then updates their corresponding labels.
+     * </p>
      */
     private void loadSampleData() {
         revenueData.clear();
 
-        // sample data
+        // Sample revenue data entries.
         revenueData.add(new RevenueData(
                 "2025-04-10",
                 "Friday Night Concert",
@@ -180,9 +195,9 @@ public class RevenueTrackingController {
                 300.00
         ));
 
-        // calculating toalas
+        // Calculate revenue totals.
         double roomHireTotal = revenueData.stream().mapToDouble(RevenueData::getRevenue).sum();
-        double ticketSalesTotal = 3850.00; // Placeholder until Box Office API is available
+        double ticketSalesTotal = 3850.00; //
         double totalRevenue = roomHireTotal + ticketSalesTotal;
 
         roomHireLabel.setText(String.format("£%.2f", roomHireTotal));
@@ -191,7 +206,11 @@ public class RevenueTrackingController {
     }
 
     /**
-     * Updates all charts with current data.
+     * Updates all revenue-related charts with the current data.
+     * <p>
+     * This includes updating the pie chart for venue revenue distribution,
+     * the monthly revenue trends bar chart, and the yearly revenue comparison chart.
+     * </p>
      */
     private void updateCharts() {
         updatePieChart();
@@ -200,30 +219,38 @@ public class RevenueTrackingController {
     }
 
     /**
-     * Updates the pie chart with revenue distribution by venue.
+     * Updates the pie chart to display revenue distribution by venue.
+     * <p>
+     * This method groups revenue entries by venue, sums up the revenue for each venue, and adds the resulting data as slices
+     * to the pie chart. It also configures the visibility of the legend and labels.
+     * </p>
      */
     private void updatePieChart() {
         venueRevPieChart.getData().clear();
 
-        // Group revenue by venue
+        // Group revenue by venue.
         Map<String, Double> revenueByVenue = new HashMap<>();
         for (RevenueData data : revenueData) {
             revenueByVenue.merge(data.getVenue(), data.getRevenue(), Double::sum);
         }
 
-        // Add data to pie chart
+        // Add grouped data as slices to the pie chart.
         revenueByVenue.forEach((venue, total) -> {
             PieChart.Data slice = new PieChart.Data(venue, total);
             venueRevPieChart.getData().add(slice);
         });
 
-        // Style the pie chart
+        // Configure pie chart styling.
         venueRevPieChart.setLegendVisible(true);
         venueRevPieChart.setLabelsVisible(true);
     }
 
     /**
-     * Updates the monthly trends bar chart with sample data.
+     * Updates the monthly revenue trends bar chart with sample data.
+     * <p>
+     * This method creates a data series representing monthly revenue figures,
+     * populates it with sample data, and adds it to the monthly revenue bar chart.
+     * </p>
      */
     private void updateMonthlyTrendsChart() {
         monthlyRevBarChart.getData().clear();
@@ -231,7 +258,7 @@ public class RevenueTrackingController {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Monthly Revenue");
 
-        // Sample data
+        // Sample data representing monthly revenue.
         series.getData().add(new XYChart.Data<>("Jan", 42000));
         series.getData().add(new XYChart.Data<>("Feb", 48000));
         series.getData().add(new XYChart.Data<>("Mar", 52000));
@@ -239,12 +266,16 @@ public class RevenueTrackingController {
 
         monthlyRevBarChart.getData().add(series);
 
-        // Style the chart
+        // Enable legend for the chart.
         monthlyRevBarChart.setLegendVisible(true);
     }
 
     /**
      * Updates the year comparison bar chart with sample data for two years.
+     * <p>
+     * This method creates two data series to represent revenue for the current year and the previous year,
+     * populates each series with quarterly revenue figures, and adds them to the comparison chart.
+     * </p>
      */
     private void updateYearComparisonChart() {
         yearRevComparisonChart.getData().clear();
@@ -265,12 +296,16 @@ public class RevenueTrackingController {
 
         yearRevComparisonChart.getData().addAll(currentYear, previousYear);
 
-        // Style chart
+        // Enable legend for the comparison chart.
         yearRevComparisonChart.setLegendVisible(true);
     }
 
     /**
-     * Class to represent a single revenue data entry.
+     * Class representing a single revenue data entry.
+     * <p>
+     * Instances of this class encapsulate the details of a revenue record,
+     * including the date, event name, venue, duration (in hours), and revenue amount.
+     * </p>
      */
     public static class RevenueData {
         private String date;
@@ -280,13 +315,13 @@ public class RevenueTrackingController {
         private double revenue;
 
         /**
-         * Construct new revenue data entry.
+         * Constructs a new RevenueData instance.
          *
-         * @param date     The event date.
-         * @param event    The event name.
-         * @param venue    The venue name.
-         * @param duration The event duration in hours.
-         * @param revenue  The revenue amount.
+         * @param date     the event date as a String (e.g., "2025-04-10").
+         * @param event    the event name.
+         * @param venue    the name of the venue where the event took place.
+         * @param duration the duration of the event in hours.
+         * @param revenue  the revenue generated by the event.
          */
         public RevenueData(String date, String event, String venue, int duration, double revenue) {
             this.date = date;
@@ -296,7 +331,7 @@ public class RevenueTrackingController {
             this.revenue = revenue;
         }
 
-        // Getters for accessing revenue data properties
+        // Getters for accessing revenue data properties.
         public String getDate() { return date; }
         public String getEvent() { return event; }
         public String getVenue() { return venue; }

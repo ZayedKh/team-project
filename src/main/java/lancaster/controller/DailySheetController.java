@@ -25,41 +25,47 @@ import java.util.ResourceBundle;
 
 /**
  * Controller class for managing the daily sheet view in the Lancaster application.
- * This class handles the display of events for a specific date, including daily sheet setup and data loading.
+ * <p>
+ * This class is responsible for displaying events scheduled for a specific date. It sets up the UI components,
+ * such as the table and its columns, loads event data from the database for the provided date, and handles user
+ * navigation back to the selection pane.
+ * </p>
  */
 public class DailySheetController implements Initializable {
 
-    // **UI Elements**
     @FXML
     private Label lblDate;                   // Label to display the selected date
 
     @FXML
-    private TableView<Event> tableDaily;     // Table to display daily events
+    private TableView<Event> tableDaily;     // TableView to display the list of events for the day
 
     @FXML
-    private TableColumn<Event, String> colStartTime;  // Column for event start time
+    private TableColumn<Event, String> colStartTime;  // Column displaying the event start time
 
     @FXML
-    private TableColumn<Event, String> colEndTime;    // Column for event end time
+    private TableColumn<Event, String> colEndTime;    // Column displaying the event end time
 
     @FXML
-    private TableColumn<Event, String> colRoom;       // Column for event room
+    private TableColumn<Event, String> colRoom;       // Column displaying the event room name
 
     @FXML
-    private TableColumn<Event, String> colName;       // Column for event name
+    private TableColumn<Event, String> colName;       // Column displaying the event name
 
-    private LocalDate date;                  // The date for which the daily sheet is shown
+    private LocalDate date;  // The date for which the daily sheet is to be shown
 
     /**
      * Initializes the controller after its root element has been completely processed.
-     * Sets up the table columns to display event data.
+     * <p>
+     * This method configures the table columns to bind to the respective properties of the {@link Event} objects.
+     * It is automatically called when the FXML is loaded.
+     * </p>
      *
-     * @param location  The location used to resolve relative paths for the root object, or null if the location is not known.
-     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     * @param location  The location used to resolve relative paths for the root object, or {@code null} if unknown.
+     * @param resources The resources used to localize the root object, or {@code null} if not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Set up table columns to bind to Event properties
+        // Bind table columns to Event object properties.
         colRoom.setCellValueFactory(new PropertyValueFactory<>("room_name"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStartTime.setCellValueFactory(new PropertyValueFactory<>("start_time"));
@@ -68,9 +74,12 @@ public class DailySheetController implements Initializable {
 
     /**
      * Sets the date for which the daily sheet is to be displayed.
-     * Updates the date label and loads the corresponding event data.
+     * <p>
+     * This method updates the date label to reflect the selected date and triggers the loading of corresponding
+     * event data from the database.
+     * </p>
      *
-     * @param date The date for which to show the daily sheet.
+     * @param date the {@link LocalDate} representing the date to be displayed on the daily sheet.
      */
     public void setDate(LocalDate date) {
         this.date = date;
@@ -79,40 +88,49 @@ public class DailySheetController implements Initializable {
     }
 
     /**
-     * Loads the event data for the specified date from the database and populates the table.
-     * If an error occurs during data retrieval, a RuntimeException is thrown.
+     * Loads event data for the specified date from the database and populates the daily events table.
+     * <p>
+     * This method retrieves a list of events scheduled for the given date using the {@link DBUtils#getEventForDay(Date)} method,
+     * wraps the list in an {@link ObservableList}, and sets it as the data source for the table view.
+     * </p>
+     *
+     * @throws RuntimeException if there is an error retrieving event data from the database.
      */
     private void loadDailyData() {
         try {
             DBUtils db = new DBUtils();
-            // Retrieve events for the specified date and wrap them in an ObservableList
+            // Retrieve events for the specified date and wrap them in an ObservableList.
             ObservableList<Event> events = FXCollections.observableArrayList(
                     db.getEventForDay(Date.valueOf(this.date))
             );
-            // Set the table's items to the list of events
+            // Populate the table view with the retrieved events.
             tableDaily.setItems(events);
         } catch (SQLException | IOException | ClassNotFoundException e) {
-            // Wrap and rethrow the exception to be handled by the caller or JVM
+            // Wrap any exceptions into a RuntimeException to signal an unrecoverable error.
             throw new RuntimeException("Error getting daily data", e);
         }
     }
 
     /**
-     * Loads the SelectionPane FXML and sets it as the root of the current scene.
+     * Handles the back button action to navigate from the daily sheet view to the selection pane.
+     * <p>
+     * This method loads the SelectionPane FXML file, retrieves the current stage, and updates the scene's root
+     * node with the loaded pane, effectively navigating back.
+     * </p>
      *
-     * @param event The ActionEvent triggered by the back button.
+     * @param event the {@link ActionEvent} triggered by the back button.
      */
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            // Load the SelectionPane FXML
+            // Load the SelectionPane FXML file.
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/lancaster/ui/SelectionPane.fxml"));
             Parent selectionPane = loader.load();
-            // Retrieve the current stage and replace its scene root with the loaded pane
+            // Retrieve the current stage and update its scene's root.
             Stage stage = (Stage) lblDate.getScene().getWindow();
             stage.getScene().setRoot(selectionPane);
         } catch (IOException ex) {
-            // Print the stack trace for debugging purposes
+            // Print the exception stack trace for debugging purposes.
             ex.printStackTrace();
         }
     }
