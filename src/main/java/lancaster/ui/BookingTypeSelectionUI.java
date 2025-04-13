@@ -10,12 +10,27 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Provides a user interface for selecting the booking type.
+ * <p>
+ * This class displays a UI with options for single-day and multi-day bookings.
+ * It allows the user to navigate back to the calendar view or proceed to specific booking screens.
+ * </p>
+ */
 public class BookingTypeSelectionUI {
     private StackPane mainView;
     private Node calendarView;
     private AnchorPaneNode anchorPaneNode;
     private BookingManager bookingManager;
 
+    /**
+     * Constructs a new {@code BookingTypeSelectionUI} instance.
+     *
+     * @param mainView      the main {@link StackPane} that serves as the container for the UI.
+     * @param calendarView  the {@link Node} representing the calendar view.
+     * @param anchorPaneNode the {@link AnchorPaneNode} associated with the current booking context.
+     * @param bookingManager the {@link BookingManager} managing bookings.
+     */
     public BookingTypeSelectionUI(StackPane mainView, Node calendarView, AnchorPaneNode anchorPaneNode, BookingManager bookingManager) {
         this.mainView = mainView;
         this.calendarView = calendarView;
@@ -23,6 +38,14 @@ public class BookingTypeSelectionUI {
         this.bookingManager = bookingManager;
     }
 
+    /**
+     * Displays the booking type selection screen.
+     * <p>
+     * This method sets up a {@link BorderPane} layout with a header containing a back button and title,
+     * as well as a central area offering buttons for single-day and multi-day booking options.
+     * Clicking the corresponding button navigates to the respective booking screen.
+     * </p>
+     */
     public void show() {
         BorderPane typeScreen = new BorderPane();
         typeScreen.setPadding(new Insets(30));
