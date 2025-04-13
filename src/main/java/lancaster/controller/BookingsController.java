@@ -15,8 +15,11 @@ import java.util.ResourceBundle;
 
 /**
  * Controller class for managing event bookings in the Lancaster application.
- * This class handles the user interface logic for creating and confirming bookings,
- * including venue selection, date and time picking, and client information input.
+ * <p>
+ * This class handles user interface logic for creating and confirming bookings,
+ * including the selection of venues, choosing event dates and times, and inputting client information.
+ * It configures UI components, validates user input, and interacts with the database via {@link DBUtils}.
+ * </p>
  */
 public class BookingsController implements Initializable {
 
@@ -54,7 +57,7 @@ public class BookingsController implements Initializable {
     private ComboBox<String> selectVenue;    // Dropdown for selecting the venue
 
     @FXML
-    private ComboBox<String> selectConfiguration;  // Dropdown for venue configuration
+    private ComboBox<String> selectConfiguration;  // Dropdown for selecting venue configuration
 
     @FXML
     private ComboBox<String> selectExtraConfiguration;  // Dropdown for extra room configuration
@@ -104,30 +107,36 @@ public class BookingsController implements Initializable {
     private Label tax;                       // Label for tax amount
 
     @FXML
-    private VBox eventCreate;                // Not used in current code
+    private VBox eventCreate;                // Container related to event creation UI (not used in current code)
 
-    boolean extraRoomSelected = false;       // Tracks if an extra room is selected
-    boolean fullDaySelected = false;         // Tracks if full-day option is selected
-    boolean multidaySelected = false;        // Not used in current code
+    // State tracking variables
+    boolean extraRoomSelected = false;       // Flag to track if an extra room selection is active
+    boolean fullDaySelected = false;         // Flag to track if full-day booking option is selected
+    boolean multidaySelected = false;        // Placeholder for potential multi-day booking feature
 
     /**
      * Initializes the booking controller after its root element has been completely processed.
-     * Sets up the UI components, populates combo boxes with options, and configures booking handlers.
+     * <p>
+     * This method populates various UI components (combo boxes and date pickers) with available data such as venues,
+     * event types, and time slots. It also sets up event handlers to manage user interactions, including:
+     * <ul>
+     *   <li>Configuring venue-specific options.</li>
+     *   <li>Enabling or disabling extra room selection based on a checkbox.</li>
+     *   <li>Setting default times and disabling time selection when the full-day option is chosen.</li>
+     *   <li>Validating input fields and performing booking creation upon confirmation.</li>
+     * </ul>
+     * </p>
      *
-     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
-     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
+     * @param url the location used to resolve relative paths for the root object, or {@code null} if unknown.
+     * @param resourceBundle the resources used to localize the root object, or {@code null} if not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Commented-out database integration for fetching venue names
+        // Uncomment and use database integration as needed to fetch dynamic venue names.
 //        DBUtils dbUtils;
 //        try {
 //            dbUtils = new DBUtils();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (ClassNotFoundException e) {
+//        } catch (SQLException | IOException | ClassNotFoundException e) {
 //            throw new RuntimeException(e);
 //        }
 //        List<String> roomNames = dbUtils.getRoomNames();
@@ -139,7 +148,7 @@ public class BookingsController implements Initializable {
                 "Poe Parlor", "Globe Room", "Chekhov Chamber"
         );
 
-        // Populate event type combo box
+        // Populate event type combo box with predefined event types
         eventTypeBox.getItems().addAll("Event", "Meeting", "Conference", "Workshop");
 
         // Populate extra room combo box (initially disabled)
@@ -149,11 +158,11 @@ public class BookingsController implements Initializable {
         );
         extraRoom.setDisable(true);
 
-        // Set up event handlers for venue selection to update configuration options
+        // Set up event handlers to update venue configuration options
         selectVenue.setOnAction(e -> handleVenueConfiguration(selectVenue, selectConfiguration));
         extraRoom.setOnAction(e -> handleVenueConfiguration(extraRoom, selectExtraConfiguration));
 
-        // Handle extra room checkbox to enable/disable extra room selection
+        // Handle extra room checkbox to enable or disable extra room selection
         extraRoomCheckBox.setOnAction(e -> {
             extraRoomSelected = extraRoomCheckBox.isSelected();
             if (extraRoomSelected) {
@@ -165,7 +174,7 @@ public class BookingsController implements Initializable {
             }
         });
 
-        // Handle full day checkbox to set default times and disable time selection
+        // Handle full-day checkbox to set default times and disable time selection controls
         fullDayCheckbox.setOnAction(e -> {
             fullDaySelected = fullDayCheckbox.isSelected();
             if (fullDaySelected) {
@@ -183,16 +192,16 @@ public class BookingsController implements Initializable {
             }
         });
 
-        // Populate time selection combo boxes with hourly slots from 10:00 to 23:00
+        // Populate time selection combo boxes with hourly time slots (from 10:00 to 23:00)
         for (int hour = 10; hour <= 23; hour++) {
             String time = String.format("%02d:00", hour);
             startTimeBox.getItems().add(time);
             selectEndTime.getItems().add(time);
         }
 
-        // Set up confirm booking button to validate inputs and create booking
+        // Set up confirm booking button with validation and database operations for booking creation
         confirmBookingButton.setOnAction(event -> {
-            // Check if all required fields are filled
+            // Validate that all necessary fields are completed
             if (clientInput.getText().isEmpty() || clientEmailInput.getText().isEmpty()
                     || clientTelephoneInput.getText().isEmpty() || clientAddressInput.getText().isEmpty()
                     || eventTypeBox.getValue() == null || eventNameInput.getText().isEmpty()
@@ -201,34 +210,53 @@ public class BookingsController implements Initializable {
                     || (extraRoomCheckBox.isSelected() && extraRoom.getValue() == null)
                     || (extraRoomCheckBox.isSelected() && selectExtraConfiguration.getValue() == null)
                     || !policyCheckbox.isSelected() || selectConfiguration.getValue() == null) {
+
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Please enter all fields");
                 alert.show();
             } else {
                 try {
-                    // Create a new DBUtils instance to interact with the database
+                    // Initialize DBUtils to interact with the database
                     DBUtils db = new DBUtils();
-                    // Check if there is a booking conflict for the selected venue, date, and time
-                    if (!db.bookingConflict(Date.valueOf(eventDatePicker.getValue()), Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"), db.getRoomId(selectVenue.getValue()))) {
-                        // Create a new booking with the provided details
-                        db.createBooking(db.getRoomId(selectVenue.getValue()), Date.valueOf(eventDatePicker.getValue()), Date.valueOf(eventDatePicker.getValue()),
-                                clientInput.getText(), clientEmailInput.getText(), clientTelephoneInput.getText(),
-                                clientAddressInput.getText(), "pending");
+
+                    // Check for booking conflicts at the selected venue, date, and time
+                    if (!db.bookingConflict(
+                            Date.valueOf(eventDatePicker.getValue()),
+                            Time.valueOf(startTimeBox.getValue() + ":00"),
+                            Time.valueOf(selectEndTime.getValue() + ":00"),
+                            db.getRoomId(selectVenue.getValue())
+                    )) {
+                        // Create a new booking entry
+                        db.createBooking(
+                                db.getRoomId(selectVenue.getValue()),
+                                Date.valueOf(eventDatePicker.getValue()),
+                                Date.valueOf(eventDatePicker.getValue()),
+                                clientInput.getText(),
+                                clientEmailInput.getText(),
+                                clientTelephoneInput.getText(),
+                                clientAddressInput.getText(),
+                                "pending"
+                        );
                         // Create a new event associated with the booking
-                        db.createEvent(db.getRoomId(selectVenue.getValue()), 1, eventNameInput.getText(), Date.valueOf(eventDatePicker.getValue()),
-                                Time.valueOf(startTimeBox.getValue() + ":00"), Time.valueOf(selectEndTime.getValue() + ":00"));
+                        db.createEvent(
+                                db.getRoomId(selectVenue.getValue()),
+                                1,
+                                eventNameInput.getText(),
+                                Date.valueOf(eventDatePicker.getValue()),
+                                Time.valueOf(startTimeBox.getValue() + ":00"),
+                                Time.valueOf(selectEndTime.getValue() + ":00")
+                        );
                         // Show confirmation alert
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.setContentText("You have created a booking");
                         alert.show();
                     } else {
-                        // Show error alert if there is a conflict
+                        // Notify the user if a booking conflict exists
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setContentText("Already an event at this time");
                         alert.show();
                     }
                 } catch (SQLException | IOException | ClassNotFoundException e) {
-                    // TODO: Handle exceptions more gracefully, e.g., show an error message to the user
                     throw new RuntimeException(e);
                 }
             }
@@ -236,8 +264,10 @@ public class BookingsController implements Initializable {
     }
 
     /**
-     * Checks if the selected end time is after the start time.
-     * Displays an error alert if the end time is before the start time.
+     * Checks whether the selected end time is after the start time.
+     * <p>
+     * If the end time occurs before the start time, an error dialog is displayed prompting the user to correct the selection.
+     * </p>
      */
     private void checkEndTime() {
         String startTime = startTimeBox.getValue();
@@ -258,11 +288,14 @@ public class BookingsController implements Initializable {
     }
 
     /**
-     * Updates the configuration combo box based on the selected venue.
-     * Different venues have different configuration options.
+     * Updates the configuration options available for the venue based on the selected venue.
+     * <p>
+     * For example, if "Main Hall" is selected, multiple configuration options (such as "Stalls" or "Balconies")
+     * are provided; whereas for a smaller venue, only a single configuration might be available.
+     * </p>
      *
-     * @param venues The combo box for selecting the venue.
-     * @param config The combo box for selecting the configuration.
+     * @param venues the combo box containing venue selections.
+     * @param config the combo box to be populated with configuration options based on the selected venue.
      */
     private void handleVenueConfiguration(ComboBox<String> venues, ComboBox<String> config) {
         String selected = venues.getValue();
@@ -282,7 +315,10 @@ public class BookingsController implements Initializable {
     }
 
     /**
-     * Stores the input values from the UI components.
+     * Stores and processes the input values from the UI components for later use.
+     * <p>
+     * This method retrieves the values entered by the user.
+     * </p>
      */
     private void storeInputValues() {
         String clientName = clientInput.getText();
@@ -296,5 +332,6 @@ public class BookingsController implements Initializable {
         String extraRoomValue = extraRoom.getValue();
         String roomConfig = roomConfiguration.getValue();
         boolean policyAgreed = policyCheckbox.isSelected();
+        // Further processing can be added here as needed.
     }
 }
