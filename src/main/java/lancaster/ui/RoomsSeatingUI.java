@@ -36,7 +36,7 @@ public class RoomsSeatingUI extends Application {
     }
 
     /**
-     * The main entry point for the application.
+     * The main entry point for the RoomsSeatingUI application.
      *
      * @param args command-line arguments.
      */
