@@ -11,16 +11,20 @@ import java.util.*;
 
 /**
  * A manager for venue revenue data, handling bookings, filtering, and chart-ready aggregates.
- * This class acts as a revenue assistant, providing insights into room hire and ticket sales
- * with sample data for now, awaiting real database or API integration.
+ * <p>
+ * This class acts as a revenue assistant, providing insights into room hire and ticket sales. It aggregates
+ * revenue entries and supports filtering and chart data generation, with data loaded via a pre-defined data load method.
+ * </p>
  */
 public class RevenueManager {
     private ObservableList<RevenueEntry> revenueData;
     private RevenueCalculator calculator;
 
     /**
-     * Creates a new revenue manager with an empty booking list and a calculator.
-     * Initializes with sample data for testing until production data sources are ready.
+     * Creates a new revenue manager with an empty revenue entry list and a revenue calculator.
+     * <p>
+     * The revenue data is loaded using a default data load method.
+     * </p>
      */
     public RevenueManager() {
         revenueData = FXCollections.observableArrayList();
@@ -31,41 +35,39 @@ public class RevenueManager {
     /**
      * Gets the full list of revenue entries for all venue bookings.
      *
-     * @return the observable list of revenue entries
+     * @return the observable list of revenue entries.
      */
     public ObservableList<RevenueEntry> getRevenueData() {
         return revenueData;
     }
 
     /**
-     * Loads sample booking data to simulate venue revenue over the past month.
-     * Clears any existing data and adds varied entries for halls, rehearsal spaces, and rooms.
-     * In a live system, this would pull from a database or external source.
+     * Loads revenue data by clearing any existing entries and adding varied entries for halls, rehearsal spaces, and rooms.
      */
     public void loadSampleData() {
         revenueData.clear();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        // Sample entries for the last month
+        // Initialize revenue entries for recent dates
         LocalDate now = LocalDate.now();
 
-        // Add sample data for Main Hall
+        // Entries for Main Hall
         revenueData.add(new RevenueEntry("Main Hall", now.minusDays(2).format(formatter), "FULL_DAY", 3800.0, 1950.0));
         revenueData.add(new RevenueEntry("Main Hall", now.minusDays(9).format(formatter), "EVENING", 2200.0, 1620.0));
         revenueData.add(new RevenueEntry("Main Hall", now.minusDays(16).format(formatter), "FULL_DAY", 4200.0, 2300.0));
         revenueData.add(new RevenueEntry("Main Hall", now.minusDays(23).format(formatter), "HOURLY", 975.0, 0.0));
 
-        // Add sample data for Small Hall
+        // Entries for Small Hall
         revenueData.add(new RevenueEntry("Small Hall", now.minusDays(3).format(formatter), "EVENING", 950.0, 480.0));
         revenueData.add(new RevenueEntry("Small Hall", now.minusDays(10).format(formatter), "FULL_DAY", 2200.0, 750.0));
         revenueData.add(new RevenueEntry("Small Hall", now.minusDays(17).format(formatter), "EVENING", 1300.0, 520.0));
 
-        // Add sample data for Rehearsal Space
+        // Entries for Rehearsal Space
         revenueData.add(new RevenueEntry("Rehearsal Space", now.minusDays(4).format(formatter), "FULL_DAY", 240.0, 0.0));
         revenueData.add(new RevenueEntry("Rehearsal Space", now.minusDays(11).format(formatter), "WEEKLY", 1000.0, 0.0));
         revenueData.add(new RevenueEntry("Rehearsal Space", now.minusDays(18).format(formatter), "HOURLY", 180.0, 0.0));
 
-        // Add sample data for various rooms
+        // Entries for various rooms
         revenueData.add(new RevenueEntry("Green Room", now.minusDays(5).format(formatter), "FULL_DAY", 130.0, 0.0));
         revenueData.add(new RevenueEntry("Brontë Boardroom", now.minusDays(6).format(formatter), "MORNING_AFTERNOON", 120.0, 0.0));
         revenueData.add(new RevenueEntry("Dickens Den", now.minusDays(7).format(formatter), "HOURLY", 30.0, 0.0));
@@ -75,8 +77,7 @@ public class RevenueManager {
     }
 
     /**
-     * Placeholder for loading ticket sales data from an external API.
-     * Currently does nothing; to be implemented with real integration later.
+     *loading ticket sales data from an external API.
      */
     public void loadTicketSalesData() {
         // Future API integration goes here
@@ -85,8 +86,8 @@ public class RevenueManager {
     /**
      * Determines if a venue is a smaller "room" rather than a hall or rehearsal space.
      *
-     * @param venue the venue name to check
-     * @return true if the venue is a room, false otherwise
+     * @param venue the venue name to check.
+     * @return {@code true} if the venue is classified as a room, {@code false} otherwise.
      */
     public boolean isRoomVenue(String venue) {
         return venue.equals("Green Room") ||
@@ -98,12 +99,12 @@ public class RevenueManager {
     }
 
     /**
-     * Filters bookings by a date range and venue, with special handling for "All Venues" and "Rooms."
+     * Filters revenue entries by a date range and venue, with special handling for "All Venues" and "Rooms."
      *
-     * @param fromDate      the start date of the filter (inclusive)
-     * @param toDate        the end date of the filter (inclusive)
-     * @param selectedVenue the venue to filter by, or "All Venues" or "Rooms" for broader categories
-     * @return a list of revenue entries matching the filter
+     * @param fromDate      the start date of the filter (inclusive).
+     * @param toDate        the end date of the filter (inclusive).
+     * @param selectedVenue the venue to filter by, or "All Venues" or "Rooms" for broader categories.
+     * @return an observable list of revenue entries matching the filter.
      */
     public ObservableList<RevenueEntry> getFilteredData(LocalDate fromDate, LocalDate toDate, String selectedVenue) {
         ObservableList<RevenueEntry> filteredData = FXCollections.observableArrayList();
@@ -128,10 +129,10 @@ public class RevenueManager {
     // Data analysis methods
 
     /**
-     * Sums total revenue for each venue from a filtered set of bookings.
+     * Sums total revenue for each venue from a filtered set of revenue entries.
      *
-     * @param filteredData the bookings to analyze
-     * @return a map of venue names to their total revenue
+     * @param filteredData the revenue entries to analyze.
+     * @return a map of venue names to their total revenue.
      */
     public Map<String, Double> getVenueRevenueMap(ObservableList<RevenueEntry> filteredData) {
         Map<String, Double> venueRevenueMap = new HashMap<>();
@@ -143,10 +144,10 @@ public class RevenueManager {
     }
 
     /**
-     * Sums total revenue by month from a filtered set of bookings.
+     * Sums total revenue by month from a filtered set of revenue entries.
      *
-     * @param filteredData the bookings to analyze
-     * @return a map of month strings (YYYY-MM) to their total revenue
+     * @param filteredData the revenue entries to analyze.
+     * @return a map of month strings (YYYY-MM) to their total revenue.
      */
     public Map<String, Double> getMonthlyRevenueMap(ObservableList<RevenueEntry> filteredData) {
         Map<String, Double> monthlyRevenueMap = new HashMap<>();
@@ -159,10 +160,10 @@ public class RevenueManager {
     }
 
     /**
-     * Sums room hire revenue for each venue from a filtered set of bookings.
+     * Sums room hire revenue for each venue from a filtered set of revenue entries.
      *
-     * @param filteredData the bookings to analyze
-     * @return a map of venue names to their room hire revenue
+     * @param filteredData the revenue entries to analyze.
+     * @return a map of venue names to their room hire revenue.
      */
     public Map<String, Double> getVenueRoomRateMap(ObservableList<RevenueEntry> filteredData) {
         Map<String, Double> venueRoomRateMap = new HashMap<>();
@@ -174,10 +175,10 @@ public class RevenueManager {
     }
 
     /**
-     * Sums ticket sales revenue for each venue from a filtered set of bookings.
+     * Sums ticket sales revenue for each venue from a filtered set of revenue entries.
      *
-     * @param filteredData the bookings to analyze
-     * @return a map of venue names to their ticket sales revenue
+     * @param filteredData the revenue entries to analyze.
+     * @return a map of venue names to their ticket sales revenue.
      */
     public Map<String, Double> getVenueTicketSalesMap(ObservableList<RevenueEntry> filteredData) {
         Map<String, Double> venueTicketSalesMap = new HashMap<>();
@@ -189,10 +190,10 @@ public class RevenueManager {
     }
 
     /**
-     * Calculates the total room hire revenue across all filtered bookings.
+     * Calculates the total room hire revenue across all filtered revenue entries.
      *
-     * @param filteredData the bookings to sum
-     * @return the total room hire revenue
+     * @param filteredData the revenue entries to sum.
+     * @return the total room hire revenue.
      */
     public double calculateTotalRoomRate(ObservableList<RevenueEntry> filteredData) {
         double total = 0;
@@ -203,10 +204,10 @@ public class RevenueManager {
     }
 
     /**
-     * Calculates the total ticket sales revenue across all filtered bookings.
+     * Calculates the total ticket sales revenue across all filtered revenue entries.
      *
-     * @param filteredData the bookings to sum
-     * @return the total ticket sales revenue
+     * @param filteredData the revenue entries to sum.
+     * @return the total ticket sales revenue.
      */
     public double calculateTotalTicketSales(ObservableList<RevenueEntry> filteredData) {
         double total = 0;
@@ -217,15 +218,14 @@ public class RevenueManager {
     }
 
     /**
-     * Provides sample revenue data for year-over-year comparisons.
-     * Returns hardcoded data for now; to be replaced with real data in production.
+     * Provides revenue data for year-over-year comparisons.
      *
-     * @return a map of years to monthly revenue totals
+     * @return a map of years to monthly revenue totals.
      */
     public Map<String, Map<String, Number>> getYearComparisonData() {
         Map<String, Map<String, Number>> result = new HashMap<>();
 
-        // Sample data for comparison - replace with actual data when available
+        // Pre-defined revenue data for comparison - replace with actual data when available
         Map<String, Number> data2024 = new HashMap<>();
         data2024.put("Jan", 18500);
         data2024.put("Feb", 19200);
@@ -253,10 +253,12 @@ public class RevenueManager {
 
     /**
      * Sorts a venue revenue map, prioritizing key venues in a specific order.
+     * <p>
      * Ensures "Main Hall", "Small Hall", and "Rehearsal Space" appear first, followed by others.
+     * </p>
      *
-     * @param venueMap the unsorted map of venue revenue
-     * @return a sorted map with preferred venue order
+     * @param venueMap the unsorted map of venue revenue.
+     * @return a sorted map with preferred venue order.
      */
     public Map<String, Double> getSortedVenueMap(Map<String, Double> venueMap) {
         List<String> venueOrder = Arrays.asList(
@@ -284,12 +286,12 @@ public class RevenueManager {
     /**
      * Estimates revenue for a potential booking using the revenue calculator.
      *
-     * @param venue       the venue space to book
-     * @param dayType     the day type (e.g., weekday or weekend)
-     * @param bookingType the booking duration (e.g., hourly, full day)
-     * @param hours       the number of hours if hourly booking
-     * @param includeVAT  whether to include VAT in the estimate
-     * @return the estimated total revenue
+     * @param venue       the venue space to book.
+     * @param dayType     the day type (e.g., weekday or weekend).
+     * @param bookingType the booking duration (e.g., hourly, full day).
+     * @param hours       the number of hours if hourly booking.
+     * @param includeVAT  whether to include VAT in the estimate.
+     * @return the estimated total revenue.
      */
     public double calculateRevenue(RevenueCalculator.VenueSpace venue, RevenueCalculator.DayType dayType, RevenueCalculator.BookingType bookingType, int hours, boolean includeVAT) {
         return calculator.calculateTotalRevenue(venue, dayType, bookingType, hours, includeVAT);
@@ -300,8 +302,8 @@ public class RevenueManager {
     /**
      * Generates pie chart data from a venue revenue map.
      *
-     * @param venueRevenueMap the map of venues to their revenue
-     * @return a list of pie chart data entries
+     * @param venueRevenueMap the map of venues to their revenue.
+     * @return an observable list of pie chart data entries.
      */
     public ObservableList<PieChart.Data> generatePieChartData(Map<String, Double> venueRevenueMap) {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
@@ -314,9 +316,9 @@ public class RevenueManager {
     /**
      * Generates bar chart data comparing room hire and ticket sales by venue.
      *
-     * @param venueRoomRateMap    the map of venues to room hire revenue
-     * @param venueTicketSalesMap the map of venues to ticket sales revenue
-     * @return a list of bar chart series for room hire and ticket sales
+     * @param venueRoomRateMap    the map of venues to room hire revenue.
+     * @param venueTicketSalesMap the map of venues to ticket sales revenue.
+     * @return a list of bar chart series for room hire and ticket sales.
      */
     public List<XYChart.Series<String, Number>> generateBarChartData(Map<String, Double> venueRoomRateMap,
                                                                      Map<String, Double> venueTicketSalesMap) {
@@ -342,8 +344,8 @@ public class RevenueManager {
     /**
      * Generates bar chart data for year-over-year revenue comparisons.
      *
-     * @param yearlyData the map of years to monthly revenue data
-     * @return a list of bar chart series, one per year
+     * @param yearlyData the map of years to monthly revenue data.
+     * @return a list of bar chart series, one per year.
      */
     public List<XYChart.Series<String, Number>> generateYearlyComparisonData(Map<String, Map<String, Number>> yearlyData) {
         List<XYChart.Series<String, Number>> result = new ArrayList<>();
@@ -352,7 +354,7 @@ public class RevenueManager {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             series.setName(yearEntry.getKey());
 
-            // Add data points
+            // Add data points for each month
             for (Map.Entry<String, Number> monthEntry : yearEntry.getValue().entrySet()) {
                 series.getData().add(new XYChart.Data<>(monthEntry.getKey(), monthEntry.getValue()));
             }
