@@ -12,12 +12,32 @@ import lancaster.model.BookingDetails;
 
 import java.util.List;
 
+/**
+ * The PendingBookingsUI class is responsible for displaying all pending bookings in the application.
+ * <p>
+ * This class constructs a user interface for showing pending booking details,
+ * provides options to add more bookings, submit all bookings, or clear all bookings.
+ * It uses various UI utility methods to create and style the required components.
+ * </p>
+ *
+ * @see BookingManager
+ * @see BookingTypeSelectionUI
+ * @see UIUtils
+ */
 public class PendingBookingsUI {
     private StackPane mainView;
     private Node calendarView;
     private AnchorPaneNode anchorPaneNode;
     private BookingManager bookingManager;
 
+    /**
+     * Constructs a PendingBookingsUI instance with the necessary UI components and booking manager.
+     *
+     * @param mainView       the main container pane that holds the pending bookings UI
+     * @param calendarView   the node representing the calendar view for navigation purposes
+     * @param anchorPaneNode the anchor pane node providing additional context or UI features
+     * @param bookingManager the manager that handles booking operations and booking data
+     */
     public PendingBookingsUI(StackPane mainView, Node calendarView, AnchorPaneNode anchorPaneNode, BookingManager bookingManager) {
         this.mainView = mainView;
         this.calendarView = calendarView;
@@ -25,13 +45,27 @@ public class PendingBookingsUI {
         this.bookingManager = bookingManager;
     }
 
+    /**
+     * Displays the pending bookings screen.
+     * <p>
+     * This method constructs the UI for the pending bookings page, which includes:
+     * <ul>
+     *   <li>A header with navigation options.</li>
+     *   <li>A list of booking cells, each representing a pending booking.</li>
+     *   <li>Buttons that allow the user to add more bookings, submit all bookings (after conflict checks), or clear all bookings.</li>
+     * </ul>
+     * If a booking has any conflicts, its cell is styled differently to alert the user.
+     * </p>
+     */
     public void show() {
         BorderPane pendingPage = new BorderPane();
         pendingPage.setPadding(new Insets(30));
         pendingPage.setPrefSize(800, 600);
         pendingPage.setStyle("-fx-background-color: #122023;");
 
-        HBox header = UIUtils.createHeader("Pending Bookings", e -> new BookingTypeSelectionUI(mainView, calendarView, anchorPaneNode, bookingManager).show(), bookingManager.getBookingGroup());
+        HBox header = UIUtils.createHeader("Pending Bookings",
+                e -> new BookingTypeSelectionUI(mainView, calendarView, anchorPaneNode, bookingManager).show(),
+                bookingManager.getBookingGroup());
         pendingPage.setTop(header);
 
         VBox bookingsList = new VBox(15);
@@ -66,7 +100,6 @@ public class PendingBookingsUI {
         Button submitAllButton = new Button("Submit All");
         submitAllButton.setPrefSize(150, 40);
         submitAllButton.setStyle("-fx-font-size: 16px;");
-
         submitAllButton.setOnAction(e -> {
             if (bookingManager.hasConflicts()) {
                 UIUtils.showAlert("Error", "There are conflicting bookings. Please resolve these conflicts before submitting.");

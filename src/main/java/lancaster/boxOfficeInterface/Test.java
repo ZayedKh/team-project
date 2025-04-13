@@ -11,7 +11,45 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A test class to execute and demonstrate various database operations for the Box Office system.
+ * <p>
+ * This class contains a {@code main} method that tests functionality from various modules including:
+ * <ul>
+ *   <li>{@code BoxOfficeJDBC}: for booking and seating operations</li>
+ *   <li>{@code DBUtils}: for retrieving room names, generating daily sheets, and checking event schedules</li>
+ *   <li>{@code Seat}: used to represent individual seat data</li>
+ *   <li>{@code Booking}: used to represent booking records</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Methods from the {@code BoxOfficeJDBC} and {@code DBUtils} classes are invoked to demonstrate:
+ * <ul>
+ *   <li>Retrieving room names</li>
+ *   <li>Generating and printing a daily sheet of {@code Booking} objects</li>
+ *   <li>Fetching seating configurations, including accessible and wheelchair-friendly seats</li>
+ *   <li>Obtaining event timing information such as start time, end time, duration, and event date</li>
+ *   <li>Getting room capacity and last booking time details</li>
+ *   <li>Checking if an event is scheduled for a specific time period</li>
+ * </ul>
+ * </p>
+ *
+ * @event This class is designed for testing.
+ */
 public class Test {
+    /**
+     * The main entry point of the application.
+     *
+     * @param args command-line arguments (not used)
+     * @throws SQLException if a database access error occurs during the operation
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     * @throws IOException if there is an error reading configuration or data files
+     *
+     * @code The {@code main} method demonstrates database operations including retrieving room names,
+     * generating daily sheets via {@code DBUtils}, and interacting with event and room configuration methods
+     * from {@code BoxOfficeJDBC}.
+     */
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
         BoxOfficeJDBC db = new BoxOfficeJDBC();
         DBUtils dbUtils = new DBUtils();
@@ -67,6 +105,5 @@ public class Test {
         LocalDate date21 = LocalDate.of(2025, 04, 10);
 
         System.out.println(dbUtils.isEventScheduled(date21, startTime, endTime));
-
     }
 }

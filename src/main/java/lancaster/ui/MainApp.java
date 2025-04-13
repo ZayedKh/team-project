@@ -9,8 +9,24 @@ import lancaster.utils.DBUtils;
 
 import java.io.IOException;
 
+/**
+ * The main application class for the Lancaster FX application.
+ * <p>
+ * This class loads the selection pane from an FXML file and initializes the primary stage
+ * with the resulting scene.
+ * </p>
+ */
 public class MainApp extends Application {
 
+    /**
+     * Starts the application by loading the selection pane and setting it as the primary scene.
+     * <p>
+     * The FXML file is loaded using the resource from {@link DBUtils}. If any errors occur during
+     * loading, they are printed to the standard error output.
+     * </p>
+     *
+     * @param primaryStage the primary stage provided by the JavaFX runtime.
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -24,6 +40,11 @@ public class MainApp extends Application {
         }
     }
 
+    /**
+     * The main entry point for the application.
+     *
+     * @param args the command-line arguments.
+     */
     public static void main(String[] args) {
         launch(args);
     }

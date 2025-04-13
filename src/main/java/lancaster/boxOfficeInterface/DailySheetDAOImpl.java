@@ -8,7 +8,30 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An implementation of the {@link DailySheetDAO} interface.
+ * <p>
+ * This class retrieves a daily sheet of bookings from the database.
+ * It queries multiple tables including events, rooms, bookings, and seating configurations to build
+ * a list of Booking objects for a specific date.
+ * </p>
+ */
 public class DailySheetDAOImpl implements DailySheetDAO {
+
+    /**
+     * Retrieves a list of bookings for the specified date.
+     * <p>
+     * The method executes a SQL query that joins the events, rooms, bookings, and seating_configurations tables.
+     * It filters events by the given event date and orders the results by room name and start time.
+     * For each row in the result set, a Booking object is created using details such as the room name,
+     * start time, end time, customer name, and seating configuration.
+     * </p>
+     *
+     * @param conn the database connection to be used for the query
+     * @param date the date for which the daily sheet of bookings is retrieved
+     * @return a list of Booking objects representing the bookings for the specified date
+     * @throws SQLException if a database access error occurs during the query execution
+     */
     @Override
     public List<Booking> getDailySheet(Connection conn, LocalDate date) throws SQLException {
         String query = """

@@ -6,12 +6,28 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+/**
+ * This class provides the user interface for creating and managing a single booking.
+ * <p>
+ * The SingleBookingUI class constructs the booking screen for individual room bookings.
+ * It allows users to select a room, enter event and client details, choose start/end times,
+ * and configure the room settings before adding or submitting the booking.
+ * </p>
+ */
 public class SingleBookingUI {
     private StackPane mainView;
     private Node calendarView;
     private AnchorPaneNode anchorPaneNode;
     private BookingManager bookingManager;
 
+    /**
+     * Constructs a SingleBookingUI instance with the necessary UI components.
+     *
+     * @param mainView       the main container pane in which the booking screens are displayed
+     * @param calendarView   the calendar view node for navigation
+     * @param anchorPaneNode the anchor pane node providing date and layout context
+     * @param bookingManager the manager responsible for handling booking operations
+     */
     public SingleBookingUI(StackPane mainView, Node calendarView, AnchorPaneNode anchorPaneNode, BookingManager bookingManager) {
         this.mainView = mainView;
         this.calendarView = calendarView;
@@ -19,6 +35,13 @@ public class SingleBookingUI {
         this.bookingManager = bookingManager;
     }
 
+    /**
+     * Displays the single booking screen.
+     * <p>
+     * This method constructs the booking screen by creating a header with navigation options,
+     * a list of available rooms, and integrates a button for accessing pending bookings.
+     * </p>
+     */
     public void showSingleBookingScreen() {
         BorderPane bookingScreen = new BorderPane();
         bookingScreen.setPadding(new Insets(30));
@@ -62,6 +85,16 @@ public class SingleBookingUI {
         mainView.getChildren().setAll(bookingScreen);
     }
 
+    /**
+     * Displays the client information entry page for a specific room booking.
+     * <p>
+     * This method creates a new screen where the user can enter the event name, client name,
+     * start and end times, and optionally configure room settings. It also allows toggling
+     * between specific times and all-day bookings.
+     * </p>
+     *
+     * @param room the room for which the booking is being made
+     */
     private void showSingleClientNamePage(String room) {
         BorderPane clientPage = new BorderPane();
         clientPage.setPadding(new Insets(30));
