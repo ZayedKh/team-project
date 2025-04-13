@@ -3,10 +3,13 @@ package lancaster.boxOfficeInterface;
 import lancaster.model.Booking;
 import lancaster.model.Seat;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Properties;
 
 public class BoxOfficeJDBC {
     private final Connection connection;
@@ -16,10 +19,20 @@ public class BoxOfficeJDBC {
     private final DailySheetDAOImpl dailySheetDAO;
 
 
-    public BoxOfficeJDBC() throws SQLException, ClassNotFoundException {
-        String url = "jdbc:mysql://sst-stuproj00:3306/in2033t44";
-        String username = "in2033t44_a";
-        String password = "wcYtgG2jphQ";
+    public BoxOfficeJDBC() throws SQLException, ClassNotFoundException, IOException {
+        Properties properties = new Properties();
+
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+            if (input != null) {
+                throw new IOException("Unable to load config.properties file");
+            }
+            properties.load(input);
+        }
+
+
+        String url = properties.getProperty("db.url");
+        String username = properties.getProperty("db.username");
+        String password = properties.getProperty("db.password");
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -96,7 +109,7 @@ public class BoxOfficeJDBC {
             List<Seat> seats = boxOfficeJDBC.getSeatsByRoomId(roomId);
             System.out.println("Seats in room " + roomId + ": " + seats);
 
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException | IOException e) {
             e.printStackTrace();
         }
     }
